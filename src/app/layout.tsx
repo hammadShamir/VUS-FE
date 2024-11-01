@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { primary, secondary } from "./fonts";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Umah Shanti",
@@ -14,10 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${primary.variable} ${secondary.variable} antialiased`}
-      >
-        {children}
+      <body className={`${primary.variable} ${secondary.variable} antialiased`}>
+        <Header />
+        <main className="min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   );
