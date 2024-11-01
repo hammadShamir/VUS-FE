@@ -40,7 +40,7 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
         }`}
         style={{ display: isOpen ? "block" : "none" }}
       >
-        <nav
+        <div
           className={`fixed top-0 left-0 w-full
             bg-white
           z-50 transition-all duration-500 ease-in-out`}
@@ -102,8 +102,7 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
             </div>
           </div>
           {/* Modal Sidebar */}
-          <ModalSidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-        </nav>
+        </div>
         <ul className="mt-24 space-y-8 px-8">
           <li>
             <a href="#" className="text-2xl text-black hover:text-gray-500">
