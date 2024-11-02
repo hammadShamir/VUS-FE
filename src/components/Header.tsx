@@ -2,11 +2,16 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ModalSidebar from "./Sidebar";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { useRouter, usePathname, useSearchParams } from "next/navigation"; // Updated imports
+import LanguageChanger from "./LanguageChanger";
 
 const Header = () => {
+  const router = useRouter();
+  const pathname = usePathname(); // Get the current path
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -28,60 +33,55 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full px-6 xl:px-0 ${isScrolled ? "py-2 bg-white" : "py-4 bg-transparent"
-        } z-50 transition-all duration-500 ease-in-out`}
+      className={`fixed top-0 left-0 w-full px-6 xl:px-0 ${
+        isScrolled ? "py-2 bg-[#002655CC]" : "py-4 bg-transparent"
+      } z-50 transition-all duration-500 ease-in-out`}
     >
-      {" "}
-      {/* Added py-5 for extra padding */}
       <div className="max-w-screen-xl mx-auto">
         <div className="w-full relative flex justify-between items-center">
-          {/* Hamburger Menu Button */}
           <div className="flex space-x-10">
             <button
               onClick={toggleSidebar}
               className="relative w-10 h-8 flex flex-col justify-center items-center group"
             >
-              {/* Line 1 */}
               <div
-                className={`absolute w-full h-1 ${isScrolled ? "bg-black" : "bg-white"
-                  } transition-transform duration-300 ${isOpen ? "rotate-45" : "-translate-y-2"
-                  }`}
+                className={`absolute w-full h-1 bg-background transition-transform duration-300 ${
+                  isOpen ? "rotate-45" : "-translate-y-2"
+                }`}
               ></div>
-              {/* Line 2 */}
               <div
-                className={`absolute w-full h-1 ${isScrolled ? "bg-black" : "bg-white"
-                  } transition-transform duration-300 ${isOpen ? "-rotate-45" : "translate-y-2"
-                  }`}
+                className={`absolute w-full h-1 bg-background
+                transition-transform duration-300 ${
+                  isOpen ? "-rotate-45" : "translate-y-2"
+                }`}
               ></div>
             </button>
-            <div className="text-white text-xl flex items-center">
-              EN <MdKeyboardArrowDown className="text-white" />
-            </div>
+            <LanguageChanger className="hidden lg:block relative" />
+            {/* ///? */}
           </div>
 
-          {/* Logo */}
           <div className="block">
-            {" "}
             {isScrolled ? (
-              <p className="text-xl font-secondary ">UMAHH SHANTI </p>
+              <p className="text-xl text-background ">UMAH SHANTI</p>
             ) : (
-              <Image src={'/assets/img/logo.png'} alt="Logo" height={70} width={70} className="absolute top-0" />
+              <Image
+                src={"/assets/img/logo.png"}
+                alt="Logo"
+                height={70}
+                width={70}
+                className="lg:absolute lg:top-0 sm:block"
+              />
             )}
-            {/* Added flex-grow for centering */}
           </div>
 
-          {/* Desktop Links */}
           <div className="flex justify-center items-center gap-10">
-            <a
-              href="#"
-              className={` ${isScrolled ? "text-black" : "text-white"
-                } hidden lg:inline`}
-            >
+            <a href="#" className="text-background hidden lg:inline">
               SIGN IN
             </a>
             <button
-              className={`border border-white text-white ${isScrolled ? "bg-primary" : "text-white"
-                }  px-4 py-2 rounded-md hover:bg-primary`}
+              className={`border border-background text-background ${
+                isScrolled ? "bg-transparent" : "text-background"
+              } px-5 py-2 rounded-md hover:bg-primary`}
             >
               <span className="hidden lg:inline">Book Now</span>
               <span className="inline lg:hidden">Book</span>
@@ -89,8 +89,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {/* Modal Sidebar */}
-      <ModalSidebar isOpen={isOpen} toggleSidebar={toggleSidebar} isScrolled={isScrolled} />
+      <ModalSidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
     </header>
   );
 };

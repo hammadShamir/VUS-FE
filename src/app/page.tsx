@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import SidFot from "@/components/sideArticle";
 export default function Home() {
   const t = useTranslations("HomePage");
   return (
@@ -11,7 +12,7 @@ export default function Home() {
         className="h-screen	 lg:h-full w-full object-cover object-center s"
         poster=""
       ></video>
-      <div className="mx-auto w-96 shadow-lg p-3 mt-10 ">
+      <div className="mx-auto w-full lg:w-96  shadow-lg p-3 my-10 ">
         <h1 className="font-[family-name:var(--font-primary)] text-[2.5rem] text-primary">
           {t("title")}
         </h1>
@@ -21,6 +22,7 @@ export default function Home() {
           Bali, each of the venues offer an impressive space for your events.{" "}
         </p>
       </div>
+      <SidFot />
     </>
   );
 }
