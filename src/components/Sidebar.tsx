@@ -63,8 +63,8 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
                     }`}
                 ></div>
               </button>
-              <div className="text-white text-xl flex items-center">
-                EN <MdKeyboardArrowDown className="text-white" />
+              <div className="text-primary text-xl flex items-center">
+                EN <MdKeyboardArrowDown className="text-primary" />
               </div>
             </div>
 
@@ -85,8 +85,8 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
                 SIGN IN
               </a>
               <button
-                className={`border border-white text-white bg-primary" 
-                  }  px-4 py-2 rounded-md hover:bg-primary`}
+                className={`border border-primary text-primary 
+                px-4 py-2 rounded-md hover:bg-primary hover:text-background`}
               >
                 <span className="hidden lg:inline">Book Now</span>
                 <span className="inline lg:hidden">Book</span>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import ModalSidebar from "./Sidebar/Sidebar";
+import ModalSidebar from "./Sidebar";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Header = () => {
