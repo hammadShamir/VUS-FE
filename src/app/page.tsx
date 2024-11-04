@@ -1,28 +1,12 @@
-import { useTranslations } from "next-intl";
-import SidFot from "@/components/sideArticle";
+import Banner from "@/components/Banner";
+
 export default function Home() {
-  const t = useTranslations("HomePage");
   return (
     <>
-      <video
-        autoPlay
-        loop
-        playsInline
-        src="https://media.iceportal.com/127873/Videos/video053124012250939_1080p.mp4"
-        className="h-screen	 lg:h-full w-full object-cover object-center s"
-        poster=""
-      ></video>
-      <div className="mx-auto w-full lg:w-96  shadow-lg p-3 my-10 ">
-        <h1 className="font-[family-name:var(--font-primary)] text-[2.5rem] text-primary">
-          {t("title")}
-        </h1>
-        <p className="font-[family-name:var(--font-secondary)] text-base w-72 text-[1rem] text-foreground">
-          Business takes on a remarkable appeal at The Apurva Kempinski Bali.
-          Ideal for business travellers seeking elegant conference venues in
-          Bali, each of the venues offer an impressive space for your events.{" "}
-        </p>
-      </div>
-      <SidFot />
+      <Banner
+        bgImg="/assets/img/banners/banner-1.png"
+        title="A Peaceful Home Awaits at Umah Shanti Villas"
+        para="Find Your Oasis of Calm in Our Luxurious Accommodations" />
     </>
   );
 }

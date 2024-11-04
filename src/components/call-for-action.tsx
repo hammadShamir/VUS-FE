@@ -5,7 +5,7 @@ interface sidFotProps {
   className?: string;
 }
 
-const sidFot: React.FC<sidFotProps> = ({ className }) => {
+const CallForAction: React.FC<sidFotProps> = ({ className }) => {
   return (
     <footer
       className={`bg-secondary py-14 flex flex-col justify-center items-center ${className}`}
@@ -29,4 +29,4 @@ const sidFot: React.FC<sidFotProps> = ({ className }) => {
   );
 };
 
-export default sidFot;
+export default CallForAction;
