@@ -45,7 +45,7 @@ const Page = () => {
                             className="bg-accentColor px-4 py-2 md:p-4 rounded-md w-full font-[family-name:var(--font-secondary)]"
                             onChange={handleChange}
                             value={formData.email}
-                            placeholder='Enter your email'
+                            placeholder='Email'
                         />
                     </div>
                     <div className='md:max-w-md w-10/12 md:w-10/12'>
@@ -56,7 +56,7 @@ const Page = () => {
                             className="bg-accentColor px-4 py-2 md:p-4 rounded-md w-full font-[family-name:var(--font-secondary)]"
                             onChange={handleChange}
                             value={formData.password}
-                            placeholder='Enter your Password'
+                            placeholder='Password'
                         />
                     </div>
                     <p className="text-sm md:text-base text-center text-foreground font-[family-name:var(--font-secondary)]">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ModalSidebar from "./Sidebar";
 import LanguageChanger from "./LanguageChanger";
+import Link from "next/link";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,9 +69,9 @@ const Header = () => {
           </div>
 
           <div className="flex justify-center items-center gap-10">
-            <a href="#" className="text-background hidden lg:inline">
+            <Link href="/login" className="text-background hidden lg:inline">
               SIGN IN
-            </a>
+            </Link>
             <button
               className={`border border-background text-background ${isScrolled ? "bg-transparent" : "text-background"
                 } px-5 py-2 rounded-md hover:bg-primary`}
