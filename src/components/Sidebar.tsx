@@ -53,7 +53,7 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
       className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
         }`}
     >
-      <div className="w-full h-full max-w-screen-xl px-6 md:px-0 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
+      <div className="w-full h-full max-w-screen-2xl px-6  mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
         <div className={`max-w-full mx-auto  ${isScrolled ? "py-2" : "py-4"}`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">

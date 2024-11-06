@@ -2,13 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ModalSidebar from "./Sidebar";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useRouter, usePathname, useSearchParams } from "next/navigation"; // Updated imports
 import LanguageChanger from "./LanguageChanger";
 
 const Header = () => {
-  const router = useRouter();
-  const pathname = usePathname(); // Get the current path
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -33,10 +29,10 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full px-6 xl:px-0 ${isScrolled ? "py-2 bg-[#002655CC]" : "py-4 bg-transparent"
+      className={`fixed top-0 left-0 w-full px-6 ${isScrolled ? "py-2 bg-[#002655CC]" : "py-4 bg-transparent"
         } z-50 transition-all duration-500 ease-in-out`}
     >
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto">
         <div className="w-full relative flex justify-between items-center">
           <div className="flex space-x-10">
             <button

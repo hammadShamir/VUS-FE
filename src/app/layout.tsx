@@ -3,9 +3,6 @@ import { getLocale, getMessages } from "next-intl/server";
 import type { Metadata } from "next";
 import { primary, secondary } from "./fonts";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import CallForAction from "@/components/call-for-action";
 
 export const metadata: Metadata = {
   title: "Umah Shanti",
@@ -26,10 +23,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${primary.variable} ${secondary.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <Header />
           <main className="min-h-screen">{children}</main>
-          <CallForAction />
-          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

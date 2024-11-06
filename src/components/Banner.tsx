@@ -15,7 +15,7 @@ const Banner: React.FC<IBanner> = (banner) => {
     console.log(banner.bgImg)
     return (
         <div
-            className={`relative h-screen bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
+            className={`relative ${banner.parameters ? 'h-screen' : 'h-[calc(100vh-20vh)]'} bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
             style={{
                 backgroundImage: `url(${banner?.bgImg})`,
             }}
@@ -25,7 +25,7 @@ const Banner: React.FC<IBanner> = (banner) => {
                 <h1 className='text-background text-7xl font-extrabold font-[family-name:var(--font-primary)] text-center'>{banner.title}</h1>
                 {
                     banner.breadCrumbs && <div>
-                        
+
                     </div>
                 }
                 <p className='text-background text-lg text-center font-[family-name:var(--font-secondary)]'>{banner.para}</p>
