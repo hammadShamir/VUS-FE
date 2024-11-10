@@ -30,7 +30,7 @@ const Page = () => {
                 .required('Required'),
             email: Yup.string().email('Invalid email address').required('Required'),
             password: Yup.string()
-                .matches((/^(?=.*[A-Z])(?=.*[0-9])(?=.*[$]).{3,30}$/),"Password must contain at least one uppercase letter, one number, and one special character ($).")
+                .matches((/^(?=.*[A-Z])(?=.*[0-9])(?=.*[$]).{3,30}$/), "Password must contain at least one uppercase letter, one number, and one special character ($).")
                 .max(15, 'Must be 15 characters or less')
                 .required('Required'),
             confirmPassword: Yup.string()
@@ -139,7 +139,7 @@ const Page = () => {
                         ) : null}
                     </div>
 
-                    <button type='submit' className='bg-primary text-background px-10 py-2  rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold' disabled={loading}>{loading ? 'Signing up...' : 'Sign Up'}</button>
+                    <button type='submit' className='bg-primary text-background px-10 py-2  rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary' disabled={loading}>{loading ? 'Signing up...' : 'Sign Up'}</button>
                     <p className="text-sm md:text-base text-center text-foreground font-[family-name:var(--font-secondary)]">
                         Already have an account?
                         <Link href="/login" className="text-primary underline">

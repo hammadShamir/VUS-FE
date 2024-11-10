@@ -81,7 +81,7 @@ const Page = () => {
                             Sign Up
                         </Link>
                     </p>
-                    <button type='submit' className='bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold' disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
+                    <button type='submit' className='bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary' disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
                     <Link href="/signup" className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]">
                         Did you forget your password?
                     </Link>
