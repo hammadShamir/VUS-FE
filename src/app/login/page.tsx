@@ -6,7 +6,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { axiosService } from '@/services/axios';
-
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/services/firebase';
 const Page = () => {
     const navigate = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
@@ -33,6 +34,23 @@ const Page = () => {
             }
         },
     });
+
+    const handleGoogleSignIn = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            console.log(result)
+            const token = await result.user.getIdToken();
+            localStorage.setItem('token', token);
+            const res = await axiosService.post('/auth/google-sign-in', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <main className="relative w-full h-screen flex flex-col md:flex-row justify-center items-center">
@@ -75,16 +93,23 @@ const Page = () => {
                             value={formik.values.password}
                         />
                     </div>
-                    <p className="text-sm md:text-base text-center text-foreground font-[family-name:var(--font-secondary)]">
-                        Don&apos;t have an account?{' '}
-                        <Link href="/signup" className="text-primary underline">
-                            Sign Up
+                    <div className='flex flex-col justify-center items-center gap-y-4'>
+                        <Link href="/signup" className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]">
+                            Did you forget your password?
                         </Link>
-                    </p>
-                    <button type='submit' className='bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary' disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
-                    <Link href="/signup" className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]">
-                        Did you forget your password?
-                    </Link>
+                        <button type='submit' className='bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary' disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
+
+                        <button type='button' className='bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary'
+                            onClick={handleGoogleSignIn}>
+                            Sign In With Google
+                        </button>
+                        <p className="text-sm md:text-base text-center text-foreground font-[family-name:var(--font-secondary)]">
+                            Don&apos;t have an account?{' '}
+                            <Link href="/signup" className="text-primary underline">
+                                Sign Up
+                            </Link>
+                        </p>
+                    </div>
                 </form>
             </div>
         </main>
