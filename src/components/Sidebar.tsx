@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import LanguageChanger from "./LanguageChanger";
 import {
@@ -13,63 +12,22 @@ import {
   FaYoutube,
   FaInstagram,
 } from "react-icons/fa";
+import Hamburger from "@/elements/Hamburger";
+import { ISidebar } from "@/interfaces";
 
-interface ModalSidebarProps {
-  isOpen: boolean;
-  toggleSidebar: () => void;
-  isScrolled: boolean
-}
 
-const ModalSidebar: React.FC<ModalSidebarProps> = ({
-  isOpen,
-  toggleSidebar,
-  isScrolled
-}) => {
-  const [showCloseButton, setShowCloseButton] = useState(false);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isOpen) {
-      timer = setTimeout(() => {
-        setShowCloseButton(true);
-      }, 10);
-      // Disable body scroll when modal is open
-      // document.body.style.overflow = "hidden";
-    } else {
-      setShowCloseButton(false);
-      // Re-enable body scroll when modal is closed
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      clearTimeout(timer);
-      // Make sure to reset body overflow on component unmount
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
+const ModalSidebar: React.FC<ISidebar> = (props) => {
 
   return (
     <section
-      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
         }`}
     >
-      <div className="w-full h-full max-w-screen-2xl px-6  mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
-        <div className={`max-w-full mx-auto  ${isScrolled ? "py-2" : "py-4"}`}>
+      <div className="h-full max-w-screen-2xl w-11/12 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
+        <div className={`max-w-full mx-auto  ${props.isScrolled ? "py-2" : "py-4"}`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">
-              <button
-                onClick={toggleSidebar}
-                className="relative w-10 h-8 flex flex-col justify-center items-center group"
-              >
-                <div
-                  className={`absolute w-full h-1 bg-background transition-transform duration-300 ${showCloseButton ? "rotate-45" : "-translate-y-2"
-                    }`}
-                ></div>
-                <div
-                  className={`absolute w-full h-1 bg-background transition-transform duration-300 ${showCloseButton ? "-rotate-45" : "translate-y-2"
-                    }`}
-                ></div>
-              </button>
+              <Hamburger isOpen={props.isOpen} setIsOpen={props.setIsOpen} />
               <LanguageChanger className="relative" color="primary" />
             </div>
             <div className="hidden lg:block">
@@ -89,7 +47,7 @@ const ModalSidebar: React.FC<ModalSidebarProps> = ({
 
         {/* Modal Content */}
         <div
-          className="max-w-screen-xl mx-auto mt-3 lg:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 md:overflow-y-auto  "
+          className="max-w-screen-2xl mx-auto mt-3 lg:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 md:overflow-y-auto  "
           style={{ scrollbarWidth: "none" }}
         >
           <div className="">
