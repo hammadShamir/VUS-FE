@@ -2,12 +2,12 @@ import localFont from "next/font/local";
 
 
 const primary = localFont({
-    src: "./HeleneHess-Regular.woff2",
+    src: "./RobotoSlab-Bold.ttf",
     variable: "--font-primary",
-    weight: "900",
+    weight: "100 900",
 });
 const secondary = localFont({
-    src: "./Jost-400-Book.woff2",
+    src: "./Jost.woff",
     variable: "--font-secondary",
     weight: "100 900",
 });
