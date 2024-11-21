@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import ModalSidebar from "./Sidebar";
-import LanguageChanger from "./LanguageChanger";
 import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";

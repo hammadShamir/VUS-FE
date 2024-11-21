@@ -65,6 +65,7 @@ const Page = () => {
           });
           await sendVerificationEmail();
         }
+        navigate.push("/login")
       } finally {
         setLoading(false);
       }

@@ -17,13 +17,13 @@ import { ISidebar } from "@/interfaces";
 
 
 const ModalSidebar: React.FC<ISidebar> = (props) => {
- 
- return (
+
+  return (
     <section
       className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
         }`}
     >
-      <div className="w-full h-full max-w-screen-2xl px-6  mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
+      <div className="h-full max-w-screen-2xl w-11/12 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
         <div className={`max-w-full mx-auto  ${props.isScrolled ? "py-2" : "py-4"}`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">
@@ -47,7 +47,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
 
         {/* Modal Content */}
         <div
-          className="max-w-screen-xl mx-auto mt-3 lg:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 md:overflow-y-auto  "
+          className="max-w-screen-2xl mx-auto mt-3 lg:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 md:overflow-y-auto  "
           style={{ scrollbarWidth: "none" }}
         >
           <div className="">
