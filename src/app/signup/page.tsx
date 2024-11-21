@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/services/firebase";
 import toast from "react-hot-toast";
+import { FirebaseError } from "firebase/app";
 const Page = () => {
   const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,30 +72,34 @@ const Page = () => {
       }
     },
   });
-  const handleFbSignUp = async (email: string, password: string) => {
+  const handleFbSignUp = async (email: string, password: string): Promise<string | void> => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const token = await userCredential.user.getIdToken(true);
 
       return token;
-    } catch (error: any) {
-      const errorMessage = error.code;
-      toast.error(errorMessage);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        const errorMessage = error.code;
+        toast.error(errorMessage);
+      } else {
+        toast.error("An unexpected error occurred during sign-up.");
+      }
     }
   };
-  const sendVerificationEmail = async () => {
+
+  const sendVerificationEmail = async (): Promise<void> => {
     const user = auth.currentUser;
     if (user) {
       try {
         await sendEmailVerification(user);
-
-        toast.success("Verification email sent! check you inbox");
-      } catch (error) {
-        toast.error("Error sending verification email.");
+        toast.success("Verification email sent! Check your inbox.");
+      } catch (error: unknown) {
+        if (error instanceof FirebaseError) {
+          toast.error(`Error sending verification email: ${error.message}`);
+        } else {
+          toast.error("An unexpected error occurred while sending the verification email.");
+        }
       }
     } else {
       toast.error("No user signed in. Verification email failed.");
