@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import LanguageChanger from "./LanguageChanger";
+// import LanguageChanger from "./LanguageChanger";
 import {
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -24,21 +24,21 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
       className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
         }`}
     >
-      <div className="h-full max-w-screen-2xl w-11/12 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto">
-        <div className={`max-w-full mx-auto  ${props.isScrolled ? "py-2" : "py-4"}`}>
+      <div className="h-full max-w-screen-2xl w-11/12 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto  ">
+        <div className={`w-full py-4`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">
               <Hamburger isOpen={props.isOpen} setIsOpen={props.setIsOpen} />
-              <LanguageChanger className="relative" color="primary" />
+              {/* <LanguageChanger className="relative" color="primary" /> */}
             </div>
             <div className="hidden lg:block">
               <p className="text-xl font-secondary">UMAH SHANTI</p>
             </div>
             <div className="flex justify-center items-center gap-10">
-              <a href="#" className="text-black hidden lg:inline">
+              <a href="#" className="text-background hidden lg:inline">
                 SIGN IN
               </a>
-              <button className="border border-primary text-background bg-primary px-5 py-2 rounded-md hover:bg-primary">
+              <button className="border border-background text-background bg-primary px-5 py-2 rounded-md hover:bg-background">
                 <span className="hidden lg:inline">Book Now</span>
                 <span className="inline lg:hidden">Book</span>
               </button>
@@ -48,11 +48,11 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
 
         {/* Modal Content */}
         <div
-          className="max-w-screen-2xl mx-auto mt-3 lg:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 md:overflow-y-auto  "
+          className="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4 py-4"
           style={{ scrollbarWidth: "none" }}
         >
           <div className="">
-            <ul className="space-y-8 my-3 lg:my-10 ">
+            <ul className="space-y-8 ">
               <li>
                 <Link
                   href="/"
@@ -96,7 +96,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
             </ul>
 
             <div className="flex flex-col lg:flex-row gap-2 my-10 lg:justify-between">
-              <ul className="space-y-2  lg:mr-10">
+              <ul className="space-y-4  lg:mr-10">
                 <li>
                   <a href="#" className="block text-sm hover:text-secondary">
                     ACTIVITY DETAIL
@@ -139,13 +139,13 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
           </div>
           <div className="flex justify-center">
             <Image
-              src="https://img.freepik.com/premium-photo/generative-ai-illustration-modern-minimalist-cubic-villa-with-swimming-pool_101296-2123.jpg?w=360"
+              src="/assets/img/lawn/img-2.png"
               alt="Villa"
               height={300}
               width={300}
             />
           </div>
-          <div className="bg-secondary text-gray-800 p-8">
+          <div className="bg-background text-gray-800 p-8">
             <div className="space-y-4">
               <h2 className="text-lg font-semibold">Contact Info</h2>
               <div className="flex items-center space-x-2">

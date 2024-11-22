@@ -32,14 +32,14 @@ const Header = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? "py-2 bg-[#002655CC]" : "py-2 md:py-4 bg-transparent"
         }`}
     >
-      <div className="max-w-screen-2xl w-11/12 mx-auto relative flex justify-between items-center">
-        <div className="flex jusitfy-center items-center space-x-8">
+      <div className="max-w-screen-2xl w-11/12 mx-auto relative flex justify-between">
+        <div className="w-3/12 flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
           <LocaleDropdown />
           {/* <LanguageChanger className="hidden lg:block relative" /> */}
         </div>
 
-        <div className="flex-1 flex justify-center items-center">
+        <div className=" flex justify-center items-center">
           {isScrolled ? (
             <p className="text-xl text-background ">UMAH SHANTI</p>
           ) : (
@@ -53,7 +53,7 @@ const Header = () => {
           )}
         </div>
 
-        <div className="flex justify-center items-center gap-10">
+        <div className="w-3/12 flex justify-center items-center space-x-8">
           <Link href="/login" className="text-background hidden lg:inline">
             SIGN IN
           </Link>

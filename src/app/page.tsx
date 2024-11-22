@@ -1,7 +1,7 @@
 import Banner from "@/components/Banner";
 import CallForAction from "@/components/call-for-action";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Header from "@/common/Header";
 import RoomsExplore from "@/components/RoomExplore";
 
 export default function Home() {
