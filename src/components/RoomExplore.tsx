@@ -2,8 +2,8 @@ import Image from "next/image"
 
 export default function RoomsSection() {
     return (
-        <section className="bg-[url('/subtle-stripes.png')] py-6 lg:py-16 px-4">
-            <div className="container mx-auto max-w-7xl">
+        <section className="max-w-screen-lg mx-auto  bg-[url('/subtle-stripes.png')] py-6 lg:py-16 px-4">
+            <div className="container">
                 <div className="flex flex-col lg:flex-row lg:items-stretch">
                     {/* Left side - Main Image (30% width) */}
                     <div className="relative mb-8 h-[200px] sm:h-[400px] w-full overflow-hidden rounded-md lg:mb-0 lg:h-auto lg:w-[40%]">
@@ -23,7 +23,7 @@ export default function RoomsSection() {
                                 <h2 className="font-[family-name:var(--font-secondary)] text-sm font-medium uppercase tracking-wider text-foreground">
                                     ROOMS
                                 </h2>
-                                <h3 className="font-[family-name:var(--font-primary)] text-3xl font-bold tracking-tight text-primary md:text-4xl lg:text-5xl">
+                                <h3 className="font-[family-name:var(--font-primary)] text-3xl font-bold tracking-tight text-primary md:text-4xl">
                                     Enjoy a peaceful, romantic, and relaxing experience
                                 </h3>
                             </div>

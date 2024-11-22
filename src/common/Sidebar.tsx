@@ -52,7 +52,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
           style={{ scrollbarWidth: "none" }}
         >
           <div className="">
-            <ul className="space-y-8 ">
+            <ul className="space-y-6">
               <li>
                 <Link
                   href="/"
@@ -96,7 +96,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
             </ul>
 
             <div className="flex flex-col lg:flex-row gap-2 my-10 lg:justify-between">
-              <ul className="space-y-4  lg:mr-10">
+              <ul className="space-y-2  lg:mr-10">
                 <li>
                   <a href="#" className="block text-sm hover:text-secondary">
                     ACTIVITY DETAIL

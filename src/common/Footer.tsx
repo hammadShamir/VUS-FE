@@ -7,7 +7,7 @@ import { FaTwitter } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="bg-primary bg-[url('/assets/img/bubble-bg.png')]">
-      <div className="max-w-screen-xl mx-auto px-6 2xl:px-0 grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 py-6 md:py-12 text-background gap-6 lg:gap-12">
+      <div className="max-w-screen-lg mx-auto px-6 2xl:px-0 grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 py-6 md:py-12 text-background gap-6 lg:gap-12">
         {/* Intro */}
         <div className="lg:col-span-2 space-y-4">
           <Image

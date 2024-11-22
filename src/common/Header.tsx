@@ -33,13 +33,13 @@ const Header = () => {
         }`}
     >
       <div className="max-w-screen-2xl w-11/12 mx-auto relative flex justify-between">
-        <div className="w-3/12 flex jusitfy-center items-center space-x-8">
+        <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
           <LocaleDropdown />
           {/* <LanguageChanger className="hidden lg:block relative" /> */}
         </div>
 
-        <div className=" flex justify-center items-center">
+        <div className="w-full flex justify-center items-center">
           {isScrolled ? (
             <p className="text-xl text-background ">UMAH SHANTI</p>
           ) : (
@@ -53,7 +53,7 @@ const Header = () => {
           )}
         </div>
 
-        <div className="w-3/12 flex justify-center items-center space-x-8">
+        <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
           <Link href="/login" className="text-background hidden lg:inline">
             SIGN IN
           </Link>

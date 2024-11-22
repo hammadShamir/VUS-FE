@@ -1,6 +1,6 @@
 import Banner from "@/components/Banner";
 import CallForAction from "@/components/call-for-action";
-import Footer from "@/components/Footer";
+import Footer from "@/common/Footer";
 import Header from "@/common/Header";
 import RoomsExplore from "@/components/RoomExplore";
 
