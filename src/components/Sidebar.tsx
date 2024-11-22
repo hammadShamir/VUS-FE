@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import Hamburger from "@/elements/Hamburger";
 import { ISidebar } from "@/interfaces";
+import Link from "next/link";
 
 
 const ModalSidebar: React.FC<ISidebar> = (props) => {
@@ -53,44 +54,44 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
           <div className="">
             <ul className="space-y-8 my-3 lg:my-10 ">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/facilities"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   Facilities
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/booking"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   Booking
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="contact"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="#"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   Gallery
-                </a>
+                </Link>
               </li>
             </ul>
 

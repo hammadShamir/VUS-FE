@@ -2,6 +2,7 @@ import Banner from "@/components/Banner";
 import CallForAction from "@/components/call-for-action";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import RoomsExplore from "@/components/RoomExplore";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         para="Find Your Oasis of Calm in Our Luxurious Accommodations"
         parameters
       />
+      <RoomsExplore />
       <CallForAction />
       <Footer />
     </>

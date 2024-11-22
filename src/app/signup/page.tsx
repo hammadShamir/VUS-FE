@@ -104,7 +104,7 @@ const Page = () => {
     <main className="relative w-full h-screen flex flex-col md:flex-row justify-center items-center">
       <div className="flex-1 h-full">
         <Image
-          src={"/assets/img/signin-signup.png"}
+          src={"/assets/img/lawn/img-2.png"}
           alt="Sign In Sign Up Image"
           width={1000}
           height={1000}

@@ -28,7 +28,7 @@ const Banner: React.FC<IBanner> = (banner) => {
 
                     </div>
                 }
-                <p className='text-background text-lg text-center font-[family-name:var(--font-secondary)]'>{banner.para}</p>
+                <p className='text-background text-base md:text-lg text-center font-[family-name:var(--font-secondary)]'>{banner.para}</p>
             </div>
         </div>
     )
