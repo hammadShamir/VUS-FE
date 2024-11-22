@@ -3,12 +3,12 @@ import roomData from '../../public/assets/data/Rooms';
 
 const Rooms = () => {
     return (
-        <div className='relative py-8'>
-            <div className="max-w-screen-lg mx-auto space-y-4">
+        <div className='relative '>
+            <div className="max-w-screen-lg mx-auto space-y-4 pt-8 md:py-16 px-6 md:px-0">
                 <h2 className="font-[family-name:var(--font-secondary)] text-sm font-medium uppercase tracking-wider text-foreground">
                     ROOMS
                 </h2>
-                <h3 className="w-2/4 font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl">
+                <h3 className="md:w-2/4 font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl">
                     Embracing the indigenous sprit
                     of Indonesia, with spacious and
                     relaxing experience

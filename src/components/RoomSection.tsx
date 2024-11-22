@@ -3,20 +3,24 @@ import Image from 'next/image'
 
 const RoomDescription: React.FC<RoomDescriptionProps> = (props) => {
     return (
-        <section className={`bg-${props.bgColor} py-8 md:py-16`}>
-            <div className={`h-[calc(100vh-20vh)] max-w-screen-lg mx-auto flex flex-col ${props.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-12 `}>
-                <div className="relative rounded-lg overflow-hidden w-full lg:w-[40%]">
-                    <Image
-                        src={props.imageSrc}
-                        alt={props.title}
-                        fill
-                        className="object-cover"
-                    />
+        <section className={`bg-${props.bgColor} py-8 md:py-16 px-6 md:px-0`}>
+            <div className={`md:h-[calc(100vh-20vh)] max-w-screen-lg mx-auto flex flex-col ${props.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-x-12 gap-y-4 `}>
+
+                <div className="relative w-full lg:w-[40%]">
+                    <div className="aspect-[4/2] md:aspect-[4/5] md:rounded-3xl overflow-hidden">
+                        <Image
+                            src={props.imageSrc}
+                            alt={props.title}
+                            width={600}
+                            height={800}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
                 </div>
-                <div className="p-6 lg:w-[60%] flex flex-col justify-center gap-y-6">
+                <div className="md:p-6 lg:w-[60%] flex flex-col justify-center gap-y-6">
                     <h2 className="font-[family-name:var(--font-primary)] text-3xl font-bold tracking-tight text-primary md:text-4xl">{props.title}</h2>
                     <p className=" text-foreground font-[family-name:var(--font-secondary)]">{props.description}</p>
-                    <div className="grid grid-cols-2 gap-4 w-3/4">
+                    <div className="grid grid-cols-2 gap-4 md:w-3/4">
                         {props.amenities.map((amenity, index) => {
                             const IconComponent = amenity.icon
                             return (

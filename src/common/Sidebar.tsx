@@ -137,13 +137,16 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
               </ul>
             </div>
           </div>
-          <div className="flex justify-center">
-            <Image
-              src="/assets/img/lawn/img-2.png"
-              alt="Villa"
-              height={300}
-              width={300}
-            />
+          <div className="relative w-full">
+            <div className="aspect-[4/2] md:aspect-[4/5] overflow-hidden">
+              <Image
+                src="/assets/img/lawn/img-2.png"
+                alt="Villa"
+                width={600}
+                height={800}
+                className="object-cover w-full h-full"
+              />
+            </div>
           </div>
           <div className="bg-background text-gray-800 p-8">
             <div className="space-y-4">
