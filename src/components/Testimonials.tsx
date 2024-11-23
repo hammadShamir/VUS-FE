@@ -35,7 +35,10 @@ export default function Testimonials() {
   const [swiper, setSwiper] = useState<any>(null);
 
   return (
-    <div className="w-full bg-primary p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat">
+    <div
+      style={{ backgroundImage: "/assets/testimonials-bg.png" }}
+      className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary"
+    >
       <div className="my-4 mx-4 lg:mx-32 lg:file:my-14">
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="text-background text-center lg:text-left mb-4 sm:mb-0">
@@ -57,7 +60,7 @@ export default function Testimonials() {
             </div>
           </div>
         </div>
-        <div className="relative mx-auto lg:absolute inset-0 flex justify-center items-center text-center w-full sm:w-4/6 text-white">
+        <div className="relative mx-auto lg:absolute inset-0 flex justify-center items-center text-center w-full sm:w-4/6 text-background">
           <Swiper
             modules={[Pagination, A11y, Autoplay]}
             autoplay={{

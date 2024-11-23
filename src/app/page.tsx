@@ -4,6 +4,7 @@ import Testimonials from "@/components/Testimonials";
 import Footer from "@/common/Footer";
 import Header from "@/common/Header";
 import RoomsExplore from "@/components/RoomExplore";
+import IntroSection from "@/components/Intro";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         para="Find Your Oasis of Calm in Our Luxurious Accommodations"
         parameters
       />
+      <IntroSection />
       <RoomsExplore />
       <CallForAction />
       <Testimonials />
