@@ -25,7 +25,7 @@ const Facilities = () => {
         { icon: MdBathroom, text: "Walk-In Closet" }
     ]
     return (
-        <section className="bg-primary bg-[url('/assets/img/bubble-bg.png')] py-8 md:py-16 px-6 md:px-0">
+        <section className="bg-primary bg-[url('/assets/img/bubble-bg.png')] py-8 px-6 md:px-0">
             <div className='max-w-screen-lg mx-auto'>
                 <div className='flex flex-col md:flex-row md:justify-between gap-x-12 gap-y-6'>
                     {/* Left Column */}

@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const RoomDescription: React.FC<RoomDescriptionProps> = (props) => {
     return (
-        <section className={`bg-${props.bgColor} py-8 md:py-16 px-6 md:px-0`}>
+        <section className={`bg-${props.bgColor} py-8 px-6 md:px-0`}>
             <div className={`md:h-[calc(100vh-20vh)] max-w-screen-lg mx-auto flex flex-col ${props.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-x-12 gap-y-4 `}>
 
                 <div className="relative w-full lg:w-[40%]">
