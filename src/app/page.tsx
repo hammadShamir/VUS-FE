@@ -2,6 +2,7 @@ import Banner from "@/components/Banner";
 import CallForAction from "@/components/call-for-action";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Testimonials from "@/components/Testimonials";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         parameters
       />
       <CallForAction />
+      <Testimonials />
       <Footer />
     </>
   );
