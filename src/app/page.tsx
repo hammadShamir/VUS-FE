@@ -1,10 +1,10 @@
 import Banner from "@/components/Banner";
 import CallForAction from "@/components/call-for-action";
 import Testimonials from "@/components/Testimonials";
+import IntroSection from "@/components/Intro";
 import Footer from "@/common/Footer";
 import Header from "@/common/Header";
 import RoomsExplore from "@/components/RoomExplore";
-import IntroSection from "@/components/Intro";
 
 export default function Home() {
   return (
