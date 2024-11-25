@@ -35,9 +35,10 @@ export default function IntroSection() {
             />
           </div>
           <p className="text-foreground font-[family-name:var(--font-secondary)]">
-            Getting Its Name From Balinese And Sanskrit Words Which Means &apos;a
-            Peaceful Home&apos;, Umah Shanti Villa Is A PRIVATE VILLA Designed To Be
-            A Peaceful, Romantic, Relaxing And Rejuvenating Place For You.
+            Getting Its Name From Balinese And Sanskrit Words Which Means
+            &apos;a Peaceful Home&apos;, Umah Shanti Villa Is A PRIVATE VILLA
+            Designed To Be A Peaceful, Romantic, Relaxing And Rejuvenating Place
+            For You.
           </p>
         </div>
       </div>

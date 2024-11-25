@@ -1,6 +1,6 @@
 import Banner from "@/components/common/Banner";
 import CallForAction from "@/components/common/call-for-action";
-// import Testimonials from "@/components/Testimonials";
+import Testimonials from "@/components/Testimonials";
 import IntroSection from "@/components/Intro";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
@@ -18,7 +18,7 @@ export default function Home() {
       />
       <IntroSection />
       <RoomsExplore />
-      {/* <Testimonials /> */}
+      <Testimonials />
       <CallForAction />
       <Footer />
     </>

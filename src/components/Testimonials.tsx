@@ -4,7 +4,9 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Autoplay } from "swiper/modules";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { Swiper as SwiperType } from "swiper";
 import { Testimonial } from "@/interfaces/Testimonials";
+import Rating from "@/components/ui/Rating";
 
 const testimonials: Testimonial[] = [
   {
@@ -32,14 +34,14 @@ const testimonials: Testimonial[] = [
 
 export default function Testimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiper, setSwiper] = useState<any>(null);
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
 
   return (
     <div
       style={{ backgroundImage: "/assets/testimonials-bg.png" }}
       className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary"
     >
-      <div className="my-4 mx-4 lg:mx-23 lg:file:my-14">
+      <div className=" max-w-screen-lg mx-auto relative">
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="text-background text-center lg:text-left mb-4 sm:mb-0">
             <p className="text-sm font-[family-name:var(--font-secondary)]sm:text-base">
@@ -54,13 +56,13 @@ export default function Testimonials() {
               <Image
                 src={"/assets/img/side-img-1.png"}
                 alt="test"
-                width={500}
-                height={700}
+                width={450}
+                height={650}
               />
             </div>
           </div>
         </div>
-        <div className="relative mx-4 lg:mx-32 lg:absolute inset-0 flex justify-center items-center text-center w-full sm:w-4/6 text-background">
+        <div className="relative lg:absolute px-2 lg:text-left  inset-0 flex justify-center items-center text-center max-w-screen-lg  text-background">
           <Swiper
             modules={[Pagination, A11y, Autoplay]}
             autoplay={{
@@ -74,30 +76,32 @@ export default function Testimonials() {
           >
             {testimonials.map((testimonial, index) => (
               <SwiperSlide key={index}>
-                <div className="bg-white/20 backdrop-blur-xl rounded-2xl p-4 sm:p-8 md:p-12 w-full mx-auto">
-                  <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 items-center">
-                    <div className="space-y-4 text-background">
-                      <div className="flex justify-start">
+                <div className="bg-white/20 backdrop-blur-xl w-full p-2 rounded-2xl sm:p-8 md:p-12 lg:w-5/6 ">
+                  <div className="grid lg:grid-cols-3 sm:gap-8 ">
+                    <div className="flex flex-col justify-between col-span-1  text-background h-full  gap-2 lg:gap-1">
+                      <div>
                         <Image
-                          src="https://www.tripadvisor.com/img/cdsi/img2/branding/v2/Tripadvisor_lockup_horizontal_secondary_registered-11900-2.svg"
+                          src="/assets/logo-review.png"
                           alt="TripAdvisor"
-                          width={200}
-                          height={50}
-                          className="h-6 sm:h-8 w-auto"
+                          width={400}
+                          height={100}
                         />
                       </div>
+                      <div>
+                        <Rating rating={3.5} />
+                      </div>
                       <div className="text-left">
-                        <p className="font-semibold text-base sm:text-lg">
+                        <p className="font-semibold text-background font-[family-name:var(--font-primary)] text-base sm:text-lg">
                           {testimonial.author}
                         </p>
-                        <p className="text-xs sm:text-sm opacity-80">
+                        <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
                           {testimonial.date}
                         </p>
                       </div>
                     </div>
 
-                    <div className="text-background">
-                      <p className="text-sm sm:text-base md:text-lg leading-relaxed">
+                    <div className="col-span-2 text-start ">
+                      <p className="text-xs text-background font-[family-name:var(--font-secondary)]  sm:text-base md:text-lg ">
                         {testimonial.content}
                       </p>
                     </div>
@@ -113,7 +117,9 @@ export default function Testimonials() {
             <div
               key={index}
               className={`h-2 rounded-full transition-all ${
-                currentSlide === index ? "bg-background w-8" : "bg-white/50 w-2"
+                currentSlide === index
+                  ? "bg-background w-14"
+                  : "bg-white/50 w-2"
               }`}
               aria-label={`Slide ${index + 1}`}
             />
@@ -121,14 +127,14 @@ export default function Testimonials() {
         </div>
         <div
           onClick={() => swiper?.slidePrev()}
-          className="text-background absolute left-4 top-1/2 transform -translate-y-1/2 text-5xl py-6 px-8 cursor-pointer"
+          className="text-background absolute left-4 lg:-left-20 top-1/2 transform -translate-y-1/2 text-4xl lg:text-5xl py-4 lg:py-6 px-6  cursor-pointer"
         >
           <SlArrowLeft />
         </div>
 
         <div
           onClick={() => swiper?.slideNext()}
-          className="text-background absolute right-4 top-1/2 transform -translate-y-1/2 text-5xl py-6 px-8 cursor-pointer"
+          className="text-background absolute right-4 lg:-right-20 top-1/2 transform -translate-y-1/2 text-4xl lg:text-5xl py-4 lg:py-6 px-6  cursor-pointer"
         >
           <SlArrowRight />
         </div>

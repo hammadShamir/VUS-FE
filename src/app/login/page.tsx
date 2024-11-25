@@ -76,8 +76,8 @@ const Page = () => {
       const token = await userCredential.user.getIdToken(true);
 
       return token;
-    } catch (error: any) {
-      const errorMessage = error.message;
+    } catch (error: unknown | null) {
+      const errorMessage = error.message || null;
       toast.error(errorMessage);
     }
   };
