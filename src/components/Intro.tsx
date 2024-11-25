@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function IntroSection() {
   return (
-    <section className="max-w-screen-lg mx-auto py-6 lg:py-16 px-4 md:px-0">
+    <section className="max-w-screen-lg mx-auto py-8 px-6 md:px-0">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Left side - Main content */}
         <div className="lg:w-[60%] space-y-6">

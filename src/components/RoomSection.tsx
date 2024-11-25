@@ -4,7 +4,7 @@ import Image from 'next/image'
 const RoomDescription: React.FC<RoomDescriptionProps> = (props) => {
     return (
         <section className={`bg-${props.bgColor} py-8 px-6 md:px-0`}>
-            <div className={`md:h-[calc(100vh-20vh)] max-w-screen-lg mx-auto flex flex-col ${props.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-x-12 gap-y-4 `}>
+            <div className={` max-w-screen-lg mx-auto flex flex-col ${props.imagePosition === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-x-12 gap-y-4 `}>
 
                 <div className="relative w-full lg:w-[40%]">
                     <div className="aspect-[4/2] md:aspect-[4/5] md:rounded-3xl overflow-hidden">
