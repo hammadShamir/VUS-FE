@@ -39,7 +39,7 @@ export default function Testimonials() {
       style={{ backgroundImage: "/assets/testimonials-bg.png" }}
       className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary"
     >
-      <div className="my-4 mx-4 lg:mx-32 lg:file:my-14">
+      <div className="my-4 mx-4 lg:mx-23 lg:file:my-14">
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="text-background text-center lg:text-left mb-4 sm:mb-0">
             <p className="text-sm font-[family-name:var(--font-secondary)]sm:text-base">
@@ -60,7 +60,7 @@ export default function Testimonials() {
             </div>
           </div>
         </div>
-        <div className="relative mx-auto lg:absolute inset-0 flex justify-center items-center text-center w-full sm:w-4/6 text-background">
+        <div className="relative mx-4 lg:mx-32 lg:absolute inset-0 flex justify-center items-center text-center w-full sm:w-4/6 text-background">
           <Swiper
             modules={[Pagination, A11y, Autoplay]}
             autoplay={{

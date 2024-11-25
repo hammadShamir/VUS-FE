@@ -18,8 +18,8 @@ export default function Home() {
       />
       <IntroSection />
       <RoomsExplore />
-      <CallForAction />
       <Testimonials />
+      <CallForAction />
       <Footer />
     </>
   );
