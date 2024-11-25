@@ -28,7 +28,7 @@ const BookingForm = () => {
         onSubmit: async (values) => {
             setLoading(true);
             try {
-                const res = await axiosService.post(
+                await axiosService.post(
                     "/auth/sign-in",
                     values
                 );
@@ -43,7 +43,8 @@ const BookingForm = () => {
             onSubmit={formik.handleSubmit}
             className='relative lg:w-2/5 bg-primary p-4 rounded-md'
         >
-            <button type='submit'>Book Now</button>
+
+            <button type='submit'>{loading ? "Booking" : "Book Now"}</button>
         </form>
     )
 }
