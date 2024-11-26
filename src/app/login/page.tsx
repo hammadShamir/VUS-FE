@@ -9,6 +9,7 @@ import { axiosService } from "@/services/axios";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/services/firebase";
 import toast from "react-hot-toast";
+import { FirebaseError } from "firebase/app";
 const Page = () => {
   const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -66,19 +67,19 @@ const Page = () => {
       console.log(error);
     }
   };
-  const handleFbLogin = async (email: string, password: string) => {
+  const handleFbLogin = async (email: string, password: string): Promise<string | void> => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const token = await userCredential.user.getIdToken(true);
 
       return token;
-    } catch (error: unknown | null) {
-      const errorMessage = error.message || null;
-      toast.error(errorMessage);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        const errorMessage = error.message;
+        toast.error(errorMessage);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 

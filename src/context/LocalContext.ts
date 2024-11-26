@@ -1,39 +1,46 @@
-// src/context/LocaleContext.tsx
-"use client";
-import React, { createContext, useContext, useState, useEffect } from "react";
+// "use client";
+// import React, { createContext, useContext, useState, useEffect } from "react";
 
-interface LocaleContextType {
-  locale: string;
-  setLocale: (locale: string) => void;
-}
+// interface LocaleContextType {
+//   locale: string;
+//   setLocale: (locale: string) => void;
+// }
 
-const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
+// const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 
-export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [locale, setLocale] = useState("en"); // Default locale
+// export const LocaleProvider: React.FC<{ children: React.ReactNode }> = ({
+//   children,
+// }) => {
+//   const [locale, setLocale] = useState("en"); // Default locale
 
-  useEffect(() => {
-    const cookieLocale = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("locale="));
-    if (cookieLocale) {
-      setLocale(cookieLocale.split("=")[1]);
-    }
-  }, []);
+//   useEffect(() => {
+//     const cookieLocale = document.cookie
+//       .split("; ")
+//       .find((row) => row.startsWith("locale="));
 
-  return (
-    <LocaleContext.Provider value={{ locale, setLocale }}>
-      {children}
-    </LocaleContext.Provider>
-  );
-};
+//     // If a locale exists in cookies, set it
+//     if (cookieLocale) {
+//       setLocale(decodeURIComponent(cookieLocale.split("=")[1]));
+//     }
+//   }, []);
 
-export const useLocale = () => {
-  const context = useContext(LocaleContext);
-  if (!context) {
-    throw new Error("useLocale must be used within a LocaleProvider");
-  }
-  return context;
-};
+//   // Update the cookie whenever the locale changes
+//   const updateLocale = (newLocale: string) => {
+//     setLocale(newLocale);
+//     document.cookie = `locale=${encodeURIComponent(newLocale)}; path=/`;
+//   };
+
+//   return (
+//     <LocaleContext.Provider value={{ locale, setLocale: updateLocale }}>
+//       {children}
+//     </LocaleContext.Provider>
+//   );
+// };
+
+// export const useLocale = () => {
+//   const context = useContext(LocaleContext);
+//   if (!context) {
+//     throw new Error("useLocale must be used within a LocaleProvider");
+//   }
+//   return context;
+// };
