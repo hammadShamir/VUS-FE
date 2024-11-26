@@ -5,8 +5,9 @@ import ModalSidebar from "./Sidebar";
 import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";
-
+import { useRouter } from "next/navigation";
 const Header = () => {
+  const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -58,6 +59,7 @@ const Header = () => {
             SIGN IN
           </Link>
           <button
+            onClick={() => navigate.push("/booking")}
             className={`border border-background text-background ${isScrolled ? "bg-transparent" : "text-background"
               } px-5 py-2 rounded-md hover:bg-primary`}
           >

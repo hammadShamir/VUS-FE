@@ -5,7 +5,7 @@ const LocaleDropdown = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const handleDropDown = () => {
         setIsOpen(!isOpen)
-        setTitle('')
+        setTitle("helo")
     }
     return (
         <div className='relative'>

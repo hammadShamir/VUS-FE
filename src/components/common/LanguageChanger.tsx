@@ -18,6 +18,7 @@ const LanguageChanger: React.FC<LanguageChangerProps> = ({
     // Set a cookie and update the URL here (uncomment if needed)
     // document.cookie = `locale=${newLocale}; path=/`;
     // router.replace(`/${newLocale}${pathname}`);
+    console.log(newLocale)
     setLangaugeDropDown(!langaugeDropDown);
   };
 

@@ -1,3 +1,4 @@
+// // src/context/LocaleContext.tsx
 // "use client";
 // import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -17,21 +18,13 @@
 //     const cookieLocale = document.cookie
 //       .split("; ")
 //       .find((row) => row.startsWith("locale="));
-
-//     // If a locale exists in cookies, set it
 //     if (cookieLocale) {
-//       setLocale(decodeURIComponent(cookieLocale.split("=")[1]));
+//       setLocale(cookieLocale.split("=")[1]);
 //     }
 //   }, []);
 
-//   // Update the cookie whenever the locale changes
-//   const updateLocale = (newLocale: string) => {
-//     setLocale(newLocale);
-//     document.cookie = `locale=${encodeURIComponent(newLocale)}; path=/`;
-//   };
-
 //   return (
-//     <LocaleContext.Provider value={{ locale, setLocale: updateLocale }}>
+//     <LocaleContext.Provider value={{ locale, setLocale }}>
 //       {children}
 //     </LocaleContext.Provider>
 //   );

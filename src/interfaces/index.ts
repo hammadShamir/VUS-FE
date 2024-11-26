@@ -27,3 +27,10 @@ export interface RoomDescriptionProps {
     bgColor: string
     amenities: Amenity[]
 }
+
+
+export interface IDatePicker {
+    placeholder: string
+    selectedDate: Date | string | null;
+    onDateChange: (date: Date | null) => void;
+}
