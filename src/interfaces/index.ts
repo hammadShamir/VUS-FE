@@ -33,4 +33,5 @@ export interface IDatePicker {
     placeholder: string
     selectedDate: Date | string | null;
     onDateChange: (date: Date | null) => void;
+    disabledDates?:any[]
 }

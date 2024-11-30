@@ -16,6 +16,15 @@ import { IDatePicker } from "@/interfaces"
 
 const DatePicker: React.FC<IDatePicker> = (props) => {
     const [date, setDate] = React.useState<Date | undefined>(undefined);
+ 
+
+    const isDateDisabled = (day: Date) :boolean=> {
+        return props.disabledDates?.some(
+            (disabledDate) =>
+                disabledDate.toDateString() === day.toDateString()
+        )||false
+    };
+
 
     const handleDateChange = (selected: Date | undefined) => {
         setDate(selected);
@@ -24,17 +33,17 @@ const DatePicker: React.FC<IDatePicker> = (props) => {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button
+                <Button 
                     variant={'outline'}
                     className={cn(
-                        "justify-start text-left font-normal border border-background",
+                        "justify-start text-left font-normal border text-background border-background",
                         !date
                     )}
                 >
-                    <CalendarIcon />
+                    <CalendarIcon/>
                     {props.selectedDate
                         ? format(new Date(props.selectedDate), "PPP")
-                        : <span>{props.placeholder}</span>}
+                        : <span >{props.placeholder}</span>}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -42,6 +51,8 @@ const DatePicker: React.FC<IDatePicker> = (props) => {
                     mode="single"
                     selected={date}
                     onSelect={handleDateChange}
+                    disabled={isDateDisabled}
+                fromDate={new Date()}
                     initialFocus
                 />
             </PopoverContent>

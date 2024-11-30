@@ -17,6 +17,7 @@ import { axiosService } from '@/services/axios';
 const BookingForm = () => {
     const navigate = useRouter();
     const [loading, setLoading] = React.useState<boolean>(false);
+    const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
 
     const formik = useFormik({
         initialValues: {
@@ -49,7 +50,6 @@ const BookingForm = () => {
         },
     });
 
-    // Handle dynamic price based on rooms selection
     React.useEffect(() => {
         if (formik.values.rooms === "1") {
             formik.setFieldValue("amount", "5");
@@ -58,7 +58,31 @@ const BookingForm = () => {
         } else if (formik.values.rooms === "3") {
             formik.setFieldValue("amount", "15");
         }
-    }, [formik.values.rooms]);
+    }, [formik.values.rooms])
+    // Handle dynamic price based on rooms selection
+    React.useEffect(() => {
+        fetchBookedSlots();
+    }, []);
+
+    const fetchBookedSlots = async () => {
+        const currentDate = new Date();
+        const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+        const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 2, 0); 
+        const response = await axiosService.get('/slots/booked-slots', {
+            params: {
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+            },
+        });
+        if (response.data.length) {
+            setBookedSlots(formatBookedSlots(response.data));
+        }
+
+    }
+
+    const formatBookedSlots = (bookedSlots: { date: string, booked: boolean }[]) => {
+        return bookedSlots.map((slots) => new Date(slots.date));
+    }
 
     return (
         <form
@@ -75,6 +99,7 @@ const BookingForm = () => {
                 placeholder='Check In'
                 selectedDate={formik.values.checkIn ? new Date(formik.values.checkIn) : null}
                 onDateChange={(date) => formik.setFieldValue("checkIn", date ? date.toISOString() : "")}
+                disabledDates={bookedSlots}
             />
             {formik.touched.checkIn && formik.errors.checkIn && (
                 <div className="text-red-500 text-sm">{formik.errors.checkIn}</div>
@@ -85,6 +110,7 @@ const BookingForm = () => {
                 placeholder='Check Out'
                 selectedDate={formik.values.checkOut ? new Date(formik.values.checkOut) : null}
                 onDateChange={(date) => formik.setFieldValue("checkOut", date ? date.toISOString() : "")}
+                disabledDates={bookedSlots}
             />
             {formik.touched.checkOut && formik.errors.checkOut && (
                 <div className="text-red-500 text-sm">{formik.errors.checkOut}</div>
@@ -155,7 +181,7 @@ const BookingForm = () => {
             </div>
 
             {/* Submit Button */}
-            <Button
+            <Button className='text-background font-[family-name:var(--font-secondary)] border-background '
                 type='submit'
                 variant='outline'
                 disabled={loading}
