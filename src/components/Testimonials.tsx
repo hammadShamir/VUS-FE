@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Autoplay } from "swiper/modules";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { Swiper as SwiperType } from "swiper";
 import { Testimonial } from "@/interfaces/Testimonials";
 import Rating from "@/components/ui/Rating";
 import Container from "./common/Container";
@@ -14,36 +13,50 @@ const testimonials: Testimonial[] = [
     author: "Emily and Mark T.",
     date: "19-10-2024",
     content:
-      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back! and attentive staff made our experience unforgettable. We can’t wait to come back!  and attentive staff made our experience unforgettable. We can’t wait to come back! ",
+      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back!",
     rating: 5,
   },
   {
     author: "Sarah J.",
     date: "12-10-2024",
     content:
-      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back! and attentive staff made our experience unforgettable. We can’t wait to come back!  and attentive staff made our experience unforgettable. We can’t wait to come back!",
+      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back!",
     rating: 5,
   },
   {
     author: "Michael R.",
     date: "10-10-2024",
     content:
-      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back! and attentive staff made our experience unforgettable. We can’t wait to come back!  and attentive staff made our experience unforgettable. We can’t wait to come back!",
+      "Staying at Umah Shanti Villas was a dream come true! The villas are beautifully designed and provide the perfect escape from the hustle and bustle of everyday life. The serene surroundings and attentive staff made our experience unforgettable. We can’t wait to come back!",
     rating: 5,
   },
 ];
 
 export default function Testimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const swiperRef = useRef<any>(null); // Type it as `any` for now to work with Swiper instance
+
+  // Handle Next slide
+  const goToNextSlide = () => {
+    swiperRef.current?.swiper.slideNext(); // Directly use Swiper's instance
+  };
+
+  // Handle Prev slide
+  const goToPrevSlide = () => {
+    swiperRef.current?.swiper.slidePrev(); // Directly use Swiper's instance
+  };
+
+  useEffect(() => {
+    console.log(swiperRef.current?.swiper); // Check if Swiper instance is initialized
+  }, []);
 
   return (
     <div
       style={{ backgroundImage: "/assets/testimonials-bg.png" }}
-      className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary"
+      className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-primary"
     >
       <Container>
-        <div className=" flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
+        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="md:w-3/5 flex items-center justify-between">
             <div className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2">
               <p className="text-sm font-[family-name:var(--font-secondary)] sm:text-base">
@@ -53,23 +66,25 @@ export default function Testimonials() {
                 Voice From Our Guests
               </h2>
             </div>
-            <div className="hidden md:flex">
+            <div>
+              {/* Previous button */}
               <button
-                onClick={() => swiper?.slidePrev()}
-                className="text-background  text-2xl py-4 lg:py-6 px-6  cursor-pointer"
+                onClick={goToPrevSlide}
+                className="text-background text-2xl py-4 lg:py-6 px-6 cursor-pointer"
               >
                 <SlArrowLeft />
               </button>
 
+              {/* Next button */}
               <button
-                onClick={() => swiper?.slideNext()}
-                className="text-background text-2xl py-4 lg:py-6 px-6  cursor-pointer"
+                onClick={goToNextSlide}
+                className="text-background text-2xl py-4 lg:py-6 px-6 cursor-pointer"
               >
                 <SlArrowRight />
               </button>
             </div>
           </div>
-          <div className="md:w-2/5 hidden lg:block">
+          <div className="lg:block md:w-2/5">
             <div className="border-0 m-0 p-0 bg-transparent">
               <Image
                 src={"/assets/img/side-img-1.png"}
@@ -80,15 +95,16 @@ export default function Testimonials() {
             </div>
           </div>
         </div>
-        <div className=" relative lg:absolute px-2 lg:text-left  inset-0 flex justify-center items-center text-center max-w-screen-lg  text-background">
+
+        <div className="relative lg:absolute px-2 lg:text-left inset-0 flex justify-center items-center text-center max-w-screen-lg text-background">
           <Swiper
+            ref={swiperRef} // Attach the ref directly to the Swiper component
             modules={[Pagination, A11y, Autoplay]}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
             loop
-            onSwiper={setSwiper}
             onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex)}
             className="relative lg:absolute inset-0"
           >
@@ -96,7 +112,7 @@ export default function Testimonials() {
               <SwiperSlide key={index}>
                 <div className="bg-white/20 backdrop-blur-xl w-full p-2 rounded-2xl sm:p-8 md:p-12 lg:w-5/6 ">
                   <div className="grid lg:grid-cols-3 sm:gap-8 ">
-                    <div className="flex flex-col justify-between col-span-1  text-background h-full  gap-2 lg:gap-1">
+                    <div className="flex flex-col justify-between col-span-1 text-background h-full gap-2 lg:gap-1">
                       <div>
                         <Image
                           src="/assets/logo-review.png"
@@ -119,28 +135,31 @@ export default function Testimonials() {
                     </div>
 
                     <div className="col-span-2 text-start ">
-                      <p className="text-xs text-background font-[family-name:var(--font-secondary)]  sm:text-base md:text-lg ">
+                      <p className="text-xs text-background font-[family-name:var(--font-secondary)] sm:text-base md:text-lg">
                         {testimonial.content}
                       </p>
                     </div>
                   </div>
                 </div>
-                {/* Custom Pagination */}
-                <div className="flex justify-center gap-2">
-                  {testimonials.map((_, index) => (
-                    <div
-                      key={index}
-                      className={`h-2 rounded-full transition-all ${currentSlide === index
-                        ? "bg-background w-14"
-                        : "bg-white/50 w-2"
-                        }`}
-                      aria-label={`Slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
               </SwiperSlide>
             ))}
           </Swiper>
+        </div>
+
+        {/* Custom Pagination (dots) */}
+        <div className="flex justify-center gap-2 mt-4">
+          {testimonials.map((_, index) => (
+            <div
+              key={index}
+              onClick={() => swiperRef.current?.swiper.slideTo(index)} // Navigate to selected slide
+              className={`h-2 rounded-full transition-all ${
+                currentSlide === index
+                  ? "bg-background w-14"
+                  : "bg-white/50 w-2"
+              }`}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
         </div>
       </Container>
     </div>
