@@ -1,5 +1,7 @@
 'use client';
-import Header from '@/components/common/Header';
+import { BookingsList } from '@/components/BookingList';
+import { DashboardSidebar } from '@/components/common/Dashboard-Sidebar';
+import Header2 from '@/components/common/Header/Header2';
 import * as React from 'react'
 import toast from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
@@ -26,11 +28,14 @@ const Page = () => {
         }
     }, []);
     return (
-        <>
-            <Header />
+        <main className='relative'>
+            <Header2 />
+            <div className='flex h-full'>
+                <DashboardSidebar />
+                <BookingsList />
+            </div>
             <Toaster position="top-center" reverseOrder={false} />
-            <h1>My Booking</h1>
-        </>
+        </main>
     )
 }
 

@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Container from "./common/Container";
 
 export default function IntroSection() {
   return (
-    <section className="max-w-screen-lg mx-auto py-8 px-6 md:px-0">
+    <Container style="py-8">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Left side - Main content */}
         <div className="lg:w-[60%] space-y-6">
@@ -42,6 +43,6 @@ export default function IntroSection() {
           </p>
         </div>
       </div>
-    </section>
+    </Container>
   );
 }

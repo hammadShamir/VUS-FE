@@ -7,7 +7,7 @@ export interface IHamBurger {
 }
 
 export interface ISidebar extends IHamBurger {
-    isScrolled: boolean
+    isScrolled?: boolean
 }
 
 

@@ -3,7 +3,7 @@ import CallForAction from "@/components/common/call-for-action";
 import Testimonials from "@/components/Testimonials";
 import IntroSection from "@/components/Intro";
 import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
+import Header from "@/components/common/Header/Header";
 import RoomsExplore from "@/components/RoomExplore";
 import PromoBanner from "@/components/PromoBanner";
 import EmbeddedPost from "@/components/EmbeddedPost";
@@ -22,7 +22,7 @@ export default function Home() {
       <PromoBanner />
       <RoomsExplore />
       <Testimonials />
-      <EmbeddedPost />
+      {/* <EmbeddedPost /> */}
       <CallForAction />
       <Footer />
     </>

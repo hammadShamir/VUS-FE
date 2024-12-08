@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import React from 'react'
 import { Button } from './ui/button'
+import Container from './common/Container'
 
 const PromoBanner = () => {
     return (
         <section className={`relative md:h-[calc(100vh-50vh)] bg-[url('/assets/img/Rooms/img-11.png')] bg-fixed bg-no-repeat bg-bottom bg-cover`}>
             <div className='absolute top-o left-0 w-full h-full bg-black opacity-40'></div>
-            <div className='max-w-screen-lg mx-auto h-full p-6 xl:p-0 flex flex-col md:flex-row md:justify-between items-center gap-x-12 gap-y-6'>
+            <Container style='py-8 h-full flex flex-col md:flex-row md:justify-between items-center gap-x-12 gap-y-6'>
                 {/* Left Column */}
                 <div className="z-10 w-full lg:w-[50%]">
                     <div className="space-y-2 md:space-y-4">
@@ -30,7 +31,7 @@ const PromoBanner = () => {
                         />
                     </div>
                 </div>
-            </div>
+            </Container>
         </section>
     )
 }

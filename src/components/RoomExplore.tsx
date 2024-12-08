@@ -1,8 +1,9 @@
 import Image from "next/image"
+import Container from "./common/Container"
 
 export default function RoomsSection() {
     return (
-        <section className="max-w-screen-lg mx-auto  bg-[url('/subtle-stripes.png')] py-8 px-6 md:px-0">
+        <Container style=" bg-[url('/subtle-stripes.png')] py-8 ">
             <div className="container">
                 <div className="flex flex-col lg:flex-row lg:items-stretch">
                     {/* Left side - Main Image (30% width) */}
@@ -65,7 +66,7 @@ export default function RoomsSection() {
                     </div>
                 </div>
             </div>
-        </section>
+        </Container>
     )
 }
 

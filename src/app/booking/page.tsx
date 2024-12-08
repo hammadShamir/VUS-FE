@@ -1,5 +1,5 @@
 import Footer from '@/components/common/Footer'
-import Header from '@/components/common/Header'
+import Header from '@/components/common/Header/Header'
 import Banner from '@/components/common/Banner'
 import CallForAction from '@/components/common/call-for-action'
 import React from 'react'

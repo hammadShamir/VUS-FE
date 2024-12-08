@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import ModalSidebar from "./Sidebar";
+import ModalSidebar from "../Sidebar";
 import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";
@@ -61,7 +61,7 @@ const Header = () => {
           <button
             onClick={() => navigate.push("/booking")}
             className={`border border-background text-background ${isScrolled ? "bg-transparent" : "text-background"
-              } px-5 py-2 rounded-md hover:bg-primary`}
+              } px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
           >
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
