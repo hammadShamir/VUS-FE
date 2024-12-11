@@ -6,13 +6,15 @@ import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";
 import { useRouter } from "next/navigation";
-import { isAuthenticated } from "@/services/helper";
+import { isAuthenticated as checkAuth } from "@/services/helper";
 import { UserMenu } from "@/elements/UserMenu";
 import Container from "../Container";
+
 const Header = () => {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [authenticated, setAuthenticated] = useState(!!checkAuth()); // Convert token to boolean
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +31,10 @@ const Header = () => {
     };
   }, []);
 
-
+  const handleLogout = () => {
+    setAuthenticated(false);
+    localStorage.removeItem("token"); // Token removal logic
+  };
 
   return (
     <header
@@ -40,7 +45,6 @@ const Header = () => {
         <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
           <LocaleDropdown />
-          {/* <LanguageChanger className="hidden lg:block relative" /> */}
         </div>
 
         <div className="w-full flex justify-center items-center">
@@ -66,8 +70,8 @@ const Header = () => {
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
           </button>
-          {isAuthenticated() ? (
-            <UserMenu />
+          {authenticated ? (
+            <UserMenu onLogout={handleLogout} /> // Pass handleLogout as a prop
           ) : (
             <Link href="/login" className="text-background hidden lg:inline">
               SIGN IN
@@ -76,7 +80,7 @@ const Header = () => {
         </div>
       </Container>
       <ModalSidebar isOpen={isOpen} setIsOpen={setIsOpen} isScrolled={isScrolled} />
-    </header >
+    </header>
   );
 };
 

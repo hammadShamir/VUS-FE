@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Hamburger from '@/elements/Hamburger'
 import ModalSidebar from '../Sidebar';
-import { isAuthenticated } from '@/services/helper';
+import { isAuthenticated as checkAuth } from '@/services/helper';
 import { UserMenu } from '@/elements/UserMenu';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Container from '../Container';
 
 const Header2 = () => {
+    const [authenticated, setAuthenticated] = useState(!!checkAuth());
     const navigate = useRouter();
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const handleLogout = () => {
+        setAuthenticated(false);
+        localStorage.removeItem("token");
+        navigate.push('/')
+    };
     return (
         <header className='bg-primary py-4 fixed w-full top-0 left-0 z-10'>
             <Container style='flex items-center justify-between'>
@@ -28,8 +34,8 @@ const Header2 = () => {
                         <span className="hidden lg:inline">Book Now</span>
                         <span className="inline lg:hidden">Book</span>
                     </button>
-                    {isAuthenticated() ? (
-                        <UserMenu />
+                    {authenticated ? (
+                        <UserMenu onLogout={handleLogout} />
                     ) : (
                         <Link href="/login" className="text-background hidden lg:inline">
                             SIGN IN

@@ -2,6 +2,7 @@
 import { BookingsList } from '@/components/BookingList';
 import { DashboardSidebar } from '@/components/common/Dashboard-Sidebar';
 import Header2 from '@/components/common/Header/Header2';
+import isAuth from '@/services/isAuth';
 import * as React from 'react'
 import toast from 'react-hot-toast';
 import { Toaster } from "react-hot-toast";
@@ -39,4 +40,4 @@ const Page = () => {
     )
 }
 
-export default Page
+export default isAuth(Page)

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import { auth, googleProvider } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 const Page = () => {
+  const isInitialRender = useRef(true);
   const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -41,14 +42,27 @@ const Page = () => {
               },
             }
           );
+
+          // Save authentication data
           localStorage.setItem("token", res.data.token);
-          localStorage.setItem("user", JSON.stringify(res.data.user))
-          navigate.push("/");
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+
+          // Check for redirect query parameter
+          const searchParams = new URLSearchParams(window.location.search);
+          const redirectTo = searchParams.get("redirect");
+
+          // Navigate to the original page or default fallback
+          if (redirectTo) {
+            navigate.push(redirectTo); // Redirect to the original page
+          } else {
+            navigate.push("/"); // Default fallback (home page)
+          }
         }
       } finally {
         setLoading(false);
       }
     },
+
   });
 
   const handleGoogleSignIn = async () => {
@@ -84,6 +98,26 @@ const Page = () => {
     }
   };
 
+  const checkForMessage = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const message = searchParams.get('message');
+    if (message) {
+      toast.error(message);
+      searchParams.delete('message');
+      const newUrl = searchParams.toString()
+        ? `${window.location.pathname}?${searchParams.toString()}`
+        : window.location.pathname;
+
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      checkForMessage();
+      isInitialRender.current = false;
+    }
+  }, []);
   return (
     <main className="relative w-full h-screen flex flex-col md:flex-row justify-center items-center">
       <div className="flex-1 h-full">

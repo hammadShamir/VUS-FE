@@ -16,9 +16,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { logout } from "@/services/helper";
+import { UserMenuProps } from "@/interfaces/Auth";
 
-export function UserMenu() {
+
+export const UserMenu: React.FC<UserMenuProps> = (props) => {
     const router = useRouter();
 
     return (
@@ -44,7 +45,7 @@ export function UserMenu() {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout}>
+                <DropdownMenuItem onClick={props.onLogout}>
                     <LogOut />
                     <span>Log out</span>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

@@ -8,3 +8,8 @@ export interface ISignUP extends ISingIN {
     phone: string
     confirmPassword: string
 }
+
+
+export interface UserMenuProps {
+    onLogout: () => void;
+}

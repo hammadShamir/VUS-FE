@@ -64,9 +64,9 @@ const SAMPLE_BOOKINGS = [
 ];
 
 const statusStyles: Record<string, string> = {
-    pending: "text-yellow-500",
-    upcoming: "text-green-500",
-    canceled: "text-red-500",
+    pending: "text-yellow-500 bg-yellow-100",
+    upcoming: "text-green-500 bg-green-100",
+    canceled: "text-red-500 bg-red-100",
 };
 
 const statusText: Record<string, string> = {
@@ -77,12 +77,12 @@ const statusText: Record<string, string> = {
 
 export function BookingsList() {
     return (
-        <div className="space-y-6 w-full p-4 md:ms-64 mt-14 mb-14 md:mb-0">
+        <div className="space-y-6 w-full p-4 md:ms-64 mt-20 mb-14 md:mb-0">
             <h1 className="text-2xl font-bold">My Bookings:</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {SAMPLE_BOOKINGS.map((booking) => (
                     <Card key={booking.id} className="overflow-hidden">
-                        <div className="relative aspect-[5/3] w-full">
+                        <div className="relative h-44 w-full">
                             <Image
                                 src={booking.imageUrl}
                                 alt={`Booking ${booking.id}`}
@@ -117,7 +117,7 @@ export function BookingsList() {
                             {booking.status !== "canceled" && (
                                 <Button
                                     variant="outline"
-                                    className="w-full mt-4"
+                                    className="w-full mt-4 hover:bg-background hover:text-primary"
                                     onClick={() => {
                                         console.log(`Canceling booking ${booking.id}`);
                                     }}

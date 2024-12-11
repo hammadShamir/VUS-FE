@@ -5,7 +5,6 @@ import { BookmarkIcon, BellIcon, UserIcon, LogOutIcon } from 'lucide-react'
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { logout } from "@/services/helper"
 
 export function DashboardSidebar() {
     const router = useRouter();
@@ -37,7 +36,10 @@ export function DashboardSidebar() {
             title: "Logout",
             href: "/logout",
             icon: LogOutIcon,
-            onclick: () => logout()
+            onclick: () => {
+                localStorage.removeItem("token");
+                router.push('/');
+            }
         },
     ]
     return (
@@ -66,10 +68,10 @@ export function DashboardSidebar() {
                                     !isActive && "text-background"
                                 )}
                             >
-                                <Link href={item.href}>
+                                <span>
                                     <item.icon className="h-5 w-5" />
                                     {item.title}
-                                </Link>
+                                </span>
                             </Button>
                         )
                     })}
