@@ -15,6 +15,7 @@ import {
 import Hamburger from "@/elements/Hamburger";
 import { ISidebar } from "@/interfaces";
 import Link from "next/link";
+import Container from "./Container";
 
 
 const ModalSidebar: React.FC<ISidebar> = (props) => {
@@ -24,7 +25,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
       className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
         }`}
     >
-      <div className="h-full max-w-screen-2xl w-11/12 mx-auto z-50 transition-transform duration-500 ease-in-out overflow-y-auto  ">
+      <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
         <div className={`w-full py-4`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">
@@ -197,7 +198,8 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
             </div>
           </div>
         </div>
-      </div>
+
+      </Container>
     </section>
   );
 };

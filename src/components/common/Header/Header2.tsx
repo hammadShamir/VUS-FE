@@ -1,15 +1,42 @@
 import React from 'react'
 import Hamburger from '@/elements/Hamburger'
 import ModalSidebar from '../Sidebar';
+import { isAuthenticated } from '@/services/helper';
+import { UserMenu } from '@/elements/UserMenu';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Container from '../Container';
 
 const Header2 = () => {
+    const navigate = useRouter();
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     return (
         <header className='bg-primary py-4 fixed w-full top-0 left-0 z-10'>
-            <div className='max-w-screen-xl mx-auto px-4 xl:px-0'>
-                <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
-
-            </div>
+            <Container style='flex items-center justify-between'>
+                <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
+                    <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
+                </div>
+                <div className="w-full flex justify-center items-center">
+                    <p className="text-xl text-background ">UMAH SHANTI</p>
+                </div>
+                <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
+                    <button
+                        onClick={() => navigate.push("/booking")}
+                        className={`border border-background text-background text-background
+                        px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
+                    >
+                        <span className="hidden lg:inline">Book Now</span>
+                        <span className="inline lg:hidden">Book</span>
+                    </button>
+                    {isAuthenticated() ? (
+                        <UserMenu />
+                    ) : (
+                        <Link href="/login" className="text-background hidden lg:inline">
+                            SIGN IN
+                        </Link>
+                    )}
+                </div>
+            </Container>
             <ModalSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
         </header>
     )

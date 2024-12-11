@@ -6,6 +6,9 @@ import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";
 import { useRouter } from "next/navigation";
+import { isAuthenticated } from "@/services/helper";
+import { UserMenu } from "@/elements/UserMenu";
+import Container from "../Container";
 const Header = () => {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +36,7 @@ const Header = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? "py-2 bg-[#002655CC]" : "py-2 md:py-4 bg-transparent"
         }`}
     >
-      <div className="max-w-screen-2xl w-11/12 mx-auto relative flex justify-between">
+      <Container style="relative flex justify-between">
         <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
           <LocaleDropdown />
@@ -55,9 +58,6 @@ const Header = () => {
         </div>
 
         <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
-          <Link href="/login" className="text-background hidden lg:inline">
-            SIGN IN
-          </Link>
           <button
             onClick={() => navigate.push("/booking")}
             className={`border border-background text-background ${isScrolled ? "bg-transparent" : "text-background"
@@ -66,10 +66,17 @@ const Header = () => {
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
           </button>
+          {isAuthenticated() ? (
+            <UserMenu />
+          ) : (
+            <Link href="/login" className="text-background hidden lg:inline">
+              SIGN IN
+            </Link>
+          )}
         </div>
-      </div>
+      </Container>
       <ModalSidebar isOpen={isOpen} setIsOpen={setIsOpen} isScrolled={isScrolled} />
-    </header>
+    </header >
   );
 };
 

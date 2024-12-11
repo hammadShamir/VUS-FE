@@ -3,35 +3,43 @@
 import { cn } from "@/lib/utils"
 import { BookmarkIcon, BellIcon, UserIcon, LogOutIcon } from 'lucide-react'
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-
-const navItems = [
-    {
-        title: "My Bookings",
-        href: "/mybooking",
-        icon: BookmarkIcon,
-    },
-    {
-        title: "Notification",
-        href: "/notifications",
-        icon: BellIcon,
-    },
-    {
-        title: "Profile",
-        href: "/profile",
-        icon: UserIcon,
-    },
-    {
-        title: "Logout",
-        href: "/logout",
-        icon: LogOutIcon,
-    },
-]
+import { logout } from "@/services/helper"
 
 export function DashboardSidebar() {
+    const router = useRouter();
     const pathname = usePathname()
-
+    const userSession = localStorage.getItem('user');
+    const user = userSession && JSON.parse(userSession);
+    const handleNavigation = (route: string) => {
+        router.push(route);
+    };
+    const navItems = [
+        {
+            title: "My Bookings",
+            href: "/mybooking",
+            icon: BookmarkIcon,
+            onclick: () => handleNavigation('/mybooking')
+        },
+        {
+            title: "Notification",
+            href: "/notifications",
+            icon: BellIcon,
+        },
+        {
+            title: "Profile",
+            href: "/profile",
+            icon: UserIcon,
+            onclick: () => handleNavigation('/profile')
+        },
+        {
+            title: "Logout",
+            href: "/logout",
+            icon: LogOutIcon,
+            onclick: () => logout()
+        },
+    ]
     return (
         <>
             {/* Desktop Navigation */}
@@ -40,8 +48,8 @@ export function DashboardSidebar() {
                     <div className="h-20 w-20 rounded-full bg-white/10 flex items-center justify-center mb-4">
                         <UserIcon className="h-10 w-10 text-white/60" />
                     </div>
-                    <h3>User Name</h3>
-                    <span>email@gmail.com</span>
+                    <h3>{user?.fullName}</h3>
+                    <span>{user?.email}</span>
                 </div>
                 <div className="flex-1 space-y-1 p-4">
                     {navItems.map((item) => {
@@ -51,6 +59,7 @@ export function DashboardSidebar() {
                                 key={item.href}
                                 variant="ghost"
                                 asChild
+                                onClick={item.onclick}
                                 className={cn(
                                     "w-full justify-start gap-4 px-4 ",
                                     isActive && "bg-background text-primary",
