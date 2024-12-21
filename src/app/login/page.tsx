@@ -10,6 +10,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
+import Cookies from "js-cookie";
 const Page = () => {
   const isInitialRender = useRef(true);
   const navigate = useRouter();
@@ -44,8 +45,8 @@ const Page = () => {
           );
 
           // Save authentication data
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("user", JSON.stringify(res.data.user));
+          Cookies.set("token", res.data.token, { expires: 1 / 24 });
+          Cookies.set("user", JSON.stringify(res.data.user), { expires: 1 / 24 });
 
           // Check for redirect query parameter
           const searchParams = new URLSearchParams(window.location.search);
@@ -76,7 +77,8 @@ const Page = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      localStorage.setItem("token", res.data.token);
+      Cookies.set("token", res.data.token, { expires: 1 / 24 });
+      Cookies.set("user", JSON.stringify(res.data.user), { expires: 1 / 24 });
       navigate.push("/");
     } catch (error) {
       console.log(error);

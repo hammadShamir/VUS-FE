@@ -71,7 +71,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
               </li>
               <li>
                 <Link
-                  href="/Info/my-booking"
+                  href="/my-booking"
                   className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
                 >
                   My Booking

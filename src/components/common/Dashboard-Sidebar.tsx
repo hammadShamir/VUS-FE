@@ -17,9 +17,9 @@ export function DashboardSidebar() {
   const navItems = [
     {
       title: "My Bookings",
-      href: "/Info/my-booking",
+      href: "/my-booking",
       icon: BookmarkIcon,
-      onclick: () => handleNavigation("/Info/my-booking"),
+      onclick: () => handleNavigation("/my-booking"),
     },
     {
       title: "Notification",
@@ -28,9 +28,9 @@ export function DashboardSidebar() {
     },
     {
       title: "Profile",
-      href: "/Info/profile",
+      href: "/profile",
       icon: UserIcon,
-      onclick: () => handleNavigation("/Info/profile"),
+      onclick: () => handleNavigation("/profile"),
     },
     {
       title: "Logout",

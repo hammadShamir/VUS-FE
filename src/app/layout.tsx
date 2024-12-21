@@ -1,5 +1,3 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
 import type { Metadata } from "next";
 import { primary, secondary } from "./fonts";
 import "./globals.css";
@@ -16,18 +14,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages();
   return (
-    <html lang={locale}>
+    <html>
       <body className={`${primary.variable} ${secondary.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <main className="min-h-screen">{children}</main>
-          <Toaster position="top-center" reverseOrder={false} />
-        </NextIntlClientProvider>
+        <main className="min-h-screen">{children}</main>
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );
