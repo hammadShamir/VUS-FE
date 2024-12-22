@@ -69,9 +69,7 @@ const Page = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      console.log(result);
       const token = await result.user.getIdToken();
-      localStorage.setItem("token", token);
       const res = await axiosService.post("/auth/google-sign-in", {
         headers: {
           Authorization: `Bearer ${token}`,

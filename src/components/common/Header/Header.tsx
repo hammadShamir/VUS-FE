@@ -6,7 +6,7 @@ import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
 import LocaleDropdown from "@/elements/LocaleDropdown";
 import { useRouter } from "next/navigation";
-import { isAuthenticated as checkAuth } from "@/services/helper";
+import { isAuthenticated as checkAuth, logout } from "@/services/helper";
 import { UserMenu } from "@/elements/UserMenu";
 import Container from "../Container";
 
@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [authenticated, setAuthenticated] = useState(!!checkAuth()); // Convert token to boolean
+  const [authenticated, setAuthenticated] = useState(!!checkAuth());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,10 +32,9 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
+    logout();
     setAuthenticated(false);
-    localStorage.removeItem("token"); // Token removal logic
   };
-
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? "py-2 bg-[#002655CC]" : "py-2 md:py-4 bg-transparent"

@@ -13,13 +13,13 @@ import { Button } from "@/components/ui/button";
 //     PopoverContent,
 //     PopoverTrigger,
 // } from "@/components/ui/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
@@ -101,8 +101,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background",
                 formik.touched.firstName &&
-                  formik.errors.firstName &&
-                  "border-red-500"
+                formik.errors.firstName &&
+                "border-red-500"
               )}
             />
             {formik.touched.firstName && formik.errors.firstName && (
@@ -117,8 +117,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background ",
                 formik.touched.lastName &&
-                  formik.errors.lastName &&
-                  "border-red-500"
+                formik.errors.lastName &&
+                "border-red-500"
               )}
             />
             {formik.touched.lastName && formik.errors.lastName && (
@@ -157,7 +157,7 @@ export default function ContactForm() {
           )}
         </div>
 
-        <Select
+        {/* <Select
           onValueChange={(value) => formik.setFieldValue("bookingType", value)}
           value={formik.values.bookingType}
         >
@@ -169,7 +169,7 @@ export default function ContactForm() {
             <SelectItem value="deluxe">Deluxe Room</SelectItem>
             <SelectItem value="suite">Suite</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
 
         {/* <div className="grid gap-4 md:grid-cols-4">
                     <div className="space-y-2">
@@ -281,10 +281,10 @@ export default function ContactForm() {
             placeholder="Subject *"
             {...formik.getFieldProps("subject")}
             className={cn(
-              "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
+              "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-0 focus-visible:ring-0 focus-visible:border-[red]",
               formik.touched.subject &&
-                formik.errors.subject &&
-                "border-red-500"
+              formik.errors.subject &&
+              "border-red-500"
             )}
           />
           {formik.touched.subject && formik.errors.subject && (
@@ -300,8 +300,8 @@ export default function ContactForm() {
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
               formik.touched.message &&
-                formik.errors.message &&
-                "border-red-500"
+              formik.errors.message &&
+              "border-red-500"
             )}
           />
           {formik.touched.message && formik.errors.message && (

@@ -5,11 +5,12 @@ import { BookmarkIcon, BellIcon, UserIcon, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Cookies from "js-cookie";
 
 export function DashboardSidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const userSession = localStorage.getItem("user");
+  const userSession = Cookies.get("user");
   const user = userSession && JSON.parse(userSession);
   const handleNavigation = (route: string) => {
     router.push(route);
@@ -37,7 +38,10 @@ export function DashboardSidebar() {
       href: "/logout",
       icon: LogOutIcon,
       onclick: () => {
-        localStorage.removeItem("token");
+        const allCookies = Cookies.get();
+        for (const cookieName in allCookies) {
+          Cookies.remove(cookieName, { path: '/' });
+        }
         router.push("/");
       },
     },
@@ -63,7 +67,7 @@ export function DashboardSidebar() {
                 asChild
                 onClick={item.onclick}
                 className={cn(
-                  "w-full justify-start gap-4 px-4 ",
+                  "cursor-pointer w-full justify-start gap-4 px-4 ",
                   isActive && "bg-background text-primary",
                   !isActive && "text-background"
                 )}

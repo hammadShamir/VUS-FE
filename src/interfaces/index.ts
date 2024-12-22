@@ -33,5 +33,26 @@ export interface IDatePicker {
     placeholder: string
     selectedDate: Date | string | null;
     onDateChange: (date: Date | null) => void;
-    disabledDates?:any[]
+    disabledDates?: Date[];
+}
+export interface IBooking {
+    _id: string;
+    uuid: string;
+    transactionId: string;
+    checkIn: string;
+    checkOut: string;
+    rooms: number;
+    adults: number;
+    children: number;
+    status: string;
+    createdAt: string;
+    __v: number;
+}
+
+export enum BookingStatus {
+    pending = "Pending",
+    approved = "Approved",
+    rejected = "Rejected",
+    complete = "Completed",
+    cancelled = "Cancelled"
 }

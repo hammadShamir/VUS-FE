@@ -1,10 +1,11 @@
 import RoomDescription from '@/components/RoomSection';
 import roomData from '../../public/assets/data/Rooms';
+import Container from './common/Container';
 
 const Rooms = () => {
     return (
         <div className='relative '>
-            <div className="max-w-screen-lg mx-auto space-y-4 pt-8 px-6 md:px-0">
+            <Container style='py-8'>
                 <h2 className="font-[family-name:var(--font-secondary)] text-sm font-medium uppercase tracking-wider text-foreground">
                     ROOMS
                 </h2>
@@ -13,7 +14,7 @@ const Rooms = () => {
                     of Indonesia, with spacious and
                     relaxing experience
                 </h3>
-            </div>
+            </Container>
             {roomData.map((room, index) => (
                 <RoomDescription key={index} {...room} />
             ))}

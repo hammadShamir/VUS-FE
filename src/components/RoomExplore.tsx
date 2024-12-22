@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Container from "./common/Container"
+import Link from "next/link"
 
 export default function RoomsSection() {
     return (
@@ -56,11 +57,13 @@ export default function RoomsSection() {
                                     Umah Shanti Villa Is A PRIVATE VILLA Designed To Be A Peaceful, Romantic, Relaxing And
                                     Rejuvenating Place For You.
                                 </p>
-                                <button
-                                    className="text-base rounded-md bg-background border border-primary text-primary px-4 py-2 hover:bg-primary hover:text-background"
-                                >
-                                    EXPLORE ROOMS
-                                </button>
+                                <div>
+                                    <Link href={'/facilities'}
+                                        className="text-base rounded-md bg-background border border-primary text-primary px-4 py-2 hover:bg-primary hover:text-background"
+                                    >
+                                        EXPLORE ROOMS
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>

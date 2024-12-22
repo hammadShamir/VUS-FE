@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-// import LanguageChanger from "./LanguageChanger";
 import {
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -16,32 +15,49 @@ import Hamburger from "@/elements/Hamburger";
 import { ISidebar } from "@/interfaces";
 import Link from "next/link";
 import Container from "./Container";
+import { UserMenu } from "@/elements/UserMenu";
+import { isAuthenticated as checkAuth, logout } from "@/services/helper";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const ModalSidebar: React.FC<ISidebar> = (props) => {
+  const [authenticated, setAuthenticated] = useState(!!checkAuth());
+  const navigate = useRouter();
+  const handleLogout = () => {
+    logout()
+    setAuthenticated(false);
+    navigate.push("/");
+  };
   return (
     <section
-      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${
-        props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+        }`}
     >
       <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
         <div className={`w-full py-4`}>
           <div className="relative flex justify-between items-center">
             <div className="flex space-x-10">
               <Hamburger isOpen={props.isOpen} setIsOpen={props.setIsOpen} />
-              {/* <LanguageChanger className="relative" color="primary" /> */}
             </div>
             <div className="hidden lg:block">
               <p className="text-xl font-secondary">UMAH SHANTI</p>
             </div>
             <div className="flex justify-center items-center gap-10">
-              <a href="#" className="text-background hidden lg:inline">
-                SIGN IN
-              </a>
-              <button className="border border-background text-background bg-primary px-5 py-2 rounded-md hover:bg-background">
+              <button
+                onClick={() => navigate.push("/booking")}
+                className={`border border-background text-background text-background
+                        px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
+              >
                 <span className="hidden lg:inline">Book Now</span>
                 <span className="inline lg:hidden">Book</span>
               </button>
+              {authenticated ? (
+                <UserMenu onLogout={handleLogout} />
+              ) : (
+                <Link href="/login" className="text-background hidden lg:inline">
+                  SIGN IN
+                </Link>
+              )}
             </div>
           </div>
         </div>

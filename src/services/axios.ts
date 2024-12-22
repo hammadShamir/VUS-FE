@@ -1,9 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, Method } from 'axios';
 import { toast } from 'react-hot-toast';
-
+import Cookies from "js-cookie";
 // Define the base URL for your API
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
-
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -15,7 +14,7 @@ const axiosInstance: AxiosInstance = axios.create({
 // Request Interceptor
 axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

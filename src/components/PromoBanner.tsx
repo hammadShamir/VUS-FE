@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
-import { Button } from './ui/button'
 import Container from './common/Container'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 const PromoBanner = () => {
     return (
@@ -16,7 +17,13 @@ const PromoBanner = () => {
                             Room Service
                         </h2>
                         <p className='text-background font-[family-name:var(--font-secondary)] text-base'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor tellus vel mauris scelerisque accumsan. Maecenas quis nunc sed sapien dignissim pulvinar. Se d at gravida ligula, eget hendrerit nisi. Pellentesque at congue mauris. posuere finibus risus. </p>
-                        <Button className="z-10" variant={'outline'}>Book Now</Button>
+                        <div>
+                            <Link href={'/booking'} className="z-10">
+                                <Button variant='outline'>
+                                    Book Now
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 {/* Right Column */}
@@ -32,7 +39,7 @@ const PromoBanner = () => {
                     </div>
                 </div>
             </Container>
-        </section>
+        </section >
     )
 }
 

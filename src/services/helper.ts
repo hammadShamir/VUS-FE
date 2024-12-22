@@ -1,13 +1,11 @@
+import Cookies from "js-cookie";
 export const isAuthenticated = () => {
-    const cookies = document.cookie.split("; ");
-    const tokenCookie = cookies.find((cookie) => cookie.startsWith("token="));
-
-    if (tokenCookie) {
-        return tokenCookie.split("=")[1];
-    }
-    return null;
+    return Cookies.get("token") || null;
 };
 
 export const logout = () => {
-    localStorage.clear();
+    const allCookies = Cookies.get();
+    for (const cookieName in allCookies) {
+        Cookies.remove(cookieName, { path: '/' });
+    }
 };

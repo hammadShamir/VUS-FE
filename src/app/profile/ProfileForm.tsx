@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import Image from "next/image";
 
 const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -348,9 +349,11 @@ function ProfileForm() {
                                     >
                                         <div className="flex items-center gap-4">
                                             {method.type === "visa" ? (
-                                                <img src="/visa.svg" alt="Visa" className="h-8" />
+                                                <Image src="/visa.svg" width={100} height={100} alt="Visa" className="h-8" />
                                             ) : (
-                                                <img
+                                                <Image
+                                                    width={100}
+                                                    height={100}
                                                     src="/mastercard.svg"
                                                     alt="Mastercard"
                                                     className="h-8"

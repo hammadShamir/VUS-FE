@@ -27,16 +27,16 @@ const Footer = () => {
             <h3 className="text-xl font-bold font-[family-name:var(--font-primary)]">Page</h3>
             <ul className="w-full flex justify-start items-center gap-2 md:block md:space-y-2 font-[family-name:var(--font-secondary)]">
               <li>
-                <Link href={''}>Home</Link>
+                <Link href={'/'}>Home</Link>
               </li>
               <li>
-                <Link href={''}>About</Link>
+                <Link href={'/facilities'}>Facilities</Link>
               </li>
               <li>
-                <Link href={''}>Services</Link>
+                <Link href={'/my-booking'}>My Booking</Link>
               </li>
               <li>
-                <Link href={''}>Contact Us</Link>
+                <Link href={'/contact'}>Contact Us</Link>
               </li>
             </ul>
           </div>

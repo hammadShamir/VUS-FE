@@ -38,7 +38,7 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
                         <span>Profile</span>
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push('/mybooking')}>
+                    <DropdownMenuItem onClick={() => router.push('/my-booking')}>
                         <CreditCard />
                         <span>My Booking</span>
                         <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>

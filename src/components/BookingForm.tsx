@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { axiosService } from "@/services/axios";
-
+import Cookies from "js-cookie";
 const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -36,11 +36,13 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
       amount: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("Form submitted");
-      console.log(values);
+      const token = Cookies.get("token");
+      if (!token) {
+        navigate.push("/login?message=Login Required"); 
+        return;
+      }
       setLoading(true);
       try {
-        // Simulate API call
         const res = await axiosService.post("/create-booking", values);
         navigate.push(res.data);
       } finally {
@@ -74,107 +76,109 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
           From $299/night
         </h6>
       </div>
-      {/* Check-In Date Picker */}
-      <DatePicker
-        placeholder="Check In"
-        selectedDate={
-          formik.values.checkIn ? new Date(formik.values.checkIn) : null
-        }
-        onDateChange={(date) =>
-          formik.setFieldValue("checkIn", date ? date.toISOString() : "")
-        }
-        disabledDates={props.bookedSlots}
-      />
-      {formik.touched.checkIn && formik.errors.checkIn && (
-        <div className="text-red-500 text-sm">{formik.errors.checkIn}</div>
-      )}
+      <div className="h-full flex flex-col justify-center gap-y-8">
+        {/* Check-In Date Picker */}
+        <DatePicker
+          placeholder="Check In"
+          selectedDate={
+            formik.values.checkIn ? new Date(formik.values.checkIn) : null
+          }
+          onDateChange={(date) =>
+            formik.setFieldValue("checkIn", date ? date.toISOString() : "")
+          }
+          disabledDates={props.bookedSlots}
+        />
+        {formik.touched.checkIn && formik.errors.checkIn && (
+          <div className="text-red-500 text-sm">{formik.errors.checkIn}</div>
+        )}
 
-      {/* Check-Out Date Picker */}
-      <DatePicker
-        placeholder="Check Out"
-        selectedDate={
-          formik.values.checkOut ? new Date(formik.values.checkOut) : null
-        }
-        onDateChange={(date) =>
-          formik.setFieldValue("checkOut", date ? date.toISOString() : "")
-        }
-        disabledDates={props.bookedSlots}
-      />
-      {formik.touched.checkOut && formik.errors.checkOut && (
-        <div className="text-red-500 text-sm">{formik.errors.checkOut}</div>
-      )}
+        {/* Check-Out Date Picker */}
+        <DatePicker
+          placeholder="Check Out"
+          selectedDate={
+            formik.values.checkOut ? new Date(formik.values.checkOut) : null
+          }
+          onDateChange={(date) =>
+            formik.setFieldValue("checkOut", date ? date.toISOString() : "")
+          }
+          disabledDates={props.bookedSlots}
+        />
+        {formik.touched.checkOut && formik.errors.checkOut && (
+          <div className="text-red-500 text-sm">{formik.errors.checkOut}</div>
+        )}
 
-      {/* Rooms Select */}
-      <Select
-        value={formik.values.rooms}
-        onValueChange={(value) => formik.setFieldValue("rooms", value)}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Rooms" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="1">1</SelectItem>
-          <SelectItem value="2">2</SelectItem>
-          <SelectItem value="3">3</SelectItem>
-        </SelectContent>
-      </Select>
-      {formik.touched.rooms && formik.errors.rooms && (
-        <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
-      )}
+        {/* Rooms Select */}
+        <Select
+          value={formik.values.rooms}
+          onValueChange={(value) => formik.setFieldValue("rooms", value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Rooms" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">1</SelectItem>
+            <SelectItem value="2">2</SelectItem>
+            <SelectItem value="3">3</SelectItem>
+          </SelectContent>
+        </Select>
+        {formik.touched.rooms && formik.errors.rooms && (
+          <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
+        )}
 
-      {/* Adults and Children Select */}
-      <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
-        <div className="relative w-full">
-          <Select
-            value={formik.values.adults}
-            onValueChange={(value) => formik.setFieldValue("adults", value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Adults" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">1</SelectItem>
-              <SelectItem value="2">2</SelectItem>
-              <SelectItem value="3">3</SelectItem>
-            </SelectContent>
-          </Select>
-          {formik.touched.adults && formik.errors.adults && (
-            <div className="text-red-500 text-sm">{formik.errors.adults}</div>
-          )}
+        {/* Adults and Children Select */}
+        <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
+          <div className="relative w-full">
+            <Select
+              value={formik.values.adults}
+              onValueChange={(value) => formik.setFieldValue("adults", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Adults" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="2">2</SelectItem>
+                <SelectItem value="3">3</SelectItem>
+              </SelectContent>
+            </Select>
+            {formik.touched.adults && formik.errors.adults && (
+              <div className="text-red-500 text-sm">{formik.errors.adults}</div>
+            )}
+          </div>
+          <div className="relative w-full">
+            <Select
+              value={formik.values.children}
+              onValueChange={(value) => formik.setFieldValue("children", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Children" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">1</SelectItem>
+                <SelectItem value="1">2</SelectItem>
+                <SelectItem value="2">3</SelectItem>
+              </SelectContent>
+            </Select>
+            {formik.touched.children && formik.errors.children && (
+              <div className="text-red-500 text-sm">{formik.errors.children}</div>
+            )}
+          </div>
         </div>
-        <div className="relative w-full">
-          <Select
-            value={formik.values.children}
-            onValueChange={(value) => formik.setFieldValue("children", value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Children" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="0">1</SelectItem>
-              <SelectItem value="1">2</SelectItem>
-              <SelectItem value="2">3</SelectItem>
-            </SelectContent>
-          </Select>
-          {formik.touched.children && formik.errors.children && (
-            <div className="text-red-500 text-sm">{formik.errors.children}</div>
-          )}
+
+        <div className="flex justify-between items-center text-background">
+          <h3 className="text-3xl font-[family-name:var(--font-primary)]">
+            Total Cost
+          </h3>
+          <h6 className="text-xl font-[family-name:var(--font-secondary)]">
+            {formik.values.amount}$
+          </h6>
         </div>
-      </div>
 
-      <div className="flex justify-between items-center text-background">
-        <h3 className="text-3xl font-[family-name:var(--font-primary)]">
-          Total Cost
-        </h3>
-        <h6 className="text-xl font-[family-name:var(--font-secondary)]">
-          {formik.values.amount}$
-        </h6>
+        {/* Submit Button */}
+        <Button type="submit" variant="outline" disabled={loading}>
+          {loading ? "Booking..." : "Book Now"}
+        </Button>
       </div>
-
-      {/* Submit Button */}
-      <Button type="submit" variant="outline" disabled={loading}>
-        {loading ? "Booking..." : "Book Now"}
-      </Button>
     </form>
   );
 };

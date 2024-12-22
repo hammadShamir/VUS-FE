@@ -11,6 +11,7 @@ import {
     MdBathtub,
     MdBathroom
 } from 'react-icons/md'
+import Container from './common/Container'
 const Facilities = () => {
     const facilities = [
         { icon: MdAccessible, text: "Accessible Room" },
@@ -25,11 +26,11 @@ const Facilities = () => {
         { icon: MdBathroom, text: "Walk-In Closet" }
     ]
     return (
-        <section className="bg-primary bg-[url('/assets/img/bubble-bg.png')] py-8 px-6 md:px-0">
-            <div className='max-w-screen-lg mx-auto'>
+        <section className="bg-primary bg-[url('/assets/img/bubble-bg.png')]">
+            <Container style='py-8'>
                 <div className='flex flex-col md:flex-row md:justify-between gap-x-12 gap-y-6'>
                     {/* Left Column */}
-                    <div className="w-full lg:w-[60%] space-y-8">
+                    <div className="w-full lg:w-[60%] flex flex-col justify-center space-y-8">
                         <div className="space-y-4 ">
                             <h2 className="text-background font-[family-name:var(--font-secondary)]">FACILITIES</h2>
                             <h1 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-background md:text-4xl">
@@ -59,8 +60,8 @@ const Facilities = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </Container>
+        </section >
     )
 }
 

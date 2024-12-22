@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Hamburger from "@/elements/Hamburger";
 import ModalSidebar from "../Sidebar";
-import { isAuthenticated as checkAuth } from "@/services/helper";
+import { isAuthenticated as checkAuth, logout } from "@/services/helper";
 import { UserMenu } from "@/elements/UserMenu";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,8 +13,8 @@ const Header2 = () => {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const handleLogout = () => {
+    logout()
     setAuthenticated(false);
-    localStorage.removeItem("token");
     navigate.push("/");
   };
   return (

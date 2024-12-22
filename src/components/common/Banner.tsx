@@ -15,7 +15,7 @@ const Banner: React.FC<IBanner> = (banner) => {
     console.log(banner.bgImg)
     return (
         <div
-            className={`relative ${banner.parameters ? 'h-screen' : 'h-[calc(100vh-20vh)]'} bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
+            className={`relative ${banner.parameters ? 'h-screen' : 'h-[calc(100vh-200px)]'} bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
             style={{
                 backgroundImage: `url(${banner?.bgImg})`,
             }}
