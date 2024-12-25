@@ -13,6 +13,9 @@ import {
 import { auth } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
+import PhoneInput from "react-phone-number-input";
+import { getFirebaseErrorMessage } from "@/services/helper";
+
 const Page = () => {
   const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,8 +35,8 @@ const Page = () => {
         .max(15, "Must be 15 characters or less")
         .required("Required"),
       phone: Yup.string()
-        .min(12, "Minimum 13 characters Required")
-        .max(13, "Must be 13 characters Required")
+        .min(8, "Minimum 8 characters Required")
+        .max(15, "Maximum 15 characters Required")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
@@ -66,21 +69,28 @@ const Page = () => {
           });
           await sendVerificationEmail();
         }
-        navigate.push("/login")
+        navigate.push("/login");
       } finally {
         setLoading(false);
       }
     },
   });
-  const handleFbSignUp = async (email: string, password: string): Promise<string | void> => {
+  const handleFbSignUp = async (
+    email: string,
+    password: string
+  ): Promise<string | void> => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const token = await userCredential.user.getIdToken(true);
 
       return token;
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
-        const errorMessage = error.code;
+        const errorMessage = getFirebaseErrorMessage(error);
         toast.error(errorMessage);
       } else {
         toast.error("An unexpected error occurred during sign-up.");
@@ -98,7 +108,9 @@ const Page = () => {
         if (error instanceof FirebaseError) {
           toast.error(`Error sending verification email: ${error.message}`);
         } else {
-          toast.error("An unexpected error occurred while sending the verification email.");
+          toast.error(
+            "An unexpected error occurred while sending the verification email."
+          );
         }
       }
     } else {
@@ -155,20 +167,22 @@ const Page = () => {
             ) : null}
           </div>
           <div className="md:max-w-md w-10/12 md:w-10/12">
-            <input
-              type="text"
+            <PhoneInput
+              international
+              countryCallingCodeEditable={true}
+              defaultCountry="ID"
               name="phone"
-              required
-              className="bg-accentColor px-4 py-2 md:p-4 rounded-md w-full font-[family-name:var(--font-secondary)]"
-              placeholder="Phone Number"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
               value={formik.values.phone}
+              onChange={(value) => formik.setFieldValue("phone", value)}
+              onBlur={formik.handleBlur}
+              className="bg-accentColor px-4 py-2 md:p-4  rounded-md w-full font-[family-name:var(--font-secondary px-4 py-2
+    focus-within:border-2 focus-within:border-black  "
             />
             {formik.touched.phone && formik.errors.phone ? (
               <div className="text-red-300">{formik.errors.phone}</div>
             ) : null}
           </div>
+
           <div className="md:max-w-md w-10/12 md:w-10/12">
             <input
               type="password"
