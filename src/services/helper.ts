@@ -22,3 +22,7 @@ export const getUser = () => {
         }
     }
 }
+
+export const getToken = () => {
+    return Cookies.get('token')
+}
