@@ -1,9 +1,7 @@
 import {
-    CreditCard,
     LogOut,
     User,
 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -17,11 +15,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { UserMenuProps } from "@/interfaces/Auth";
+import { useEffect, useState } from "react";
+import { DashboardMenuItem, UserRoles } from "@/interfaces";
+import { getUser } from "@/services/helper";
+import { adminDashboardMenus, userDashboardMenus } from "../../public/assets/data/MenuLinks";
 
 
 export const UserMenu: React.FC<UserMenuProps> = (props) => {
+    const [Menus, setMenus] = useState<DashboardMenuItem[]>([]);
     const router = useRouter();
 
+    const handleNavigation = (route: string) => {
+        router.push(route);
+    };
+
+    useEffect(() => {
+        const role = getUser().role;
+        if (role === UserRoles.USER) {
+            setMenus(userDashboardMenus)
+        } else if (role === UserRoles.ADMIN) {
+            setMenus(adminDashboardMenus)
+        }
+    }, [])
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -33,16 +48,15 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={() => router.push('/profile')}>
-                        <User />
-                        <span>Profile</span>
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push('/my-booking')}>
-                        <CreditCard />
-                        <span>My Booking</span>
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    {Menus.map((item, index) => {
+                        return (
+                            <DropdownMenuItem key={index} onClick={() => handleNavigation(item.href)}>
+                                <item.icon />
+                                <span>{item.title}</span>
+                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                        )
+                    })}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={props.onLogout}>
