@@ -9,3 +9,16 @@ export const logout = () => {
         Cookies.remove(cookieName, { path: '/' });
     }
 };
+
+export const getUser = () => {
+    const user = Cookies.get("user");
+    if (user) {
+        try {
+            const storedUser = JSON.parse(user);
+            return storedUser
+        } catch (error) {
+            console.error("Error parsing user cookie:", error);
+            return undefined;
+        }
+    }
+}

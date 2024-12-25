@@ -26,14 +26,13 @@ export function middleware(request: NextRequest) {
     }
 
     // Role-based access control
-    const adminPages = ["/admin/dashboard", "/admin/settings"];
+    const adminPages = ["/admin/bookings", "/admin/admins", "/admin/reviews", "/admin/feeds"];
     const userPages = ["/my-booking", "/profile"];
 
     if (adminPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
         if (role !== "admin") {
             // Non-admin trying to access admin pages
-            const redirectUrl = new URL("/home", request.nextUrl.origin);
-            redirectUrl.searchParams.set("message", "Admin Access Required");
+            const redirectUrl = new URL("/", request.nextUrl.origin);
             return NextResponse.redirect(redirectUrl);
         }
     }

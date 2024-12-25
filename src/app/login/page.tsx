@@ -11,6 +11,7 @@ import { auth, googleProvider } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import Cookies from "js-cookie";
+import { UserRoles } from "@/interfaces";
 
 const Page = () => {
   const isInitialRender = useRef(true);
@@ -47,7 +48,7 @@ const Page = () => {
 
           // Check for redirect query parameter
           const searchParams = new URLSearchParams(window.location.search);
-          const redirectTo = searchParams.get("redirect") || (res.data.user.role === "admin" ? "/admin/dashboard" : "/home");
+          const redirectTo = searchParams.get("redirect") || (res.data.user.role === UserRoles.USER ? "/" : "/admin/bookings");
 
           // Redirect user after successful login
           navigate.push(redirectTo);

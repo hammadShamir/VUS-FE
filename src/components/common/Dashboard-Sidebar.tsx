@@ -1,51 +1,43 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { BookmarkIcon, BellIcon, UserIcon, LogOutIcon } from "lucide-react";
+import { UserIcon, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
+import { adminDashboardMenus, userDashboardMenus } from "../../../public/assets/data/MenuLinks";
+import { useEffect, useState } from "react";
+import { DashboardMenuItem, UserRoles } from "@/interfaces";
+import { getUser } from "@/services/helper";
 
 export function DashboardSidebar() {
+  const [MenuLinks, SetMenuLinks] = useState<DashboardMenuItem[]>([]);
   const router = useRouter();
   const pathname = usePathname();
   const userSession = Cookies.get("user");
   const user = userSession && JSON.parse(userSession);
+
   const handleNavigation = (route: string) => {
     router.push(route);
   };
-  const navItems = [
-    {
-      title: "My Bookings",
-      href: "/my-booking",
-      icon: BookmarkIcon,
-      onclick: () => handleNavigation("/my-booking"),
-    },
-    {
-      title: "Notification",
-      href: "/notifications",
-      icon: BellIcon,
-    },
-    {
-      title: "Profile",
-      href: "/profile",
-      icon: UserIcon,
-      onclick: () => handleNavigation("/profile"),
-    },
-    {
-      title: "Logout",
-      href: "/logout",
-      icon: LogOutIcon,
-      onclick: () => {
-        const allCookies = Cookies.get();
-        for (const cookieName in allCookies) {
-          Cookies.remove(cookieName, { path: '/' });
-        }
-        router.push("/");
-      },
-    },
-  ];
+
+  const handleLogout = () => {
+    const allCookies = Cookies.get();
+    for (const cookieName in allCookies) {
+      Cookies.remove(cookieName, { path: '/' });
+    }
+    router.push("/");
+  }
+
+  useEffect(() => {
+    const role = getUser().role;
+    if (role === UserRoles.USER) {
+      SetMenuLinks(userDashboardMenus)
+    } else if (role === UserRoles.ADMIN) {
+      SetMenuLinks(adminDashboardMenus)
+    }
+  }, [])
   return (
     <>
       {/* Desktop Navigation */}
@@ -58,14 +50,14 @@ export function DashboardSidebar() {
           <span>{user?.email}</span>
         </div>
         <div className="flex-1 space-y-1 p-4">
-          {navItems.map((item) => {
+          {MenuLinks.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Button
                 key={item.href}
                 variant="ghost"
                 asChild
-                onClick={item.onclick}
+                onClick={() => handleNavigation(item.href)}
                 className={cn(
                   "cursor-pointer w-full justify-start gap-4 px-4 ",
                   isActive && "bg-background text-primary",
@@ -79,13 +71,27 @@ export function DashboardSidebar() {
               </Button>
             );
           })}
+          <Button
+            variant="ghost"
+            asChild
+            onClick={handleLogout}
+            className={cn(
+              "cursor-pointer w-full justify-start gap-4 px-4 ",
+              "text-background"
+            )}
+          >
+            <span>
+              <LogOutIcon className="h-5 w-5" />
+              Log Out
+            </span>
+          </Button>
         </div>
       </nav>
 
       {/* Mobile Navigation */}
       <nav className="fixed md:hidden inset-x-0 bottom-0 z-50 h-16 bg-primary border-t border-white/10">
         <div className="flex h-full items-center justify-around px-4">
-          {navItems.map((item) => {
+          {MenuLinks.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
