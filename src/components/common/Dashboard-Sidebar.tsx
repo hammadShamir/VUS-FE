@@ -26,6 +26,7 @@ export function DashboardSidebar() {
       title: "Notification",
       href: "/notifications",
       icon: BellIcon,
+      onclick: () => handleNavigation("/notifications"),
     },
     {
       title: "Profile",
@@ -40,7 +41,7 @@ export function DashboardSidebar() {
       onclick: () => {
         const allCookies = Cookies.get();
         for (const cookieName in allCookies) {
-          Cookies.remove(cookieName, { path: '/' });
+          Cookies.remove(cookieName, { path: "/" });
         }
         router.push("/");
       },
