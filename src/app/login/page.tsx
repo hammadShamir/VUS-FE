@@ -11,6 +11,7 @@ import { auth, googleProvider } from "@/services/firebase";
 import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import Cookies from "js-cookie";
+
 const Page = () => {
   const isInitialRender = useRef(true);
   const navigate = useRouter();
@@ -34,13 +35,9 @@ const Page = () => {
         if (token) {
           const res = await axiosService.post(
             "/auth/sign-in",
+            { email: values.email },
             {
-              email: values.email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+              headers: { Authorization: `Bearer ${token}` },
             }
           );
 
@@ -50,20 +47,15 @@ const Page = () => {
 
           // Check for redirect query parameter
           const searchParams = new URLSearchParams(window.location.search);
-          const redirectTo = searchParams.get("redirect");
+          const redirectTo = searchParams.get("redirect") || (res.data.user.role === "admin" ? "/admin/dashboard" : "/home");
 
-          // Navigate to the original page or default fallback
-          if (redirectTo) {
-            navigate.push(redirectTo); // Redirect to the original page
-          } else {
-            navigate.push("/"); // Default fallback (home page)
-          }
+          // Redirect user after successful login
+          navigate.push(redirectTo);
         }
       } finally {
         setLoading(false);
       }
     },
-
   });
 
   const handleGoogleSignIn = async () => {
@@ -71,22 +63,26 @@ const Page = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
       const res = await axiosService.post("/auth/google-sign-in", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       Cookies.set("token", res.data.token, { expires: 1 / 24 });
       Cookies.set("user", JSON.stringify(res.data.user), { expires: 1 / 24 });
-      navigate.push("/");
+
+      // Check for redirect query parameter
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirect") || (res.data.user.role === "admin" ? "/admin/dashboard" : "/home");
+
+      // Redirect user after successful login
+      navigate.push(redirectTo);
     } catch (error) {
       console.log(error);
     }
   };
+
   const handleFbLogin = async (email: string, password: string): Promise<string | void> => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const token = await userCredential.user.getIdToken(true);
-
       return token;
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
@@ -100,15 +96,15 @@ const Page = () => {
 
   const checkForMessage = () => {
     const searchParams = new URLSearchParams(window.location.search);
-    const message = searchParams.get('message');
+    const message = searchParams.get("message");
     if (message) {
       toast.error(message);
-      searchParams.delete('message');
+      searchParams.delete("message");
       const newUrl = searchParams.toString()
         ? `${window.location.pathname}?${searchParams.toString()}`
         : window.location.pathname;
 
-      window.history.replaceState(null, '', newUrl);
+      window.history.replaceState(null, "", newUrl);
     }
   };
 
