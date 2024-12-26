@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { FirebaseError } from "firebase/app";
 import Cookies from "js-cookie";
 import { getFirebaseErrorMessage } from "@/services/helper";
+import { UserRoles } from "@/interfaces";
+
 const Page = () => {
   const isInitialRender = useRef(true);
   const navigate = useRouter();
@@ -35,13 +37,9 @@ const Page = () => {
         if (token) {
           const res = await axiosService.post(
             "/auth/sign-in",
+            { email: values.email },
             {
-              email: values.email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+              headers: { Authorization: `Bearer ${token}` },
             }
           );
 
@@ -50,7 +48,7 @@ const Page = () => {
           Cookies.set("user", JSON.stringify(res.data.user), {
             expires: 1 / 24,
           });
-          navigateWithRedirectURL();
+          navigateWithRedirectURL(res.data.user.role);
         }
       } finally {
         setLoading(false);
@@ -73,7 +71,7 @@ const Page = () => {
       const redirectTo = searchParams.get("redirect");
       console.log(redirectTo, "test");
 
-      navigateWithRedirectURL();
+      navigateWithRedirectURL(res.data.user.role);
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +87,6 @@ const Page = () => {
         password
       );
       const token = await userCredential.user.getIdToken(true);
-
       return token;
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
@@ -102,17 +99,13 @@ const Page = () => {
     }
   };
 
-  const navigateWithRedirectURL = () => {
+  const navigateWithRedirectURL = (role: UserRoles) => {
     // Check for redirect query parameter
     const searchParams = new URLSearchParams(window.location.search);
-    const redirectTo = searchParams.get("redirect");
+    const redirectTo = searchParams.get("redirect") || (role === UserRoles.USER ? "/" : "/admin/bookings");
 
-    // Navigate to the original page or default fallback
-    if (redirectTo) {
-      navigate.push(redirectTo); // Redirect to the original page
-    } else {
-      navigate.push("/"); // Default fallback (home page)
-    }
+    // Redirect user after successful login
+    navigate.push(redirectTo);
   };
 
   const checkForMessage = () => {

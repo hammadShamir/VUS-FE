@@ -32,3 +32,20 @@ export const getFirebaseErrorMessage = (errorCode: FirebaseError): string => {
       return "An unknown error occurred. Please try again.";
   }
 };
+
+export const getUser = () => {
+    const user = Cookies.get("user");
+    if (user) {
+        try {
+            const storedUser = JSON.parse(user);
+            return storedUser
+        } catch (error) {
+            console.error("Error parsing user cookie:", error);
+            return undefined;
+        }
+    }
+}
+
+export const getToken = () => {
+    return Cookies.get('token')
+}

@@ -72,7 +72,7 @@ const Header = () => {
             <span className="inline lg:hidden">Book</span>
           </button>
           {authenticated ? (
-            <UserMenu onLogout={handleLogout} /> // Pass handleLogout as a prop
+            <UserMenu onLogout={handleLogout} />
           ) : (
             <Link href="/login" className="text-background hidden lg:inline">
               SIGN IN

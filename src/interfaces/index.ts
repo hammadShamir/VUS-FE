@@ -1,3 +1,4 @@
+import { LucideProps } from "lucide-react";
 import { SetStateAction } from "react";
 import { IconType } from 'react-icons'
 
@@ -56,3 +57,13 @@ export enum BookingStatus {
     complete = "Completed",
     cancelled = "Cancelled"
 }
+export enum UserRoles {
+    USER = "user",
+    ADMIN = "admin",
+    SUPERADMIN = "superAdmin"
+}
+export interface DashboardMenuItem {
+    title: string;
+    href: string;
+    icon: React.ComponentType<LucideProps>;
+};
