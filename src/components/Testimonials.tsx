@@ -5,14 +5,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Autoplay } from "swiper/modules";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { Swiper as SwiperType } from "swiper";
-import { Testimonial } from "@/interfaces/Testimonials";
 import Rating from "@/components/ui/Rating";
 import Container from "./common/Container";
 import { axiosService } from "@/services/axios";
 
 export default function Testimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiperKey, setSwiperKey] = useState(0); // Key to force re-render on resize
+  const [swiperKey, setSwiperKey] = useState(0); 
   const swiperRef = useRef<SwiperType | null>(null);
   const [reviews, setReviews] = useState<any[]>();
 

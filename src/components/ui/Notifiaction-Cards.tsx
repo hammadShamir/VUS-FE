@@ -1,9 +1,9 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle, Info, Calendar, CheckCheck } from "lucide-react";
-import { Button } from "./button";
 import { NotificationCardProps } from "@/interfaces/notifications";
+import { NotificationStatus } from "@/interfaces";
+import { ReactNode } from "react";
 
 export function NotificationCard({
   type,
@@ -13,27 +13,29 @@ export function NotificationCard({
   key,
   onClose,
 }: NotificationCardProps) {
-  const iconMap: any = {
+  const iconMap: Record<NotificationStatus, ReactNode> = {
     success: <CheckCircle className="h-6 w-6 text-green-600" />,
     danger: <XCircle className="h-6 w-6 text-red-600" />,
     booking: <Calendar className="h-6 w-6 text-blue-600" />,
     default: <Info className="h-6 w-6 text-gray-600" />,
   };
 
-  const borderColorMap: any = {
+  const borderColorMap: Record<NotificationStatus, string> = {
     success: "border-green-300",
     danger: "border-red-300",
     booking: "border-blue-300",
     default: "border-gray-300",
   };
-
+  const icon = iconMap[type as NotificationStatus] || iconMap.default;
+  const borderColor =
+    borderColorMap[type as NotificationStatus] || borderColorMap.default;
   return (
     <Card
       key={key}
-      className={`mb-4 border group/item ${borderColorMap[type]} bg-accentColor relative hover:shadow-md hover:ring-1 hover:ring-gray-300 transition-shadow duration-200`}
+      className={`mb-4 border group/item ${borderColor} dark:bg-accentColor relative hover:shadow-md hover:ring-1 hover:ring-gray-300 transition-shadow duration-200`}
     >
       <CardContent className="flex items-start p-4 ">
-        <div className="mr-4 mt-1">{iconMap[type]}</div>
+        <div className="mr-4 mt-1">{icon}</div>
         <div className="flex-1">
           <div className="flex justify-between items-start mb-1">
             <h3 className="font-semibold text-primary ">{title}</h3>

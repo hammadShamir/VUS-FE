@@ -1,6 +1,7 @@
 import { LucideProps } from "lucide-react";
 import { SetStateAction } from "react";
 import { IconType } from 'react-icons'
+import { IBookingUser } from "./Auth";
 
 export interface IHamBurger {
     isOpen: boolean;
@@ -46,6 +47,7 @@ export interface IBooking {
     adults: number;
     children: number;
     status: string;
+    amount: number;
     createdAt: string;
     __v: number;
 }
@@ -57,6 +59,26 @@ export enum BookingStatus {
     complete = "Completed",
     cancelled = "Cancelled"
 }
+
+export interface IAdminBookingTable {
+    _id: string;
+    userName: string;
+    userEmail: string;
+    phone: string;
+    checkIn: string;
+    checkOut: string;
+    rooms: string;
+    adults: string;
+    children: number;
+    amount: number;
+    status: BookingStatus;
+    userId: IBookingUser
+}
+export interface IBookingTable {
+    bookings: IAdminBookingTable[];
+    loading: boolean;
+    error: boolean
+}
 export enum UserRoles {
     USER = "user",
     ADMIN = "admin",
@@ -67,3 +89,5 @@ export interface DashboardMenuItem {
     href: string;
     icon: React.ComponentType<LucideProps>;
 };
+
+export type NotificationStatus = "success" | "danger" | "booking" | "default";

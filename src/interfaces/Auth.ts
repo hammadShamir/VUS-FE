@@ -13,3 +13,11 @@ export interface ISignUP extends ISingIN {
 export interface UserMenuProps {
     onLogout: () => void;
 }
+
+
+export interface IBookingUser {
+    _id: string;
+    fullName: string;
+    email: string;
+    phone: number
+}

@@ -2,10 +2,9 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { UserCircle, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 const validationSchema = Yup.object({
   firstName: Yup.string()

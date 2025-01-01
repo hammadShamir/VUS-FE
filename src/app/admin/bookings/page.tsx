@@ -12,11 +12,12 @@ import { ChevronDown } from "lucide-react";
 
 import { Button } from '@/components/ui/button';
 import { BookingStatus } from '../../../../public/assets/data/Booking';
-import { IBooking } from '@/interfaces';
+import { IAdminBookingTable } from '@/interfaces';
 import { axiosService } from '@/services/axios';
 import { getToken } from '@/services/helper';
+import BookingsTable from '@/components/BookingTable';
 const Page = () => {
-    const [bookings, setBookings] = useState<IBooking[]>([]);
+    const [bookings, setBookings] = useState<IAdminBookingTable[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
     const [status, setStatus] = useState<string>('Pending');
@@ -29,6 +30,7 @@ const Page = () => {
                 },
             });
             setBookings(response.data);
+            console.log(bookings)
         } catch (error) {
             console.log(error)
             setIsError(true);
@@ -38,10 +40,10 @@ const Page = () => {
     };
     useEffect(() => {
         fetchBookings();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status])
-    console.log(bookings)
     return (
-        <div className='w-full'>
+        <div className='w-full space-y-6'>
             <div className='flex justify-between items-center'>
                 <h3 className='font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl'>Bookings</h3>
                 <DropdownMenu>
@@ -66,6 +68,7 @@ const Page = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            <BookingsTable bookings={bookings} loading={isLoading} error={isError} />
         </div>
     )
 }
