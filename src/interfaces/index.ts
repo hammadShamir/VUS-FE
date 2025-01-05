@@ -1,93 +1,129 @@
 import { LucideProps } from "lucide-react";
 import { SetStateAction } from "react";
-import { IconType } from 'react-icons'
+import { IconType } from "react-icons";
 import { IBookingUser } from "./Auth";
 
 export interface IHamBurger {
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<SetStateAction<boolean>>
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ISidebar extends IHamBurger {
-    isScrolled?: boolean
+  isScrolled?: boolean;
 }
-
 
 // ROOMS
 
 interface Amenity {
-    icon: IconType
-    label: string
-    description: string
+  icon: IconType;
+  label: string;
+  description: string;
 }
 
 export interface RoomDescriptionProps {
-    title: string
-    description: string
-    imageSrc: string
-    imagePosition?: 'left' | 'right'
-    bgColor: string
-    amenities: Amenity[]
+  title: string;
+  description: string;
+  imageSrc: string;
+  imagePosition?: "left" | "right";
+  bgColor: string;
+  amenities: Amenity[];
 }
-
 
 export interface IDatePicker {
-    placeholder: string
-    selectedDate: Date | string | null;
-    onDateChange: (date: Date | null) => void;
-    disabledDates?: Date[];
+  placeholder: string;
+  selectedDate: Date | string | null;
+  onDateChange: (date: Date | null) => void;
+  disabledDates?: Date[];
 }
 export interface IBooking {
-    _id: string;
-    uuid: string;
-    transactionId: string;
-    checkIn: string;
-    checkOut: string;
-    rooms: number;
-    adults: number;
-    children: number;
-    status: string;
-    amount: number;
-    createdAt: string;
-    __v: number;
+  _id: string;
+  uuid: string;
+  transactionId: string;
+  checkIn: string;
+  checkOut: string;
+  rooms: number;
+  adults: number;
+  children: number;
+  status: string;
+  amount: number;
+  createdAt: string;
+  __v: number;
 }
 
 export enum BookingStatus {
-    pending = "Pending",
-    approved = "Approved",
-    rejected = "Rejected",
-    complete = "Completed",
-    cancelled = "Cancelled"
+  pending = "Pending",
+  approved = "Approved",
+  rejected = "Rejected",
+  complete = "Completed",
+  cancelled = "Cancelled",
+}
+export enum status {
+  active = "Active",
+  inactive = "Inactive",
 }
 
 export interface IAdminBookingTable {
-    _id: string;
-    userName: string;
-    userEmail: string;
-    phone: string;
-    checkIn: string;
-    checkOut: string;
-    rooms: string;
-    adults: string;
-    children: number;
-    amount: number;
-    status: BookingStatus;
-    userId: IBookingUser
+  _id: string;
+  userName: string;
+  userEmail: string;
+  phone: string;
+  checkIn: string;
+  checkOut: string;
+  rooms: string;
+  adults: string;
+  children: number;
+  amount: number;
+  status: BookingStatus;
+  userId: IBookingUser;
 }
+export interface IAdminReviewsTable {
+  _id: string;
+  author: string;
+  authorPic: string;
+  rating: number;
+  isActive: boolean;
+  description: string;
+  date: string | Date;
+  isSubmitted?: boolean;
+}
+
+export interface IAdminPostsTable {
+  _id: string;
+  caption: string;
+  imgUrl: string;
+  isActive?: boolean;
+  date?: string | Date;
+  postId: string;
+  isSubmitted?: boolean;
+}
+
 export interface IBookingTable {
-    bookings: IAdminBookingTable[];
-    loading: boolean;
-    error: boolean
+  bookings: IAdminBookingTable[];
+  loading: boolean;
+  error: boolean;
+}
+
+export interface IReviewTable {
+  reviews: IAdminReviewsTable[];
+  onUpdate: ({}) => void;
+  loading: boolean;
+  error: boolean;
+}
+export interface IPostsTable {
+  instagramPosts: IAdminPostsTable[];
+  onUpdate: ({}) => void;
+  loading: boolean;
+  error: boolean;
 }
 export enum UserRoles {
-    USER = "user",
-    ADMIN = "admin",
-    SUPERADMIN = "superAdmin"
+  USER = "user",
+  ADMIN = "admin",
+  SUPERADMIN = "superAdmin",
 }
 export interface DashboardMenuItem {
-    title: string;
-    href: string;
-    icon: React.ComponentType<LucideProps>;
-};
+  title: string;
+  href: string;
+  icon: React.ComponentType<LucideProps>;
+}
 
 export type NotificationStatus = "success" | "danger" | "booking" | "default";

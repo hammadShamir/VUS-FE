@@ -102,7 +102,9 @@ const Page = () => {
   const navigateWithRedirectURL = (role: UserRoles) => {
     // Check for redirect query parameter
     const searchParams = new URLSearchParams(window.location.search);
-    const redirectTo = searchParams.get("redirect") || (role === UserRoles.USER ? "/" : "/admin/bookings");
+    const redirectTo =
+      searchParams.get("redirect") ||
+      (role === UserRoles.USER ? "/" : "/admin/bookings");
 
     // Redirect user after successful login
     navigate.push(redirectTo);
