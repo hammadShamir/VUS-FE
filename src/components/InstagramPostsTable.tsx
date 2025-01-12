@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
-import { IPostsTable } from "@/interfaces";
+import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { IAdminPostsTable, IPostsTable } from "@/interfaces";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { status as postStatus } from "@/interfaces";
+import { ViewPostModal } from "./modal-components/View-Post-Modal";
+import { useModal } from "@/context/Modal";
 
 const InstagramPostsTable: React.FC<IPostsTable> = ({
   instagramPosts,
@@ -31,6 +33,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const { showModal } = useModal();
   const itemsPerPage = 5;
 
   //   const statusStyles: Record<string, string> = {
@@ -54,8 +57,21 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
     });
   };
 
+  const ViewPostInstagramModal = (post: IAdminPostsTable) => {
+    showModal(
+      <ViewPostModal post={post} />,
+      "View Post"
+      // (result) => {
+      //   if (result) {
+      //     // fetchBookings();
+      //     // Perform actions or API calls here
+      //   }
+      // }
+    );
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 my-4">
       <div className="rounded-md border overflow-hidden">
         <Table>
           <TableHeader>
@@ -64,7 +80,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
               <TableHead>Post Picture</TableHead>
               <TableHead>Caption</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -99,7 +115,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
                       {post.isActive ? "Active" : "In Active"}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="items-center flex">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -123,6 +139,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
                         })}
                       </DropdownMenuContent>
                     </DropdownMenu>
+                    <Eye onClick={() => ViewPostInstagramModal(post)} />
                   </TableCell>
                 </TableRow>
               ))

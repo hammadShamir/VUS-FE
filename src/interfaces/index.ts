@@ -76,6 +76,14 @@ export interface IAdminBookingTable {
   status: BookingStatus;
   userId: IBookingUser;
 }
+export interface IAdminManagementTable {
+  _id: string;
+  uuid?: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  isActive?: boolean;
+}
 export interface IAdminReviewsTable {
   _id: string;
   author: string;
@@ -103,6 +111,12 @@ export interface IBookingTable {
   error: boolean;
 }
 
+export interface IAdminManagementMainTable {
+  admins: IAdminManagementTable[];
+  loading: boolean;
+  error: boolean;
+  onUpdate: ({}) => void;
+}
 export interface IReviewTable {
   reviews: IAdminReviewsTable[];
   onUpdate: ({}) => void;

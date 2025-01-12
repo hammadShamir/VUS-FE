@@ -19,11 +19,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
-import { IReviewTable } from "@/interfaces";
+import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { IAdminReviewsTable, IReviewTable } from "@/interfaces";
 import { status as reviewStatus } from "@/interfaces";
+import { ReviewDetailsModal } from "./modal-components/View-Review-Modal";
+import { useModal } from "@/context/Modal";
 
 const ReviewsTable: React.FC<IReviewTable> = (props) => {
+  const { showModal } = useModal();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -49,6 +52,18 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
       _id: ReviewId,
       isActive: newStatus === reviewStatus.active,
     });
+  };
+  const viewReviewModal = (review: IAdminReviewsTable) => {
+    showModal(
+      <ReviewDetailsModal review={review} />,
+      "View Review"
+      // (result) => {
+      //   if (result) {
+      //     // fetchBookings();
+      //     // Perform actions or API calls here
+      //   }
+      // }
+    );
   };
 
   return (
@@ -83,7 +98,10 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
                 <TableRow key={Review._id}>
                   <TableCell className="font-medium">{i + 1}</TableCell>
                   <TableCell>{Review.author}</TableCell>
-                  <TableCell>{Review.description}</TableCell>
+                  <TableCell>
+                    {Review.description.split(" ").slice(0, 20).join(" ")}
+                    {Review.description.split(" ").length > 20 ? "..." : ""}
+                  </TableCell>
 
                   <TableCell>{Review.rating}</TableCell>
 
@@ -92,30 +110,37 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
                       {Review.isActive ? "Active" : "In Active"}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        {[...Object.values(reviewStatus)].map((item, index) => {
-                          return (
-                            <DropdownMenuItem
-                              key={index}
-                              onClick={() =>
-                                updateReviewStatus(Review._id, item)
-                              }
-                            >
-                              <span>{item}</span>
-                            </DropdownMenuItem>
-                          );
-                        })}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  <TableCell className="text-right flex justify-center items-center">
+                    <div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          {[...Object.values(reviewStatus)].map(
+                            (item, index) => {
+                              return (
+                                <DropdownMenuItem
+                                  key={index}
+                                  onClick={() =>
+                                    updateReviewStatus(Review._id, item)
+                                  }
+                                >
+                                  <span>{item}</span>
+                                </DropdownMenuItem>
+                              );
+                            }
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <div>
+                      <Eye onClick={() => viewReviewModal(Review)} />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))

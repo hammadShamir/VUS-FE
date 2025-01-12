@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { JSX, useState } from "react";
 import {
   Table,
   TableBody,
@@ -19,11 +19,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
-import { BookingStatus, IBookingTable } from "@/interfaces";
+import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { BookingStatus, IAdminBookingTable, IBookingTable } from "@/interfaces";
 import { cn } from "@/lib/utils";
+import ReviewCards from "./ReviewCards";
+import { useModal } from "@/context/Modal";
+import { BookingDetailsModal } from "./modal-components/View-Booking-Modal";
+import BookingStatusBadge from "./Booking-Status";
 
 const BookingsTable: React.FC<IBookingTable> = (props) => {
+  const { showModal } = useModal();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -58,6 +63,18 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
   const updateBookingStatus = (bookingId: string, newStatus: string) => {
     // Implement the logic to update the booking status
     console.log(`Updating booking ${bookingId} to ${newStatus}`);
+  };
+  const viewBooking = (booking: IAdminBookingTable) => {
+    showModal(
+      <BookingDetailsModal booking={booking} />,
+      "View Booking",
+      (result) => {
+        if (result) {
+          // fetchBookings();
+          // Perform actions or API calls here
+        }
+      }
+    );
   };
 
   return (
@@ -116,14 +133,9 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                     <TableCell>{formatDate(booking.checkIn)}</TableCell>
                     <TableCell>{formatDate(booking.checkOut)}</TableCell>
                     <TableCell>
-                      <Badge
-                        variant="secondary"
-                        className={cn(statusStyles[booking.status])}
-                      >
-                        {booking.status}
-                      </Badge>
+                      <BookingStatusBadge status={booking.status} />
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right flex items-center">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -149,6 +161,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
+                      <Eye onClick={() => viewBooking(booking)} />
                     </TableCell>
                   </TableRow>
                 ))

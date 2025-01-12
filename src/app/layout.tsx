@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "swiper/css";
 import "swiper/css/pagination";
 import "react-phone-number-input/style.css";
+import { ModalProvider } from "@/context/Modal";
 
 export const metadata: Metadata = {
   title: "Umah Shanti",
@@ -19,7 +20,9 @@ export default async function RootLayout({
   return (
     <html>
       <body className={`${primary.variable} ${secondary.variable} antialiased`}>
-        <main className="min-h-screen">{children}</main>
+        <ModalProvider>
+          <main className="min-h-screen">{children}</main>
+        </ModalProvider>
         <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
