@@ -17,6 +17,8 @@ const BookingStatusBadge = ({ status }: any) => {
     [BookingStatus.rejected]: "text-red-500 bg-red-100 dark:border-red-100",
     [BookingStatus.complete]: "text-blue-500 bg-blue-100 dark:border-blue-100",
     [BookingStatus.cancelled]: "text-gray-500 bg-gray-100 dark:border-gray-100",
+    [BookingStatus.active]: "text-blue-500 bg-blue-100 dark:border-blue-100",
+    [BookingStatus.inactive]: "text-yellow-500 bg-yellow-100 dark:border-yellow-100",
   };
 
   return (

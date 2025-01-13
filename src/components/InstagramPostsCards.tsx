@@ -65,12 +65,12 @@ export default function InstagramCard() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="mb-8">
+    <div className="container mx-auto">
+      <div className="mb-4">
         <h1 className="text-2xl text-primary font-bold">Instagram Posts</h1>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-4">
         {posts?.map((post, i) => (
           <Card key={i} className="w-full">
             <CardHeader>

@@ -24,6 +24,7 @@ import { IAdminReviewsTable, IReviewTable } from "@/interfaces";
 import { status as reviewStatus } from "@/interfaces";
 import { ReviewDetailsModal } from "./modal-components/View-Review-Modal";
 import { useModal } from "@/context/Modal";
+import BookingStatusBadge from "./Booking-Status";
 
 const ReviewsTable: React.FC<IReviewTable> = (props) => {
   const { showModal } = useModal();
@@ -105,10 +106,11 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
 
                   <TableCell>{Review.rating}</TableCell>
 
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {Review.isActive ? "Active" : "In Active"}
-                    </Badge>
+                  <TableCell>             
+                      {Review.isActive ?
+                        <BookingStatusBadge status={'Active'} />
+                        :
+                        <BookingStatusBadge status={'Inactive'} />}
                   </TableCell>
                   <TableCell className="text-right flex justify-center items-center">
                     <div>

@@ -24,6 +24,7 @@ import { useState } from "react";
 import { status as postStatus } from "@/interfaces";
 import { ViewPostModal } from "./modal-components/View-Post-Modal";
 import { useModal } from "@/context/Modal";
+import BookingStatusBadge from "./Booking-Status";
 
 const InstagramPostsTable: React.FC<IPostsTable> = ({
   instagramPosts,
@@ -111,9 +112,10 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
                   <TableCell>{post.caption}</TableCell>
 
                   <TableCell>
-                    <Badge variant="secondary">
-                      {post.isActive ? "Active" : "In Active"}
-                    </Badge>
+                      {post.isActive ?
+                        <BookingStatusBadge status={"Active"} />
+                        :
+                        <BookingStatusBadge status={"Inactive"} />}
                   </TableCell>
                   <TableCell className="items-center flex">
                     <DropdownMenu>

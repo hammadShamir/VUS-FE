@@ -56,6 +56,8 @@ export enum BookingStatus {
   rejected = "Rejected",
   complete = "Completed",
   cancelled = "Cancelled",
+  active = "Active",
+  inactive = "Inactive",
 }
 export enum status {
   active = "Active",

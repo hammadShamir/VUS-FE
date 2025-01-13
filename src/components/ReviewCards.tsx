@@ -58,15 +58,15 @@ export default function ReviewCards() {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="container mx-auto">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl text-primary font-bold">Google Reviews</h1>
       </div>
 
       {/* Updated grid layout */}
-      <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-4">
         {googleReviews?.map((review, index) => (
-          <Card key={index} className="flex flex-col w-full">
+          <Card key={index} className="flex flex-col w-full dark:bg-background dark:border-background dark:shadow-md">
             <CardHeader>
               <div className="flex items-start space-x-4">
                 <Avatar>
@@ -91,7 +91,7 @@ export default function ReviewCards() {
             </CardHeader>
             <CardContent className="flex-grow">
               <p className={`text-gray-600 ${"text-base"}`}>
-                {review.description}
+                {review.description.slice(0,200)}...
               </p>
             </CardContent>
             <CardFooter>
@@ -104,7 +104,7 @@ export default function ReviewCards() {
                 </Button>
               ) : (
                 <Button
-                  className="w-full border border-primary text-primary"
+                  className="w-full border dark:border-primary dark:text-primary"
                   variant="outline"
                   disabled
                 >

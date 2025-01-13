@@ -53,7 +53,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
             className="fixed inset-0 bg-black opacity-50"
             onClick={() => hideModal(false)} // Close without submission
           ></div>
-          <div className="relative bg-background text-foreground  mt-20 rounded-md shadow-md z-10 max-w-xl w-full sm:mx-4 dark:bg-black">
+          <div className="relative bg-background text-foreground  mt-20 rounded-md shadow-md z-10 max-w-xl w-full sm:mx-4 dark:bg-background">
             {title && (
               <div className="flex justify-between bg-primary items-center rounded-t-md p-4 border-b border-gray-200">
                 <h3 className="text-lg font-semibold text-background dark:text-white">
