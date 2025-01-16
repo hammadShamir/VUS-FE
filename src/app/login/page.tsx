@@ -39,7 +39,7 @@ const Page = () => {
             "/auth/sign-in",
             { email: values.email },
             {
-              headers: { Authorization: `Bearer ${token}` },
+              headers: { Authorization: token },
             }
           );
 
@@ -62,7 +62,7 @@ const Page = () => {
       const token = await result.user.getIdToken();
       const res = await axiosService.post("/auth/google-sign-in", undefined, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         },
       });
       Cookies.set("token", res.data.token, { expires: 1 / 24 });

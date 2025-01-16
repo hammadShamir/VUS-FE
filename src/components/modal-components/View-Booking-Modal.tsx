@@ -10,13 +10,23 @@ import {
   CreditCard,
 } from "lucide-react";
 import BookingStatusBadge from "../Booking-Status";
-import { IAdminBookingTable } from "@/interfaces";
+import { BookingStatus, IAdminBookingTable } from "@/interfaces";
+import { axiosService } from "@/services/axios";
+import { useModal } from "@/context/Modal";
 
 export function BookingDetailsModal({
   booking,
 }: {
   booking: IAdminBookingTable;
 }) {
+  const { hideModal } = useModal();
+  const handleUpdateBooking = async (status: BookingStatus) => {
+    axiosService.put(`update-booking/${booking._id}`, {
+      status,
+    });
+    hideModal(true);
+  };
+
   return (
     <div className="space-y-6 my-6">
       {/* Guest Information */}
@@ -82,6 +92,28 @@ export function BookingDetailsModal({
           </div>
           <BookingStatusBadge status={booking.status} />
         </div>
+        {booking.status === BookingStatus.pending && (
+          <div className="col-span-2 flex justify-end self-end">
+            <Button
+              onClick={() => {
+                handleUpdateBooking(BookingStatus.approved);
+              }}
+              className="bg-green-600 text-background mr-2"
+              variant={"outline"}
+            >
+              Approve
+            </Button>
+            <Button
+              onClick={() => {
+                handleUpdateBooking(BookingStatus.rejected);
+              }}
+              className="bg-red-600 text-background"
+              variant={"outline"}
+            >
+              Reject
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

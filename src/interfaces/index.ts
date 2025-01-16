@@ -111,6 +111,7 @@ export interface IBookingTable {
   bookings: IAdminBookingTable[];
   loading: boolean;
   error: boolean;
+  onUpdate: () => void;
 }
 
 export interface IAdminManagementMainTable {
@@ -134,7 +135,7 @@ export interface IPostsTable {
 export enum UserRoles {
   USER = "user",
   ADMIN = "admin",
-  SUPERADMIN = "superAdmin",
+  SUB_ADMIN = "sub-admin",
 }
 export interface DashboardMenuItem {
   title: string;

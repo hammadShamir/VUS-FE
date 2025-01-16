@@ -41,6 +41,10 @@ const Page = () => {
       setIsLoading(false);
     }
   };
+
+  const onUpdate = () => {
+    fetchBookings();
+  };
   useEffect(() => {
     fetchBookings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +77,12 @@ const Page = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <BookingsTable bookings={bookings} loading={isLoading} error={isError} />
+      <BookingsTable
+        onUpdate={onUpdate}
+        bookings={bookings}
+        loading={isLoading}
+        error={isError}
+      />
     </div>
   );
 };

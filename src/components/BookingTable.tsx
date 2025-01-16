@@ -70,8 +70,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
       "View Booking",
       (result) => {
         if (result) {
-          // fetchBookings();
-          // Perform actions or API calls here
+          props.onUpdate();
         }
       }
     );
@@ -136,31 +135,6 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                       <BookingStatusBadge status={booking.status} />
                     </TableCell>
                     <TableCell className="text-right flex items-center">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              updateBookingStatus(booking._id, "Approved")
-                            }
-                          >
-                            Approve
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              updateBookingStatus(booking._id, "Rejected")
-                            }
-                          >
-                            Reject
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
                       <Eye onClick={() => viewBooking(booking)} />
                     </TableCell>
                   </TableRow>

@@ -20,20 +20,26 @@ import { IAdminManagementTable } from "@/interfaces";
 import AdminManagementTable from "@/components/AdminTable";
 import AdminModalForm from "@/components/modal-components/Add-Admin-Modal";
 import { useModal } from "@/context/Modal";
+import { status as UserStatus } from "@/interfaces";
 const Page = () => {
   const { showModal } = useModal();
   const [admins, setadmins] = useState<IAdminManagementTable[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>("Pending");
+  const [status, setStatus] = useState<string>("");
   const fetchadmins = async () => {
     try {
       setIsLoading(true);
-      const response = await axiosService.get(`get-users?status=${status}`, {
-        headers: {
-          Authorization: getToken() || "",
-        },
-      });
+      const response = await axiosService.get(
+        `/get-sub-admins${
+          status ? `?isActive=${status === UserStatus.active}` : ""
+        }`,
+        {
+          headers: {
+            Authorization: getToken() || "",
+          },
+        }
+      );
       setadmins(response.data);
       console.log(admins);
     } catch (error) {
@@ -44,7 +50,7 @@ const Page = () => {
     }
   };
   const onUpdate = async (payload: Partial<IAdminManagementTable>) => {
-    await axiosService.put(`/update/user-status/${payload._id}`, payload, {
+    await axiosService.put(`/auth/update-user-status/${payload._id}`, payload, {
       headers: {
         Authorization: getToken() || "",
       },
@@ -58,8 +64,8 @@ const Page = () => {
   const addAdmin = () => {
     showModal(<AdminModalForm />, "Add Sub Admin", (result) => {
       if (result) {
-        // fetchBookings();
-        // Perform actions or API calls here
+        console.log(result, "123");
+        fetchadmins();
       }
     });
   };
@@ -84,7 +90,7 @@ const Page = () => {
                 <DropdownMenuItem onClick={() => setStatus("")}>
                   All
                 </DropdownMenuItem>
-                {[...Object.values(adminStatus)].map((item, index) => {
+                {[...Object.values(UserStatus)].map((item, index) => {
                   return (
                     <DropdownMenuItem
                       key={index}

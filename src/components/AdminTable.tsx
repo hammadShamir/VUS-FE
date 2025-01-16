@@ -28,6 +28,7 @@ import { useModal } from "@/context/Modal";
 import { status as userStatus } from "@/interfaces";
 
 import { Badge } from "./ui/badge";
+import BookingStatusBadge from "./Booking-Status";
 const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
   const { showModal } = useModal();
   const [searchTerm, setSearchTerm] = useState("");
@@ -72,7 +73,7 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+                <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -97,11 +98,13 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.phone}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary">
-                        {user.isActive ? "Active" : "In Active"}
-                      </Badge>
+                      {user.isActive ? (
+                        <BookingStatusBadge status={"Active"} />
+                      ) : (
+                        <BookingStatusBadge status={"Inactive"} />
+                      )}
                     </TableCell>
-                    <TableCell className="text-right flex items-center">
+                    <TableCell className="text-right flex items-center ">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -116,14 +119,14 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
                               handleUpdateUserStatus(user._id, "Active")
                             }
                           >
-                            Activate
+                            Active
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() =>
                               handleUpdateUserStatus(user._id, "Inactive")
                             }
                           >
-                            Deactivate
+                            In Active
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

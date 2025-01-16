@@ -64,7 +64,7 @@ const Page = () => {
         if (token) {
           await axiosService.post("/auth/sign-up", payload, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: token,
             },
           });
           await sendVerificationEmail();

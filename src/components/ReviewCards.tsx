@@ -9,12 +9,15 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Plus, Star } from "lucide-react";
+import { Eye, Plus, Star } from "lucide-react";
 import { getToken } from "@/services/helper";
 import { axiosService } from "@/services/axios";
 import { IAdminReviewsTable } from "@/interfaces";
+import { ReviewDetailsModal } from "./modal-components/View-Review-Modal";
+import { useModal } from "@/context/Modal";
 
 export default function ReviewCards() {
+  const { showModal } = useModal();
   const [googleReviews, setGoogleReviews] = useState<IAdminReviewsTable[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -35,6 +38,18 @@ export default function ReviewCards() {
     } finally {
       setIsLoading(false);
     }
+  };
+  const viewReviewModal = (review: IAdminReviewsTable) => {
+    showModal(
+      <ReviewDetailsModal review={review} />,
+      "View Review"
+      // (result) => {
+      //   if (result) {
+      //     // fetchBookings();
+      //     // Perform actions or API calls here
+      //   }
+      // }
+    );
   };
 
   useEffect(() => {
@@ -66,7 +81,10 @@ export default function ReviewCards() {
       {/* Updated grid layout */}
       <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-4">
         {googleReviews?.map((review, index) => (
-          <Card key={index} className="flex flex-col w-full dark:bg-background dark:border-background dark:shadow-md">
+          <Card
+            key={index}
+            className="flex flex-col w-full dark:bg-background dark:border-background dark:shadow-md"
+          >
             <CardHeader>
               <div className="flex items-start space-x-4">
                 <Avatar>
@@ -91,7 +109,7 @@ export default function ReviewCards() {
             </CardHeader>
             <CardContent className="flex-grow">
               <p className={`text-gray-600 ${"text-base"}`}>
-                {review.description.slice(0,200)}...
+                {review.description.slice(0, 200)}...
               </p>
             </CardContent>
             <CardFooter>
@@ -110,7 +128,13 @@ export default function ReviewCards() {
                 >
                   Already Added
                 </Button>
-              )}
+              )}{" "}
+              <Button
+                onClick={() => viewReviewModal(review)}
+                className="text-2xl mx-2 bg-primary"
+              >
+                <Eye className="text-white" />
+              </Button>
             </CardFooter>
           </Card>
         ))}

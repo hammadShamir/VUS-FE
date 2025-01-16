@@ -21,8 +21,10 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = Cookies.get("token");
-    if (token) {
+    if (token && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      config.headers.Authorization = `Bearer ${config.headers.Authorization}`;
     }
     return config;
   },
