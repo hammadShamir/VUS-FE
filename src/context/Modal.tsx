@@ -65,7 +65,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
                 </div>
               </div>
             )}
-            <div className="overflow-y-auto mx-8  max-h-[450px]">{content}</div>
+            <div className="overflow-y-auto  max-h-[450px] p-4">{content}</div>
           </div>
         </div>
       )}

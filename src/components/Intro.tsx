@@ -6,7 +6,7 @@ export default function IntroSection() {
     <Container style="py-8">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Left side - Main content */}
-        <div className="lg:w-[60%] space-y-6">
+        <div data-aos="fade-right" className="lg:w-[60%] space-y-6">
           <h2 className="text-sm font-[family-name:var(--font-secondary)] uppercase tracking-wider text-foreground">
             INTRODUCTION
           </h2>
@@ -25,7 +25,7 @@ export default function IntroSection() {
         </div>
 
         {/* Right side - Image and description */}
-        <div className="lg:w-[40%] space-y-6">
+        <div data-aos="fade-left" className="lg:w-[40%] space-y-6">
           <div className="relative overflow-hidden aspect-square rounded-xl">
             <Image
               src="/assets/img/front/img-1.png"
