@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { UserRoles } from "./interfaces";
 
 export function middleware(request: NextRequest) {
     // Extract token and user cookies
@@ -30,7 +29,22 @@ export function middleware(request: NextRequest) {
     const adminPages = ["/admin/bookings", "/admin/admins", "/admin/reviews", "/admin/feeds"];
     const userPages = ["/my-booking", "/profile"];
 
-   
+    if (adminPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
+        if (role !== "admin") {
+            // Non-admin trying to access admin pages
+            const redirectUrl = new URL("/", request.nextUrl.origin);
+            return NextResponse.redirect(redirectUrl);
+        }
+    }
+
+    if (userPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
+        if (role !== "user") {
+            // Admin trying to access user-specific pages
+            const redirectUrl = new URL("/admin/dashboard", request.nextUrl.origin);
+            redirectUrl.searchParams.set("message", "User Access Required");
+            return NextResponse.redirect(redirectUrl);
+        }
+    }
 
     // Allow access if no restrictions apply
     return NextResponse.next();
