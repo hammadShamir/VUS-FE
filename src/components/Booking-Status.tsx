@@ -1,14 +1,10 @@
 "use client";
 import React from "react";
-import BookingForm from "./BookingForm";
-import CustomCalender from "./ui/Custom-calendar";
-import { axiosService } from "@/services/axios";
-import Container from "./common/Container";
 import { BookingStatus } from "@/interfaces";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 
-const BookingStatusBadge = ({ status }: any) => {
+const BookingStatusBadge = ({ status }: { status: BookingStatus }) => {
   const statusStyles: Record<string, string> = {
     [BookingStatus.pending]:
       "text-yellow-500 bg-yellow-100 dark:border-yellow-100",
@@ -18,7 +14,8 @@ const BookingStatusBadge = ({ status }: any) => {
     [BookingStatus.complete]: "text-blue-500 bg-blue-100 dark:border-blue-100",
     [BookingStatus.cancelled]: "text-gray-500 bg-gray-100 dark:border-gray-100",
     [BookingStatus.active]: "text-blue-500 bg-blue-100 dark:border-blue-100",
-    [BookingStatus.inactive]: "text-yellow-500 bg-yellow-100 dark:border-yellow-100",
+    [BookingStatus.inactive]:
+      "text-yellow-500 bg-yellow-100 dark:border-yellow-100",
   };
 
   return (

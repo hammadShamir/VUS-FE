@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import ReviewCards from "@/components/ReviewCards";
+import React from "react";
 import InstagramCard from "@/components/InstagramPostsCards";
 
 const Page = () => {

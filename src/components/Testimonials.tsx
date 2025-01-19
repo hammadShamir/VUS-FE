@@ -8,12 +8,13 @@ import { Swiper as SwiperType } from "swiper";
 import Rating from "@/components/ui/Rating";
 import Container from "./common/Container";
 import { axiosService } from "@/services/axios";
+import { IAdminReviewsTable } from "@/interfaces";
 
 export default function Testimonials() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [swiperKey, setSwiperKey] = useState(0); 
+  const [swiperKey, setSwiperKey] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
-  const [reviews, setReviews] = useState<any[]>();
+  const [reviews, setReviews] = useState<IAdminReviewsTable[]>();
 
   const getReviews = async () => {
     const reviews = await axiosService.get("/get-reviews");
@@ -74,7 +75,7 @@ export default function Testimonials() {
             />
           </div>
         </div>
-        <div className="relative lg:absolute inset-0 flex justify-center items-center text-center max-w-screen-xl text-background">
+        <div className="relative lg:absolute inset-0 flex justify-start items-center text-center max-w-screen-xl text-background">
           <Swiper
             key={swiperKey} // Add key to force re-render on resize
             modules={[Pagination, A11y, Autoplay]}
@@ -89,9 +90,9 @@ export default function Testimonials() {
           >
             {reviews?.map((testimonial, index) => (
               <SwiperSlide key={index}>
-                <div className="bg-white/20 backdrop-blur-xl w-full p-2 rounded-2xl sm:p-8 md:p-12 lg:w-5/6">
-                  <div className="grid lg:grid-cols-3 sm:gap-8">
-                    <div className="flex flex-col justify-between col-span-1 text-background h-full gap-2 lg:gap-1">
+                <div className="bg-white/20 flex justify-center backdrop-blur-xl min-h-[400px] w-full p-2 rounded-2xl sm:p-2 md:p-12 lg:w-5/6">
+                  <div className="grid lg:grid-cols-[20%_80%] gap-0">
+                    <div className="flex flex-col justify-center col-span-1 text-background h-full gap-2 px-2 lg:gap-1">
                       <Image
                         src={testimonial.authorPic}
                         alt="TripAdvisor"
@@ -104,11 +105,11 @@ export default function Testimonials() {
                           {testimonial.author}
                         </p>
                         <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
-                          {testimonial.date || "12/3/24"}
+                          {testimonial.date as Date}
                         </p>
                       </div>
                     </div>
-                    <div className="col-span-2 text-start">
+                    <div className="col-span-1 text-start flex items-center">
                       <p className="text-xs text-background font-[family-name:var(--font-secondary)] sm:text-base md:text-lg">
                         {testimonial.description}
                       </p>

@@ -2,7 +2,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import DatePicker from "@/elements/Datepicker";
 import { Button } from "./ui/button";
 import {
@@ -15,16 +15,23 @@ import {
 import { axiosService } from "@/services/axios";
 import Cookies from "js-cookie";
 const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
+  const searchParams = useSearchParams();
+
+  const checkIn = searchParams.get("checkIn");
+  const checkOut = searchParams.get("checkOut");
+  const adults = searchParams.get("adults");
+  const children = searchParams.get("children");
+
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
-      checkIn: "",
-      checkOut: "",
+      checkIn: checkIn || "",
+      checkOut: checkOut || "",
       rooms: "",
-      adults: "",
-      children: "",
+      adults: adults || "",
+      children: children || "",
       amount: "0",
     },
     validationSchema: Yup.object({
@@ -38,7 +45,7 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
     onSubmit: async (values) => {
       const token = Cookies.get("token");
       if (!token) {
-        navigate.push("/login?message=Login Required"); 
+        navigate.push("/login?message=Login Required");
         return;
       }
       setLoading(true);
@@ -60,7 +67,7 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
     } else if (formik.values.rooms === "3") {
       formik.setFieldValue("amount", "15");
     }
-  }, [formik.values.rooms]);
+  }, [formik && formik.values.rooms]);
   // Handle dynamic price based on rooms selection
 
   return (
@@ -154,13 +161,15 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
                 <SelectValue placeholder="Children" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0">1</SelectItem>
-                <SelectItem value="1">2</SelectItem>
-                <SelectItem value="2">3</SelectItem>
+                <SelectItem value="1">1</SelectItem>
+                <SelectItem value="2">2</SelectItem>
+                <SelectItem value="3">3</SelectItem>
               </SelectContent>
             </Select>
             {formik.touched.children && formik.errors.children && (
-              <div className="text-red-500 text-sm">{formik.errors.children}</div>
+              <div className="text-red-500 text-sm">
+                {formik.errors.children}
+              </div>
             )}
           </div>
         </div>

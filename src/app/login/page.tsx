@@ -181,7 +181,10 @@ const Page = () => {
               href="/signup"
               className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]"
             >
-              Did you forget your password?
+              Did you forget your password?{" "}
+              <Link href="/forgot-password" className="text-primary underline">
+                Reset Password
+              </Link>
             </Link>
             <button
               type="submit"

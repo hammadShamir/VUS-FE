@@ -8,8 +8,7 @@ import {
   SelectItem,
   SelectContent,
 } from "../ui/select";
-import { Badge } from "../ui/badge";
-import { UserPlus, UserMinus, Eye } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { status, UserRoles } from "@/interfaces";
@@ -174,7 +173,7 @@ const AdminModalForm = ({
               <Select
                 name="status"
                 value={formik.values.isActive ? status.active : status.inactive}
-                onChange={(e: any) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   formik.setFieldValue("isActive", e.target.value === "active")
                 }
                 onBlur={formik.handleBlur}

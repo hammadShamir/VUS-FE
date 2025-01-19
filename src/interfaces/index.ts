@@ -118,17 +118,17 @@ export interface IAdminManagementMainTable {
   admins: IAdminManagementTable[];
   loading: boolean;
   error: boolean;
-  onUpdate: ({}) => void;
+  onUpdate: () => void;
 }
 export interface IReviewTable {
   reviews: IAdminReviewsTable[];
-  onUpdate: ({}) => void;
+  onUpdate: () => void;
   loading: boolean;
   error: boolean;
 }
 export interface IPostsTable {
   instagramPosts: IAdminPostsTable[];
-  onUpdate: ({}) => void;
+  onUpdate: () => void;
   loading: boolean;
   error: boolean;
 }

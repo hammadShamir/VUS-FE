@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReviewCards from "@/components/ReviewCards";
 const Page = () => {
   return (

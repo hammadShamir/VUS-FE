@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,20 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
-import { BookingStatus, IAdminBookingTable, IBookingTable } from "@/interfaces";
-import { cn } from "@/lib/utils";
-import ReviewCards from "./ReviewCards";
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { IAdminBookingTable, IBookingTable } from "@/interfaces";
 import { useModal } from "@/context/Modal";
 import { BookingDetailsModal } from "./modal-components/View-Booking-Modal";
 import BookingStatusBadge from "./Booking-Status";
@@ -46,24 +36,12 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
       day: "numeric",
     });
   };
-  const statusStyles: Record<string, string> = {
-    [BookingStatus.pending]:
-      "text-yellow-500 bg-yellow-100 dark:border-yellow-100",
-    [BookingStatus.approved]:
-      "text-green-500 bg-green-100 dark:border-green-100",
-    [BookingStatus.rejected]: "text-red-500 bg-red-100 dark:border-red-100",
-    [BookingStatus.complete]: "text-blue-500 bg-blue-100 dark:border-blue-100",
-    [BookingStatus.cancelled]: "text-gray-500 bg-gray-100 dark:border-gray-100",
-  };
+
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentBookings = filteredBookings.slice(startIndex, endIndex);
 
-  const updateBookingStatus = (bookingId: string, newStatus: string) => {
-    // Implement the logic to update the booking status
-    console.log(`Updating booking ${bookingId} to ${newStatus}`);
-  };
   const viewBooking = (booking: IAdminBookingTable) => {
     showModal(
       <BookingDetailsModal booking={booking} />,

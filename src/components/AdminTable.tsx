@@ -11,24 +11,18 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+import { Eye } from "lucide-react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Eye } from "lucide-react";
-import {
+  BookingStatus,
   IAdminBookingTable,
   IAdminManagementMainTable,
   IAdminManagementTable,
 } from "@/interfaces"; // Assuming IUser interface exists for managing users
-import { useModal } from "@/context/Modal";
-import { status as userStatus } from "@/interfaces";
+import { AdminDetailsModal } from "./modal-components/View-Admin-Modal";
 
-import { Badge } from "./ui/badge";
 import BookingStatusBadge from "./Booking-Status";
+import { useModal } from "@/context/Modal";
 const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
   const { showModal } = useModal();
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,11 +42,11 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
   const endIndex = startIndex + itemsPerPage;
   const currentUsers = filteredUsers.slice(startIndex, endIndex);
 
-  const handleUpdateUserStatus = (userId: string, newStatus: string) => {
-    console.log(`Updating user ${userId} to ${newStatus}`);
-    props.onUpdate({
-      _id: userId,
-      isActive: newStatus === userStatus.active,
+  const ViewAdminModal = (admin: IAdminManagementTable) => {
+    showModal(<AdminDetailsModal admin={admin} />, "View Details", (result) => {
+      if (result) {
+        props.onUpdate();
+      }
     });
   };
 
@@ -99,13 +93,13 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
                     <TableCell>{user.phone}</TableCell>
                     <TableCell>
                       {user.isActive ? (
-                        <BookingStatusBadge status={"Active"} />
+                        <BookingStatusBadge status={BookingStatus.active} />
                       ) : (
-                        <BookingStatusBadge status={"Inactive"} />
+                        <BookingStatusBadge status={BookingStatus.inactive} />
                       )}
                     </TableCell>
                     <TableCell className="text-right flex items-center ">
-                      <DropdownMenu>
+                      {/* <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
@@ -129,8 +123,8 @@ const AdminManagementTable: React.FC<IAdminManagementMainTable> = (props) => {
                             In Active
                           </DropdownMenuItem>
                         </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Eye />
+                      </DropdownMenu> */}
+                      <Eye onClick={() => ViewAdminModal(user)} />
                     </TableCell>
                   </TableRow>
                 ))

@@ -11,18 +11,11 @@ import {
 import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { BookingStatus } from "../../../../public/assets/data/Booking";
-import {
-  IAdminBookingTable,
-  IAdminPostsTable,
-  IAdminReviewsTable,
-  IReviewTable,
-  status,
-} from "@/interfaces";
+
+import { IAdminPostsTable } from "@/interfaces";
 import { axiosService } from "@/services/axios";
 import { getToken } from "@/services/helper";
 import { status as PostStatus } from "@/interfaces";
-
 import { useRouter } from "next/navigation";
 import InstagramPostsTable from "@/components/InstagramPostsTable";
 const Page = () => {
@@ -54,12 +47,7 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-  const onUpdate = async (payload: Partial<IAdminReviewsTable>) => {
-    await axiosService.put(`/update-post/${payload._id}`, payload, {
-      headers: {
-        Authorization: getToken() || "",
-      },
-    });
+  const onUpdate = async () => {
     fetchPosts();
   };
   useEffect(() => {

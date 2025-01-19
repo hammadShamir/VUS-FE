@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Eye, Plus, Star } from "lucide-react";
+import { Eye, Star } from "lucide-react";
 import { getToken } from "@/services/helper";
 import { axiosService } from "@/services/axios";
 import { IAdminReviewsTable } from "@/interfaces";
@@ -20,7 +20,6 @@ export default function ReviewCards() {
   const { showModal } = useModal();
   const [googleReviews, setGoogleReviews] = useState<IAdminReviewsTable[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
 
   // Function to fetch Google reviews
   const fetchGoogleReviews = async () => {
@@ -34,7 +33,6 @@ export default function ReviewCards() {
       setGoogleReviews(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +56,7 @@ export default function ReviewCards() {
 
   const handleAddReview = async (review: IAdminReviewsTable) => {
     try {
-      const response = await axiosService.post(`/add-review`, review, {
+      await axiosService.post(`/add-review`, review, {
         headers: {
           Authorization: getToken() || "",
         },
@@ -68,7 +66,6 @@ export default function ReviewCards() {
         { ...review, isSubmitted: true },
       ]);
     } finally {
-      console.log();
     }
   };
 
@@ -138,6 +135,8 @@ export default function ReviewCards() {
             </CardFooter>
           </Card>
         ))}
+
+        {isLoading && <h1>Loading...</h1>}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const page = () => {
       <Header />
       <Banner
         bgImg="/assets/img/banners/banner-contact.png"
-        title="Booking"
+        title="Contact Us"
         para="Find Your Oasis of Calm in Our Luxurious Accommodations"
       />
       <ContactSection />

@@ -9,26 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
+
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import { IAdminReviewsTable, IReviewTable } from "@/interfaces";
-import { status as reviewStatus } from "@/interfaces";
 import { ReviewDetailsModal } from "./modal-components/View-Review-Modal";
 import { useModal } from "@/context/Modal";
 import BookingStatusBadge from "./Booking-Status";
 
 const ReviewsTable: React.FC<IReviewTable> = (props) => {
   const { showModal } = useModal();
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -46,24 +37,15 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
   const endIndex = startIndex + itemsPerPage;
   const currentReviews = props.reviews.slice(startIndex, endIndex);
 
-  const updateReviewStatus = (ReviewId: string, newStatus: string) => {
-    // Implement the logic to update the Review status
-    console.log(`Updating Review ${ReviewId} to ${newStatus}`);
-    props.onUpdate({
-      _id: ReviewId,
-      isActive: newStatus === reviewStatus.active,
-    });
-  };
   const viewReviewModal = (review: IAdminReviewsTable) => {
     showModal(
       <ReviewDetailsModal review={review} />,
-      "View Review"
-      // (result) => {
-      //   if (result) {
-      //     // fetchBookings();
-      //     // Perform actions or API calls here
-      //   }
-      // }
+      "View Review",
+      (result) => {
+        if (result) {
+          props.onUpdate();
+        }
+      }
     );
   };
 
@@ -106,40 +88,14 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
 
                   <TableCell>{Review.rating}</TableCell>
 
-                  <TableCell>             
-                      {Review.isActive ?
-                        <BookingStatusBadge status={'Active'} />
-                        :
-                        <BookingStatusBadge status={'Inactive'} />}
+                  <TableCell>
+                    {Review.isActive ? (
+                      <BookingStatusBadge status={"Active"} />
+                    ) : (
+                      <BookingStatusBadge status={"Inactive"} />
+                    )}
                   </TableCell>
                   <TableCell className="text-right flex justify-center items-center">
-                    <div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          {[...Object.values(reviewStatus)].map(
-                            (item, index) => {
-                              return (
-                                <DropdownMenuItem
-                                  key={index}
-                                  onClick={() =>
-                                    updateReviewStatus(Review._id, item)
-                                  }
-                                >
-                                  <span>{item}</span>
-                                </DropdownMenuItem>
-                              );
-                            }
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
                     <div>
                       <Eye onClick={() => viewReviewModal(Review)} />
                     </div>

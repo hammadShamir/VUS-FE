@@ -11,13 +11,8 @@ import {
 import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { BookingStatus } from "../../../../public/assets/data/Booking";
-import {
-  IAdminBookingTable,
-  IAdminReviewsTable,
-  IReviewTable,
-  status,
-} from "@/interfaces";
+
+import { IAdminReviewsTable } from "@/interfaces";
 import { axiosService } from "@/services/axios";
 import { getToken } from "@/services/helper";
 import { status as reviewStatus } from "@/interfaces";
@@ -55,12 +50,7 @@ const Page = () => {
     fetchreviews();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
-  const onUpdate = async (payload: Partial<IAdminReviewsTable>) => {
-    await axiosService.put(`/update-review/${payload._id}`, payload, {
-      headers: {
-        Authorization: getToken() || "",
-      },
-    });
+  const onUpdate = async () => {
     fetchreviews();
   };
   return (

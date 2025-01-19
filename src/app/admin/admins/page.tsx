@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 
 import { axiosService } from "@/services/axios";
 import { getToken } from "@/services/helper";
-import { status as adminStatus } from "@/interfaces";
 
 import { IAdminManagementTable } from "@/interfaces";
 import AdminManagementTable from "@/components/AdminTable";
@@ -49,12 +48,7 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-  const onUpdate = async (payload: Partial<IAdminManagementTable>) => {
-    await axiosService.put(`/auth/update-user-status/${payload._id}`, payload, {
-      headers: {
-        Authorization: getToken() || "",
-      },
-    });
+  const onUpdate = async () => {
     fetchadmins();
   };
   useEffect(() => {
@@ -76,7 +70,7 @@ const Page = () => {
         <h3 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl">
           Admins
         </h3>
-        <div className="flex lg:block">
+        <div className="flex lg:block space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button>

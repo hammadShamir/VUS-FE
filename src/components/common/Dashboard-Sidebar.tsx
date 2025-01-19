@@ -6,7 +6,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
-import { adminDashboardMenus, userDashboardMenus } from "../../../public/assets/data/MenuLinks";
+import {
+  adminDashboardMenus,
+  userDashboardMenus,
+} from "../../../public/assets/data/MenuLinks";
 import { useEffect, useState } from "react";
 import { DashboardMenuItem, UserRoles } from "@/interfaces";
 import { getUser } from "@/services/helper";
@@ -17,6 +20,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
   const userSession = Cookies.get("user");
   const user = userSession && JSON.parse(userSession);
+  const role = getUser().role;
 
   const handleNavigation = (route: string) => {
     router.push(route);
@@ -25,19 +29,18 @@ export function DashboardSidebar() {
   const handleLogout = () => {
     const allCookies = Cookies.get();
     for (const cookieName in allCookies) {
-      Cookies.remove(cookieName, { path: '/' });
+      Cookies.remove(cookieName, { path: "/" });
     }
     router.push("/");
-  }
+  };
 
   useEffect(() => {
-    const role = getUser().role;
     if (role === UserRoles.USER) {
-      SetMenuLinks(userDashboardMenus)
-    } else if (role === UserRoles.ADMIN) {
-      SetMenuLinks(adminDashboardMenus)
+      SetMenuLinks(userDashboardMenus);
+    } else if (role === UserRoles.ADMIN || role === UserRoles.SUB_ADMIN) {
+      SetMenuLinks(adminDashboardMenus);
     }
-  }, [])
+  }, []);
   return (
     <>
       {/* Desktop Navigation */}
@@ -52,6 +55,7 @@ export function DashboardSidebar() {
         <div className="flex-1 space-y-1 p-4">
           {MenuLinks.map((item) => {
             const isActive = pathname === item.href;
+
             return (
               <Button
                 key={item.href}
@@ -61,7 +65,10 @@ export function DashboardSidebar() {
                 className={cn(
                   "cursor-pointer w-full justify-start gap-4 px-4 ",
                   isActive && "bg-background text-primary",
-                  !isActive && "text-background"
+                  !isActive && "text-background",
+                  item.href == "/admin/admins" &&
+                    role !== UserRoles.ADMIN &&
+                    "hidden"
                 )}
               >
                 <span>

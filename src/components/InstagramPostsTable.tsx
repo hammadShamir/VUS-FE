@@ -8,23 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, ChevronLeft, ChevronRight, Eye } from "lucide-react";
-import { IAdminPostsTable, IPostsTable } from "@/interfaces";
-import { cn } from "@/lib/utils";
+
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { BookingStatus, IAdminPostsTable, IPostsTable } from "@/interfaces";
 import { useState } from "react";
-import { status as postStatus } from "@/interfaces";
+
 import { ViewPostModal } from "./modal-components/View-Post-Modal";
 import { useModal } from "@/context/Modal";
 import BookingStatusBadge from "./Booking-Status";
+import Image from "next/image";
 
 const InstagramPostsTable: React.FC<IPostsTable> = ({
   instagramPosts,
@@ -32,7 +26,6 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
   loading,
   onUpdate,
 }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { showModal } = useModal();
   const itemsPerPage = 5;
@@ -47,28 +40,14 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
   //     [ReviewStatus.cancelled]: "text-gray-500 bg-gray-100 dark:border-gray-100",
   //   };
   const totalPages = Math.ceil(instagramPosts.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentReviews = instagramPosts.slice(startIndex, endIndex);
-
-  const updateInstagramPostStatus = (postId: string, newStatus: string) => {
-    onUpdate({
-      _id: postId,
-      isActive: newStatus === postStatus.active,
-    });
-  };
 
   const ViewPostInstagramModal = (post: IAdminPostsTable) => {
-    showModal(
-      <ViewPostModal post={post} />,
-      "View Post"
-      // (result) => {
-      //   if (result) {
-      //     // fetchBookings();
-      //     // Perform actions or API calls here
-      //   }
-      // }
-    );
+    showModal(<ViewPostModal post={post} />, "View Post", (result) => {
+      if (result) {
+        onUpdate();
+        // Perform actions or API calls here
+      }
+    });
   };
 
   return (
@@ -77,7 +56,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">S No</TableHead>
+              <TableHead>S No</TableHead>
               <TableHead>Post Picture</TableHead>
               <TableHead>Caption</TableHead>
               <TableHead>Status</TableHead>
@@ -102,7 +81,7 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
                 <TableRow key={post._id}>
                   <TableCell className="font-medium">{i + 1}</TableCell>
                   <TableCell>
-                    <img
+                    <Image
                       src={post.imgUrl}
                       height={50}
                       width={50}
@@ -112,35 +91,13 @@ const InstagramPostsTable: React.FC<IPostsTable> = ({
                   <TableCell>{post.caption}</TableCell>
 
                   <TableCell>
-                      {post.isActive ?
-                        <BookingStatusBadge status={"Active"} />
-                        :
-                        <BookingStatusBadge status={"Inactive"} />}
+                    {post.isActive ? (
+                      <BookingStatusBadge status={BookingStatus.active} />
+                    ) : (
+                      <BookingStatusBadge status={BookingStatus.inactive} />
+                    )}
                   </TableCell>
                   <TableCell className="items-center flex">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        {[...Object.values(postStatus)].map((item, index) => {
-                          return (
-                            <DropdownMenuItem
-                              key={index}
-                              onClick={() =>
-                                updateInstagramPostStatus(post._id, item)
-                              }
-                            >
-                              <span>{item}</span>
-                            </DropdownMenuItem>
-                          );
-                        })}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
                     <Eye onClick={() => ViewPostInstagramModal(post)} />
                   </TableCell>
                 </TableRow>
