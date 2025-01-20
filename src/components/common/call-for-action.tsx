@@ -8,17 +8,17 @@ interface sidFotProps {
 
 const CallForAction: React.FC<sidFotProps> = ({ className }) => {
   return (
-    <footer
+    <section
       className={`bg-secondary py-12 flex flex-col justify-center items-center space-y-4 ${className}`}
     >
-      <div className="text-center text-2xl lg:text-4xl font-bold text-primary ">
+      <div data-aos="fade-up" className="text-center text-2xl lg:text-4xl font-bold text-primary ">
         Show Us Your @Umahshantivilla
       </div>
-      <p className="text-center text-primary sm:text-sm">
+      <p  data-aos="fade-up" data-aos-delay="500" className="text-center text-primary sm:text-sm">
         Our guests always travel the world in style. Share your own experiences
         using the username @Kempinskibali.
       </p>
-      <div className="flex gap-x-4">
+      <div  data-aos="fade-up" data-aos-delay="800" className="flex gap-x-4">
         <div>
           <Link href={'/contact'} className="bg-transparent font-bold text-sm text-primary border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-background">
             CONTACT US
@@ -30,7 +30,7 @@ const CallForAction: React.FC<sidFotProps> = ({ className }) => {
           </Link>
         </div>
       </div>
-    </footer>
+    </section>
   );
 };
 

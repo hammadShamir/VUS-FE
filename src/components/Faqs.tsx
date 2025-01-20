@@ -37,12 +37,14 @@ export default function FAQs() {
     return (
         <section className="w-full md:w-3/5 relative">
             <div className="container mx-auto max-w-3xl">
-                <h2 className="mb-4 md:mb-8 text-3xl font-bold tracking-tight text-primary md:text-4xl font-[family-name:var(--font-primary)]">
+                <h2 data-aos="fade-right" className="mb-4 md:mb-8 text-3xl font-bold tracking-tight text-primary md:text-4xl font-[family-name:var(--font-primary)]">
                     FAQ&apos;s Need Help?
                 </h2>
                 <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
                     {faqs.map((faq, index) => (
                         <AccordionItem
+                            data-aos="fade-up"
+                            data-aos-delay={index * 100}
                             key={index}
                             value={`item-${index}`}
                             className="border-b px-4 data-[state=open]:border-l-4 data-[state=open]:border-l-primary "

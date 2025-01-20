@@ -10,7 +10,7 @@ const PromoBanner = () => {
             <div className='absolute top-o left-0 w-full h-full bg-black opacity-40'></div>
             <Container style='py-8 h-full flex flex-col md:flex-row md:justify-between items-center gap-x-12 gap-y-6'>
                 {/* Left Column */}
-                <div className="z-10 w-full lg:w-[50%]">
+                <div data-aos="fade-up" className="z-10 w-full lg:w-[50%]">
                     <div className="space-y-2 md:space-y-4">
                         <h3 className="text-background font-[family-name:var(--font-secondary)]">DAILY SANIFICATION</h3>
                         <h2 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-background md:text-4xl">
@@ -27,7 +27,7 @@ const PromoBanner = () => {
                     </div>
                 </div>
                 {/* Right Column */}
-                <div className="relative w-full lg:w-[30%]">
+                <div data-aos="zoom-in-left" className="relative w-full lg:w-[30%]">
                     <div className="aspect-[4/2]">
                         <Image
                             src="/assets/img/promo.png"

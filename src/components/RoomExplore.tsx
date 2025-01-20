@@ -8,7 +8,7 @@ export default function RoomsSection() {
             <div className="container">
                 <div className="flex flex-col lg:flex-row lg:items-stretch">
                     {/* Left side - Main Image (30% width) */}
-                    <div className="relative mb-8 h-[200px] sm:h-[400px] w-full overflow-hidden rounded-md lg:mb-0 lg:h-auto lg:w-[40%]">
+                    <div data-aos="fade-down-right" className="relative mb-8 h-[200px] sm:h-[400px] w-full overflow-hidden rounded-md lg:mb-0 lg:h-auto lg:w-[40%]">
                         <Image
                             src="/assets/img/Rooms/img-10.png"
                             alt="Luxurious bedroom with white drapes"
@@ -21,7 +21,7 @@ export default function RoomsSection() {
                     {/* Right side - Content (70% width) */}
                     <div className="flex flex-col justify-between lg:w-[60%] lg:pl-12">
                         <div className="space-y-6">
-                            <div className="space-y-4">
+                            <div data-aos="fade-down" className="space-y-4">
                                 <h2 className="font-[family-name:var(--font-secondary)] text-sm font-medium uppercase tracking-wider text-foreground">
                                     ROOMS
                                 </h2>
@@ -32,7 +32,7 @@ export default function RoomsSection() {
 
                             {/* Small Images Grid */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+                                <div data-aos="zoom-in-up" data-aos-delay="500" className="relative aspect-[4/3] overflow-hidden rounded-md">
                                     <Image
                                         src="/assets/img/Rooms/img-9.png"
                                         alt="Peaceful bedroom view"
@@ -40,7 +40,7 @@ export default function RoomsSection() {
                                         className="object-cover"
                                     />
                                 </div>
-                                <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+                                <div data-aos="zoom-in-up" data-aos-delay="800" className="relative aspect-[4/3] overflow-hidden rounded-md">
                                     <Image
                                         src="/assets/img/Rooms/img-8.png"
                                         alt="Romantic bedroom setting"
@@ -51,7 +51,7 @@ export default function RoomsSection() {
                             </div>
 
                             {/* Description */}
-                            <div className="space-y-4">
+                            <div data-aos="fade-up" className="space-y-4">
                                 <p className="text-foreground font-[family-name:var(--font-secondary)]">
                                     Getting Its Name From Balinese And Sanskrit Words Which Means &apos;a Peaceful Home&apos;,
                                     Umah Shanti Villa Is A PRIVATE VILLA Designed To Be A Peaceful, Romantic, Relaxing And

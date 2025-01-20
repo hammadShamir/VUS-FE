@@ -42,7 +42,7 @@ export default function Testimonials() {
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="md:w-3/5 flex items-center justify-between">
-            <div className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2">
+            <div data-aos="fade-right"  className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2">
               <p className="text-sm font-[family-name:var(--font-secondary)] sm:text-base">
                 Guest Review
               </p>
@@ -50,7 +50,7 @@ export default function Testimonials() {
                 Voice From Our Guests
               </h2>
             </div>
-            <div className="hidden md:flex z-10">
+            <div data-aos="fade-left" className="hidden md:flex z-10">
               <button
                 onClick={() => swiperRef.current?.slidePrev()}
                 className="text-background text-2xl py-4 px-6 cursor-pointer  transition"
@@ -65,7 +65,7 @@ export default function Testimonials() {
               </button>
             </div>
           </div>
-          <div className="md:w-2/5 hidden lg:block">
+          <div data-aos="zoom-out-left" data-aos-delay="800" className="md:w-2/5 hidden lg:block">
             <Image
               src="/assets/img/side-img-1.png"
               alt="test"
@@ -75,7 +75,7 @@ export default function Testimonials() {
             />
           </div>
         </div>
-        <div className="relative lg:absolute inset-0 flex justify-start items-center text-center max-w-screen-xl text-background">
+        <div data-aos="zoom-out-up" data-aos-delay="500" className="relative lg:absolute inset-0 flex justify-center items-center text-center max-w-screen-xl text-background">
           <Swiper
             key={swiperKey} // Add key to force re-render on resize
             modules={[Pagination, A11y, Autoplay]}

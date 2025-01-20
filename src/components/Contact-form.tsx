@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar"
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover"
 import {
   Select,
@@ -87,13 +87,13 @@ export default function ContactForm() {
   });
 
   return (
-    <div className="w-full md:w-2/5 rounded-3xl bg-primary p-4 md:p-6">
+    <div data-aos="fade-left" data-aos-delay="1000" className="w-full md:w-2/5 rounded-3xl bg-primary p-4 md:p-6">
       <h2 className="mb-6 text-xl font-bold text-white md:text-3xl font-[family-name:var(--font-primary)]">
         Kindly Share Your Details
       </h2>
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
+          <div className="space-y-2" data-aos="fade-up" data-aos-delay="100">
             <Input
               id="firstName"
               placeholder="First Name *"
@@ -109,7 +109,7 @@ export default function ContactForm() {
               <p className="text-sm text-red-500">{formik.errors.firstName}</p>
             )}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2" data-aos="fade-up" data-aos-delay="200">
             <Input
               id="lastName"
               placeholder="Last Name *"
@@ -127,7 +127,7 @@ export default function ContactForm() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" data-aos="fade-up" data-aos-delay="300">
           <Input
             id="phone"
             placeholder="Phone *"
@@ -142,7 +142,7 @@ export default function ContactForm() {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" data-aos="fade-up" data-aos-delay="400">
           <Input
             id="email"
             placeholder="Email *"
@@ -158,11 +158,12 @@ export default function ContactForm() {
         </div>
 
         <Select
+          data-aos="fade-up" data-aos-delay="500"
           onValueChange={(value) => formik.setFieldValue("bookingType", value)}
           value={formik.values.bookingType}
         >
           <SelectTrigger className="border border-background bg-transparent text-white focus:ring-0">
-            <SelectValue placeholder="Booking" />
+            <SelectValue placeholder="Booking" data-aos="fade-up" data-aos-delay="500" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="standard">Booking</SelectItem>
@@ -172,7 +173,7 @@ export default function ContactForm() {
         </Select>
 
         <div className="grid gap-4 md:grid-cols-4">
-          <div className="space-y-2">
+          <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -201,7 +202,7 @@ export default function ContactForm() {
             </Popover>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2" data-aos="fade-up" data-aos-delay="700">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -230,7 +231,7 @@ export default function ContactForm() {
             </Popover>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4" data-aos="fade-up" data-aos-delay="800">
             <Button
               type="button"
               variant="outline"
@@ -252,7 +253,7 @@ export default function ContactForm() {
             </Button>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4" data-aos="fade-up" data-aos-delay="900">
             <Button
               type="button"
               variant="outline"
@@ -275,7 +276,7 @@ export default function ContactForm() {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" data-aos="fade-up" data-aos-delay="1000">
           <Input
             id="subject"
             placeholder="Subject *"
@@ -292,7 +293,7 @@ export default function ContactForm() {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2" data-aos="fade-up" data-aos-delay="1100">
           <Textarea
             id="message"
             placeholder="Message"
@@ -310,6 +311,7 @@ export default function ContactForm() {
         </div>
 
         <Button
+          data-aos="fade-up" data-aos-delay="1200"
           variant={"outline"}
           type="submit"
           className="w-full text-background border-background"

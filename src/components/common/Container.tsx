@@ -7,7 +7,7 @@ interface ContainerProps {
 
 const Container: React.FC<ContainerProps> = (props) => {
     return (
-        <section className={`relative max-w-screen-xl mx-auto px-4 xl:px-0 ${props.style}`}>
+        <section className={`relative max-w-screen-xl mx-auto px-4 xl:px-0 overflow-hidden ${props.style}`}>
             {props.children}
         </section>
     );

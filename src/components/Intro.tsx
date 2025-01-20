@@ -7,14 +7,16 @@ export default function IntroSection() {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Left side - Main content */}
         <div className="lg:w-[60%] space-y-6">
-          <h2 className="text-sm font-[family-name:var(--font-secondary)] uppercase tracking-wider text-foreground">
-            INTRODUCTION
-          </h2>
-          <h1 className="text-3xl md:text-4xl font-[family-name:var(--font-primary)] text-primary">
-            Enjoy Serene togetherness with Ultimate privacy, a private pool, and
-            a spacious deck
-          </h1>
-          <div className="relative aspect-video overflow-hidden rounded-xl">
+          <div  data-aos="fade-down">
+            <h2 className="text-sm font-[family-name:var(--font-secondary)] uppercase tracking-wider text-foreground">
+              INTRODUCTION
+            </h2>
+            <h1 className="text-3xl md:text-4xl font-[family-name:var(--font-primary)] text-primary">
+              Enjoy Serene togetherness with Ultimate privacy, a private pool, and
+              a spacious deck
+            </h1>
+          </div>
+          <div data-aos="fade-right" className="relative aspect-video overflow-hidden rounded-xl">
             <Image
               src="/assets/img/Lawn/img-1.jpg"
               alt="Spacious villa interior with a view"
@@ -25,8 +27,8 @@ export default function IntroSection() {
         </div>
 
         {/* Right side - Image and description */}
-        <div className="lg:w-[40%] space-y-6">
-          <div className="relative overflow-hidden aspect-square rounded-xl">
+        <div  className="lg:w-[40%] space-y-6">
+          <div data-aos="fade-left" className="relative overflow-hidden aspect-square rounded-xl">
             <Image
               src="/assets/img/front/img-1.png"
               alt="Luxurious bedroom with white drapes"
@@ -35,7 +37,7 @@ export default function IntroSection() {
               priority
             />
           </div>
-          <p className="text-foreground font-[family-name:var(--font-secondary)]">
+          <p data-aos="fade-up" className="text-foreground font-[family-name:var(--font-secondary)]">
             Getting Its Name From Balinese And Sanskrit Words Which Means
             &apos;a Peaceful Home&apos;, Umah Shanti Villa Is A PRIVATE VILLA
             Designed To Be A Peaceful, Romantic, Relaxing And Rejuvenating Place
