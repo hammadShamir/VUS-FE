@@ -34,17 +34,17 @@ export const getFirebaseErrorMessage = (errorCode: FirebaseError): string => {
 };
 
 export const getUser = () => {
-    const user = Cookies.get("user");
-    if (user) {
-        try {
-            const storedUser = JSON.parse(user);
-            return storedUser
-        } catch (error) {
-            console.error("Error parsing user cookie:", error);
-            return undefined;
-        }
-    }
-}
+  const user = Cookies.get("user");
+  if (user) {
+      try {
+          return JSON.parse(user);
+      } catch (error) {
+          console.error("Error parsing user cookie:", error);
+          return {};
+      }
+  }
+  return {}; 
+};
 
 export const getToken = () => {
     return Cookies.get('token')

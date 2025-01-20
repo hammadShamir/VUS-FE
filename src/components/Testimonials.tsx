@@ -105,7 +105,7 @@ export default function Testimonials() {
                           {testimonial.author}
                         </p>
                         <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
-                          {testimonial.date as Date}
+                          {new Date(testimonial.date).toLocaleDateString()}
                         </p>
                       </div>
                     </div>

@@ -11,14 +11,13 @@ import {
 import { UserPlus } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { status, UserRoles } from "@/interfaces";
+import {  UserRoles } from "@/interfaces";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { getFirebaseErrorMessage } from "@/services/helper";
 import toast from "react-hot-toast";
 import { auth } from "@/services/firebase";
 import { axiosService } from "@/services/axios";
-import { useRouter } from "next/navigation";
 import { useModal } from "@/context/Modal";
 
 const AdminModalForm = ({
@@ -33,7 +32,6 @@ const AdminModalForm = ({
   };
 }) => {
   const { hideModal } = useModal();
-  const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
   // Formik hook for managing form state
@@ -98,6 +96,7 @@ const AdminModalForm = ({
       }
     }
   };
+
   return (
     <div className="space-y-6 my-6">
       {/* Admin Information */}
@@ -171,32 +170,24 @@ const AdminModalForm = ({
             <label className="block text-sm font-medium">Status</label>
             <div className="text-black rounded-md border">
               <Select
-                name="status"
-                value={formik.values.isActive ? status.active : status.inactive}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  formik.setFieldValue("isActive", e.target.value === "active")
+                onValueChange={(value) =>
+                  formik.setFieldValue("isActive", value === "active")
                 }
-                onBlur={formik.handleBlur}
-                className="mt-1 rounded-md px-2 border-2 text-black  md:w-full"
               >
-                <SelectTrigger>
+                <SelectTrigger className="mt-1 rounded-md px-2 border-2 text-black  md:w-full">
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem
-                    className="text-foreground"
-                    aria-selected
-                    value="active"
-                  >
-                    Active
-                  </SelectItem>
-                  <SelectItem className="text-foreground" value="inactive">
-                    Inactive
-                  </SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
                 </SelectContent>
               </Select>
+              {formik.touched.isActive && formik.errors.isActive && (
+                <div className="text-sm text-red-600">{formik.errors.isActive}</div>
+              )}
             </div>
           </div>
+
         </div>
 
         {/* Actions */}

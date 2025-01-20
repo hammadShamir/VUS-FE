@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import BookingForm from './BookingForm';
 import CustomCalender from './ui/Custom-calendar';
 import { axiosService } from '@/services/axios';
@@ -40,7 +40,9 @@ const BookingSection = () => {
                 </div>
 
                 <div className='md:col-span-2'>
-                    <BookingForm bookedSlots={bookedSlots} />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <BookingForm bookedSlots={bookedSlots} />
+                    </Suspense>
                 </div>
             </div>
         </Container>

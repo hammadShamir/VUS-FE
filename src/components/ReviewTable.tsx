@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
-import { IAdminReviewsTable, IReviewTable } from "@/interfaces";
+import { BookingStatus, IAdminReviewsTable, IReviewTable } from "@/interfaces";
 import { ReviewDetailsModal } from "./modal-components/View-Review-Modal";
 import { useModal } from "@/context/Modal";
 import BookingStatusBadge from "./Booking-Status";
@@ -90,9 +90,9 @@ const ReviewsTable: React.FC<IReviewTable> = (props) => {
 
                   <TableCell>
                     {Review.isActive ? (
-                      <BookingStatusBadge status={"Active"} />
+                      <BookingStatusBadge status={BookingStatus.active} />
                     ) : (
-                      <BookingStatusBadge status={"Inactive"} />
+                      <BookingStatusBadge status={BookingStatus.inactive} />
                     )}
                   </TableCell>
                   <TableCell className="text-right flex justify-center items-center">

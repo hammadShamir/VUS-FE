@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { Eye } from "lucide-react";
 import {
   BookingStatus,
-  IAdminBookingTable,
   IAdminManagementMainTable,
   IAdminManagementTable,
 } from "@/interfaces"; // Assuming IUser interface exists for managing users

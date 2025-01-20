@@ -3,10 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   CalendarCheck,
-  CalendarX,
-  Home,
   Users,
-  CreditCard,
 } from "lucide-react";
 import BookingStatusBadge from "../Booking-Status";
 

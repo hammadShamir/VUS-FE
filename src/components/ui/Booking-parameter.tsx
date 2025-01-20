@@ -55,7 +55,7 @@ export default function BookingParameter() {
                 <Calendar
                   mode="single"
                   selected={checkIn}
-                  onSelect={setCheckIn}
+                  onSelect={(day) => day && setCheckIn(day)}
                   initialFocus
                 />
               </PopoverContent>
@@ -86,7 +86,7 @@ export default function BookingParameter() {
                 <Calendar
                   mode="single"
                   selected={checkOut}
-                  onSelect={setCheckOut}
+                  onSelect={(day) => day && setCheckOut(day)}
                   initialFocus
                 />
               </PopoverContent>
