@@ -41,10 +41,10 @@ export function BookingDetailsModal({
         <div>
           <div className="flex items-center gap-2">
             <Home className="w-5 h-5 text-muted-foreground" />
-            <span className="font-medium text-sm">Rooms</span>
+            <span className="font-medium text-sm">Bedrooms</span>
           </div>
           <p className="text-sm mt-1">
-            {booking.rooms} {+booking.rooms > 1 ? "Rooms" : "Room"}
+            {booking.rooms} {+booking.rooms > 1 ? "Bedrooms" : "Bedroom"}
           </p>
         </div>
 

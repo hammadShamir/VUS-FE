@@ -56,6 +56,7 @@ export default function BookingParameter() {
                   mode="single"
                   selected={checkIn}
                   onSelect={(day) => day && setCheckIn(day)}
+                  fromDate={new Date()}
                   initialFocus
                 />
               </PopoverContent>
@@ -87,6 +88,7 @@ export default function BookingParameter() {
                   mode="single"
                   selected={checkOut}
                   onSelect={(day) => day && setCheckOut(day)}
+                  fromDate={new Date()}
                   initialFocus
                 />
               </PopoverContent>

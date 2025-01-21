@@ -49,15 +49,19 @@ const Header = () => {
 
         <div className="w-full flex justify-center items-center">
           {isScrolled ? (
-            <p className="text-xl text-background ">UMAH SHANTI</p>
+            <Link href="/" className="text-xl text-background ">
+              UMAH SHANTI
+            </Link>
           ) : (
-            <Image
-              src={"/assets/img/logo.png"}
-              alt="Logo"
-              height={70}
-              width={70}
-              className="lg:absolute lg:top-0 hidden md:block"
-            />
+            <Link href="/">
+              <Image
+                src={"/assets/img/logo.png"}
+                alt="Logo"
+                height={70}
+                width={70}
+                className="lg:absolute lg:top-0 hidden md:block"
+              />
+            </Link>
           )}
         </div>
 

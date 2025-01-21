@@ -116,7 +116,9 @@ export function BookingsList() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">No Of Rooms</span>
+                    <span className="text-muted-foreground">
+                      No Of Bedrooms
+                    </span>
                     <span className="font-medium">{booking.rooms}</span>
                   </div>
                 </div>

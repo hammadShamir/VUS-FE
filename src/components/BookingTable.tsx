@@ -71,7 +71,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
-                <TableHead>Rooms</TableHead>
+                <TableHead>Bedrooms</TableHead>
                 <TableHead>Adults</TableHead>
                 <TableHead>Children</TableHead>
                 <TableHead>Paid Amount</TableHead>

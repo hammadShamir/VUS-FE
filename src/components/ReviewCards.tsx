@@ -89,7 +89,9 @@ export default function ReviewCards() {
                   <AvatarFallback>{review.author?.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-grow">
-                  <h3 className="text-lg font-semibold">{review.author}</h3>
+                  <h3 className="text-lg font-semibold dark:text-foreground">
+                    {review.author}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
                     {new Date(review.date).toISOString().split("T")[0]}
                   </p>
