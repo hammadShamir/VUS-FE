@@ -45,7 +45,7 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
     onSubmit: async (values) => {
       const token = Cookies.get("token");
       if (!token) {
-        navigate.push("/login?message=Login Required");
+        navigate.push("/login?message=Login Required&redirect=booking");
         return;
       }
       setLoading(true);
@@ -120,12 +120,12 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
           onValueChange={(value) => formik.setFieldValue("rooms", value)}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Rooms" />
+            <SelectValue placeholder="Bedrooms" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">1</SelectItem>
-            <SelectItem value="2">2</SelectItem>
-            <SelectItem value="3">3</SelectItem>
+            <SelectItem value="1">1 Bedroom</SelectItem>
+            <SelectItem value="2">2 Bedrooms</SelectItem>
+            <SelectItem value="3">3 Bedrooms</SelectItem>
           </SelectContent>
         </Select>
         {formik.touched.rooms && formik.errors.rooms && (

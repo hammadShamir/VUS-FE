@@ -20,9 +20,10 @@ export function middleware(request: NextRequest) {
 
   // Redirect if not authenticated
   if (!token) {
+    const redirectPath = request.nextUrl.pathname.trim(); // Get the path
     const redirectUrl = new URL("/login", request.nextUrl.origin);
     redirectUrl.searchParams.set("message", "Login Required");
-    redirectUrl.searchParams.set("redirect", request.nextUrl.pathname); // Include redirect parameter
+    redirectUrl.searchParams.set("redirect", redirectPath.replace(/%2F/g, "/"));
     return NextResponse.redirect(redirectUrl);
   }
 
