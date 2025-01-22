@@ -1,10 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  CalendarCheck,
-  Users,
-} from "lucide-react";
+import { CalendarCheck, Users } from "lucide-react";
 import BookingStatusBadge from "../Booking-Status";
 
 import { axiosService } from "@/services/axios";
@@ -14,9 +11,11 @@ import { BookingStatus, IAdminManagementTable } from "@/interfaces";
 export function AdminDetailsModal({ admin }: { admin: IAdminManagementTable }) {
   const { hideModal } = useModal();
   const handleUpdateAdmin = async (payload: Partial<IAdminManagementTable>) => {
-    await axiosService.put(`/auth/update-user-status/${admin._id}`, {
-      payload,
-    });
+    await axiosService.put(`/auth/update-user-status/${admin._id}`, payload);
+    hideModal(true);
+  };
+  const deleteAdmin = async () => {
+    await axiosService.delete(`/auth/remove-user/${admin._id}`);
     hideModal(true);
   };
 
@@ -62,31 +61,42 @@ export function AdminDetailsModal({ admin }: { admin: IAdminManagementTable }) {
         </div>
       </div>
 
-      {admin.isActive ? (
-        <div className="col-span-2 flex justify-end self-end">
+      <div className=" flex justify-end self-end">
+        {admin.isActive ? (
+          <div className="col-span-3 flex justify-end self-end">
+            <Button
+              onClick={() => {
+                handleUpdateAdmin({ isActive: false });
+              }}
+              className="bg-red-600 text-background"
+              variant={"outline"}
+            >
+              In Active
+            </Button>
+          </div>
+        ) : (
+          <div className="col-span-3 flex justify-end self-end">
+            <Button
+              onClick={() => {
+                handleUpdateAdmin({ isActive: true });
+              }}
+              className="bg-green-600 text-background mr-2"
+              variant={"outline"}
+            >
+              Active
+            </Button>
+          </div>
+        )}{" "}
+        <div className="col-span-3 flex justify-end self-end">
           <Button
-            onClick={() => {
-              handleUpdateAdmin({ isActive: false });
-            }}
+            onClick={deleteAdmin}
             className="bg-red-600 text-background"
             variant={"outline"}
           >
-            In Active
+            Delete User
           </Button>
         </div>
-      ) : (
-        <div className="col-span-2 flex justify-end self-end">
-          <Button
-            onClick={() => {
-              handleUpdateAdmin({ isActive: true });
-            }}
-            className="bg-green-600 text-background mr-2"
-            variant={"outline"}
-          >
-            Active
-          </Button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

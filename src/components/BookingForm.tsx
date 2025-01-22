@@ -21,6 +21,7 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
   const checkOut = searchParams.get("checkOut");
   const adults = searchParams.get("adults");
   const children = searchParams.get("children");
+  const bedrooms = searchParams.get("bedRooms");
 
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -29,7 +30,7 @@ const BookingForm: React.FC<{ bookedSlots: Date[] }> = (props) => {
     initialValues: {
       checkIn: checkIn || "",
       checkOut: checkOut || "",
-      rooms: "",
+      rooms: bedrooms || "",
       adults: adults || "",
       children: children || "",
       amount: "0",
