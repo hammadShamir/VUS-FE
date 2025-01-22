@@ -3,16 +3,9 @@
 import * as React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { CalendarIcon, MinusIcon, PlusIcon } from 'lucide-react'
-import { format } from "date-fns"
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+
 import {
   Select,
   SelectContent,
@@ -87,7 +80,11 @@ export default function ContactForm() {
   });
 
   return (
-    <div data-aos="fade-left" data-aos-delay="1000" className="w-full md:w-2/5 rounded-3xl bg-primary p-4 md:p-6">
+    <div
+      data-aos="fade-left"
+      data-aos-delay="1000"
+      className="w-full md:w-2/5 rounded-3xl bg-primary p-4 md:p-6"
+    >
       <h2 className="mb-6 text-xl font-bold text-white md:text-3xl font-[family-name:var(--font-primary)]">
         Kindly Share Your Details
       </h2>
@@ -101,8 +98,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background",
                 formik.touched.firstName &&
-                formik.errors.firstName &&
-                "border-red-500"
+                  formik.errors.firstName &&
+                  "border-red-500"
               )}
             />
             {formik.touched.firstName && formik.errors.firstName && (
@@ -117,8 +114,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background ",
                 formik.touched.lastName &&
-                formik.errors.lastName &&
-                "border-red-500"
+                  formik.errors.lastName &&
+                  "border-red-500"
               )}
             />
             {formik.touched.lastName && formik.errors.lastName && (
@@ -158,12 +155,17 @@ export default function ContactForm() {
         </div>
 
         <Select
-          data-aos="fade-up" data-aos-delay="500"
+          data-aos="fade-up"
+          data-aos-delay="500"
           onValueChange={(value) => formik.setFieldValue("bookingType", value)}
           value={formik.values.bookingType}
         >
           <SelectTrigger className="border border-background bg-transparent text-white focus:ring-0">
-            <SelectValue placeholder="Booking" data-aos="fade-up" data-aos-delay="500" />
+            <SelectValue
+              placeholder="Booking"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="standard">Booking</SelectItem>
@@ -171,110 +173,6 @@ export default function ContactForm() {
             <SelectItem value="suite">Suite</SelectItem>
           </SelectContent>
         </Select>
-
-        <div className="grid gap-4 md:grid-cols-4">
-          <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white hover:bg-transparent",
-                    !formik.values.checkIn && "text-background"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formik.values.checkIn ? (
-                    format(formik.values.checkIn, "dd MMM")
-                  ) : (
-                    <span>Check-in</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={formik.values.checkIn}
-                  onSelect={(date) => formik.setFieldValue("checkIn", date)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="space-y-2" data-aos="fade-up" data-aos-delay="700">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white hover:bg-transparent",
-                    !formik.values.checkOut && "text-background"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formik.values.checkOut ? (
-                    format(formik.values.checkOut, "dd MMM")
-                  ) : (
-                    <span>Check-out</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={formik.values.checkOut}
-                  onSelect={(date) => formik.setFieldValue("checkOut", date)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="flex items-center space-x-4" data-aos="fade-up" data-aos-delay="800">
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-background bg-transparent text-white hover:bg-white/10"
-              onClick={() => formik.setFieldValue("adults", Math.max(1, formik.values.adults - 1))}
-            >
-              <MinusIcon className="h-4 w-4" />
-            </Button>
-            <span className="text-white">{formik.values.adults}</span>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-background bg-transparent text-white hover:bg-white/10"
-              onClick={() => formik.setFieldValue("adults", formik.values.adults + 1)}
-            >
-              <PlusIcon className="h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="flex items-center space-x-4" data-aos="fade-up" data-aos-delay="900">
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-background bg-transparent text-white hover:bg-white/10"
-              onClick={() => formik.setFieldValue("children", Math.max(0, formik.values.children - 1))}
-            >
-              <MinusIcon className="h-4 w-4" />
-            </Button>
-            <span className="text-white">{formik.values.children}</span>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-background bg-transparent text-white hover:bg-white/10"
-              onClick={() => formik.setFieldValue("children", formik.values.children + 1)}
-            >
-              <PlusIcon className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
 
         <div className="space-y-2" data-aos="fade-up" data-aos-delay="1000">
           <Input
@@ -284,8 +182,8 @@ export default function ContactForm() {
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-0 focus-visible:ring-0 focus-visible:border-[red]",
               formik.touched.subject &&
-              formik.errors.subject &&
-              "border-red-500"
+                formik.errors.subject &&
+                "border-red-500"
             )}
           />
           {formik.touched.subject && formik.errors.subject && (
@@ -301,8 +199,8 @@ export default function ContactForm() {
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
               formik.touched.message &&
-              formik.errors.message &&
-              "border-red-500"
+                formik.errors.message &&
+                "border-red-500"
             )}
           />
           {formik.touched.message && formik.errors.message && (
@@ -311,7 +209,8 @@ export default function ContactForm() {
         </div>
 
         <Button
-          data-aos="fade-up" data-aos-delay="1200"
+          data-aos="fade-up"
+          data-aos-delay="1200"
           variant={"outline"}
           type="submit"
           className="w-full text-background border-background"

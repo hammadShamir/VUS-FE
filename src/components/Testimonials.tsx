@@ -42,7 +42,10 @@ export default function Testimonials() {
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
           <div className="md:w-3/5 flex items-center justify-between">
-            <div data-aos="fade-right"  className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2">
+            <div
+              data-aos="fade-right"
+              className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2"
+            >
               <p className="text-sm font-[family-name:var(--font-secondary)] sm:text-base">
                 Guest Review
               </p>
@@ -65,7 +68,11 @@ export default function Testimonials() {
               </button>
             </div>
           </div>
-          <div data-aos="zoom-out-left" data-aos-delay="800" className="md:w-2/5 hidden lg:block">
+          <div
+            data-aos="zoom-out-left"
+            data-aos-delay="800"
+            className="md:w-2/5 hidden lg:block"
+          >
             <Image
               src="/assets/img/side-img-1.png"
               alt="test"
@@ -75,7 +82,11 @@ export default function Testimonials() {
             />
           </div>
         </div>
-        <div data-aos="zoom-out-up" data-aos-delay="500" className="relative lg:absolute inset-0 flex justify-center items-center text-center max-w-screen-xl text-background">
+        <div
+          data-aos="zoom-out-up"
+          data-aos-delay="500"
+          className="relative lg:absolute inset-0 flex justify-center items-center text-center max-w-screen-xl text-background"
+        >
           <Swiper
             key={swiperKey} // Add key to force re-render on resize
             modules={[Pagination, A11y, Autoplay]}
@@ -86,7 +97,7 @@ export default function Testimonials() {
             loop
             onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex)}
             onSwiper={(swiperInstance) => (swiperRef.current = swiperInstance)}
-            className="swiper relative lg:absolute inset-0"
+            className="relative lg:absolute  flex justify-center items-center inset-0"
           >
             {reviews?.map((testimonial, index) => (
               <SwiperSlide key={index}>
@@ -104,9 +115,9 @@ export default function Testimonials() {
                         <p className="font-semibold text-background font-[family-name:var(--font-primary)] text-base sm:text-lg">
                           {testimonial.author}
                         </p>
-                        <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
+                        {/* <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
                           {new Date(testimonial.date).toLocaleDateString()}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                     <div className="col-span-1 text-start flex items-center">
