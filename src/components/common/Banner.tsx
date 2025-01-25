@@ -25,15 +25,15 @@ const Banner: React.FC<IBanner> = (banner) => {
     >
       <div className="absolute top-o left-0 w-full h-full bg-black opacity-40"></div>
       <div className="z-10 max-w-screen-md space-y-4">
-        <h1 className="text-background text-3xl md:text-6xl font-[family-name:var(--font-primary)] text-center">
+        <h1 data-aos="fade-up" data-aos-delay ={100} className="text-background text-3xl md:text-6xl font-[family-name:var(--font-primary)] text-center">
           {banner.title}
         </h1>
         {banner.breadCrumbs && <div></div>}
-        <p className="text-background text-base md:text-2xl text-center font-[family-name:var(--font-secondary)]">
+        <p data-aos="fade-up" data-aos-delay ={300}  className="text-background text-base md:text-2xl text-center font-[family-name:var(--font-secondary)]">
           {banner.para}
         </p>
         {banner.parameters && (
-          <div>
+          <div data-aos="fade-up" data-aos-delay ={400}>
             <BookingParameter />
           </div>
         )}

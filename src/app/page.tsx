@@ -15,7 +15,7 @@ export default function Home() {
       <Banner
         bgImg="/assets/img/banners/banner-home.png"
         title="A Peaceful Home Awaits at Umah Shanti Villas"
-        para="Find Your Oasis of Calm in Our Luxurious Accommodations"
+        para="Discover unparalleled comfort and tranquility in our luxurious Accommodation, where every moment feels like a dream."
         parameters
       />
       <IntroSection />

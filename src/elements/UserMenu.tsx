@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
@@ -37,9 +36,9 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
     }
   }, [])
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" className="dark:focus-visible:ring-offset-0 dark:focus-visible:ring-transparent">
           <User />
         </Button>
       </DropdownMenuTrigger>
@@ -52,7 +51,6 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
               <DropdownMenuItem key={index} onClick={() => handleNavigation(item.href)}>
                 <item.icon />
                 <span>{item.title}</span>
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
             )
           })}
@@ -61,7 +59,6 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
         <DropdownMenuItem onClick={props.onLogout}>
           <LogOut />
           <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
