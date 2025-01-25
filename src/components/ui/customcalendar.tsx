@@ -37,10 +37,9 @@ const CustomCalendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     if (isSecond && firstCalenderMonth) {
-      const newDate = new Date(currentDate);
-
-      const firstMonthDate = firstCalenderMonth;
-      newDate.setMonth((firstMonthDate as number) + 1);
+      console.log(firstCalenderMonth, new Date(firstCalenderMonth));
+      const newDate = new Date(firstCalenderMonth);
+      newDate.setMonth((newDate.getMonth() as number) + 1);
       setCurrentDate(newDate);
       onMonthChange(newDate, isSecond);
     }
@@ -90,8 +89,10 @@ const CustomCalendar: React.FC<CalendarProps> = ({
   const handleDateClick = useCallback(
     (fullDate: number) => {
       if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+        // If there is no start date or if the range is already selected, set the start
         onRangeSelect(fullDate, null);
       } else if (fullDate > selectedRange.start) {
+        // If the clicked date is after the start date, find the next booked date
         const nextBookedDate = findNextBookedDate(selectedRange.start);
         const endDate =
           nextBookedDate && nextBookedDate < fullDate
@@ -100,6 +101,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
             : fullDate;
         onRangeSelect(selectedRange.start, endDate);
       } else {
+        // If the clicked date is before the start date, reset the range
         onRangeSelect(fullDate, null);
       }
     },
@@ -141,36 +143,24 @@ const CustomCalendar: React.FC<CalendarProps> = ({
 
   const changeMonth = (increment: number) => {
     const newDate = new Date(currentDate);
-    const newMonth = newDate.getMonth() + increment;
-
-    console.log(
-      increment < 0,
-      isSecond,
-      firstCalenderMonth == newMonth,
-      "hello"
-    );
     // Prevent changing if the second calendar's month is greater than or equal to the first
+    console.log(newDate, new Date());
     if (
       (increment < 0 && newDate < new Date()) ||
-      (increment < 0 && isSecond && firstCalenderMonth == newMonth)
+      (increment < 0 &&
+        isSecond &&
+        (firstCalenderMonth as Date).getTime() === newDate.getTime())
     ) {
       return;
     }
 
-    // // If it's February and the first calendar month is different than the second, adjust second calendar month
-    // if (month === 1 && increment === 1) {
-    //   const nextMonth = new Date(currentDate);
-    //   nextMonth.setMonth(nextMonth.getMonth() + 1);
-    //   onMonthChange(nextMonth, true);
-    // } else {
     newDate.setMonth(newDate.getMonth() + increment);
     setCurrentDate(newDate);
     onMonthChange(newDate, isSecond);
-    // }
   };
 
   return (
-    <div className="p-4 border border-primary box-border rounded-lg w-full">
+    <div className="p-4 border border-primary h-[300px]  box-border rounded-lg w-full">
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={() => changeMonth(-1)}
@@ -210,7 +200,20 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           const isBooked =
             normalizedBookedSlots.includes(fullDate) && !isPrev && !isNext;
           const inRange = isInRange(fullDate);
-          const isDisabled = isBooked;
+
+          const isDisabled = fullDate < new Date().setHours(0, 0, 0, 0);
+
+          // Render empty space for previous and next month's dates
+          if (isPrev || isNext) {
+            return (
+              <div
+                key={index}
+                className="p-1 h-8 flex items-center justify-center"
+              >
+                {/* Empty space for previous/next month's dates */}
+              </div>
+            );
+          }
 
           return (
             <div
@@ -223,46 +226,41 @@ const CustomCalendar: React.FC<CalendarProps> = ({
               }
               onMouseLeave={() => onHover(null)}
               className={`
-                p-1 h-8 flex items-center justify-center text-md font-bold
-                transition-all duration-200 ease-in-out
+          p-1 h-8 flex items-center justify-center text-md font-bold
+          transition-all duration-200 ease-in-out
+          ${
+            isBooked
+              ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
+              : isDisabled
+              ? `"bg-[#eeeeee] text-[#dedede] cursor-not-allowed text-white dark:bg-[#eeeeee]"`
+              : `
+                cursor-pointer
+                hover:bg-primary/10
                 ${
-                  isDisabled
-                    ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
-                    : `
-                    cursor-pointer
-                    hover:bg-primary/10
-                    ${
-                      inRange && !isPrev && !isNext
-                        ? "bg-primary text-background"
-                        : ""
-                    }
-                    ${
-                      fullDate === selectedRange.start
-                        ? "bg-primary text-white"
-                        : ""
-                    }
-                    ${
-                      fullDate === selectedRange.end
-                        ? "bg-primary text-white"
-                        : ""
-                    }
-                  `
-                }
-                ${
-                  isPrev || isNext
-                    ? "text-background  pointer-events-none "
+                  inRange && !isPrev && !isNext
+                    ? "bg-primary text-background"
                     : ""
                 }
-              `}
+                ${
+                  fullDate === selectedRange.start
+                    ? "bg-primary text-white"
+                    : ""
+                }
+                ${
+                  fullDate === selectedRange.end ? "bg-primary text-white" : ""
+                } 
+              `
+          }
+        `}
             >
-              {isDisabled ? (
+              {isDisabled || isBooked ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">
                       {date.day}
                     </TooltipTrigger>
                     <TooltipContent className="bg-secondary">
-                      Booked
+                      {isDisabled ? "Past" : "Booked"}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

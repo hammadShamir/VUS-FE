@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import BookingForm from "./BookingForm";
 import { axiosService } from "@/services/axios";
 import Container from "./common/Container";
@@ -7,6 +7,8 @@ import DualCalendar from "./ui/dual-custom-calender";
 
 const BookingSection = () => {
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
+  const [checkIn, setCheckIn] = useState();
+  const [checkOut, setCheckOut] = useState();
 
   const fetchBookedSlots = async () => {
     const currentDate = new Date();
@@ -40,16 +42,36 @@ const BookingSection = () => {
   React.useEffect(() => {
     fetchBookedSlots();
   }, []);
+
+  const onChangeDates = (data: any) => {
+    console.log(data);
+    if (data.checkIn) {
+      setCheckIn(data.checkIn);
+      setCheckOut(data.checkIn);
+      console.log(checkIn, "check In");
+    }
+    if (data.checkOut) {
+      setCheckOut(data.checkOut);
+      console.log(checkOut, "check Out");
+    }
+  };
   return (
     <Container style="py-10">
       <div className="grid gap-4 md:grid-cols-5">
         <div className="space-y-4 md:col-span-3">
-          <DualCalendar bookedSlots={bookedSlots} />
+          <DualCalendar
+            checkIn={checkIn}
+            checkOut={checkOut}
+            bookedSlots={bookedSlots}
+          />
         </div>
 
         <div className="md:col-span-2">
           <Suspense fallback={<div>Loading...</div>}>
-            <BookingForm bookedSlots={bookedSlots} />
+            <BookingForm
+              onChangeDates={onChangeDates}
+              bookedSlots={bookedSlots}
+            />
           </Suspense>
         </div>
       </div>

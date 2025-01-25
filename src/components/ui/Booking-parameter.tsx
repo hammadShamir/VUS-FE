@@ -13,9 +13,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { axiosService } from "@/services/axios";
+import { useBookingContext } from "@/context/Booking";
 
 export default function BookingParameter() {
   const navigate = useRouter();
+  const { setBookingDetails } = useBookingContext();
   const [checkIn, setCheckIn] = React.useState<Date>(new Date());
   const [checkOut, setCheckOut] = React.useState<Date>(new Date());
   const [adults, setAdults] = React.useState(2);
@@ -24,15 +26,14 @@ export default function BookingParameter() {
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
 
   const RedirectBooking = () => {
-    const queryParams = new URLSearchParams({
-      checkIn: checkIn ? checkIn.toISOString() : "",
-      checkOut: checkOut ? checkOut.toISOString() : "",
+    setBookingDetails({
+      checkIn: checkIn.toISOString(),
+      checkOut: checkOut.toISOString(),
       adults: adults.toString(),
       children: children.toString(),
-      bedRooms: bedrooms.toString(),
+      bedrooms: bedrooms.toString(),
     });
-
-    navigate.push(`/booking?${queryParams.toString()}`);
+    navigate.push("/booking");
   };
 
   const fetchBookedSlots = async () => {
