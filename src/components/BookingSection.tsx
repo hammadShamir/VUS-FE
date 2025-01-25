@@ -7,8 +7,8 @@ import DualCalendar from "./ui/dual-custom-calender";
 
 const BookingSection = () => {
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
-  const [checkIn, setCheckIn] = useState();
-  const [checkOut, setCheckOut] = useState();
+  const [checkIn, setCheckIn] = useState<Date | string>();
+  const [checkOut, setCheckOut] = useState<Date | string>();
 
   const fetchBookedSlots = async () => {
     const currentDate = new Date();
@@ -43,7 +43,7 @@ const BookingSection = () => {
     fetchBookedSlots();
   }, []);
 
-  const onChangeDates = (data: any) => {
+  const onChangeDates = (data: { checkIn?: string; checkOut?: string }) => {
     console.log(data);
     if (data.checkIn) {
       setCheckIn(data.checkIn);
