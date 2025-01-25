@@ -24,14 +24,15 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
   const [authenticated, setAuthenticated] = useState(!!checkAuth());
   const navigate = useRouter();
   const handleLogout = () => {
-    logout()
+    logout();
     setAuthenticated(false);
     navigate.push("/");
   };
   return (
     <section
-      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
-        }`}
+      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${
+        props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+      }`}
     >
       <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
         <div className={`w-full py-4`}>
@@ -54,7 +55,10 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
               {authenticated ? (
                 <UserMenu onLogout={handleLogout} />
               ) : (
-                <Link href="/login" className="text-background hidden lg:inline">
+                <Link
+                  href="/login"
+                  className="text-background hidden lg:inline"
+                >
                   SIGN IN
                 </Link>
               )}
@@ -101,39 +105,9 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
                   Contact Us
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="#"
-                  className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
-                >
-                  Gallery
-                </Link>
-              </li>
             </ul>
 
             <div className="flex flex-col lg:flex-row gap-2 my-10 lg:justify-between">
-              <ul className="space-y-2  lg:mr-10">
-                <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    ACTIVITY DETAIL
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    SALON PRICE LIST
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    THE RESTAURANT
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    OUR BLOG
-                  </a>
-                </li>
-              </ul>
               <ul className="space-y-2 mt-4 lg:mt-0">
                 <li>
                   <a href="#" className="block text-sm hover:text-secondary">

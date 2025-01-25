@@ -105,7 +105,6 @@ const Page = () => {
     const redirectTo =
       searchParams.get("redirect") ||
       (role === UserRoles.USER ? "/" : "/admin/bookings");
-
     // Redirect user after successful login
     navigate.push(redirectTo);
   };

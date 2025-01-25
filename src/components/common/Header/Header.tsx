@@ -4,7 +4,7 @@ import Image from "next/image";
 import ModalSidebar from "../Sidebar";
 import Link from "next/link";
 import Hamburger from "@/elements/Hamburger";
-import LocaleDropdown from "@/elements/LocaleDropdown";
+// import LocaleDropdown from "@/elements/LocaleDropdown";
 import { useRouter } from "next/navigation";
 import { isAuthenticated as checkAuth, logout } from "@/services/helper";
 import { UserMenu } from "@/elements/UserMenu";
@@ -44,12 +44,12 @@ const Header = () => {
       <Container style="relative flex justify-between">
         <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
-          <LocaleDropdown />
+          {/* <LocaleDropdown /> */}
         </div>
 
         <div className="w-full flex justify-center items-center">
           {isScrolled ? (
-            <Link href="/" className="text-xl text-background ">
+            <Link href="/" className="text-md text-background sm:text-xl">
               UMAH SHANTI
             </Link>
           ) : (
