@@ -195,9 +195,19 @@ const Page = () => {
 
             <button
               type="button"
-              className="bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary"
+              className="bg-primary text-background flex items-center  px-6 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary"
               onClick={handleGoogleSignIn}
             >
+              <span className="mx-2">
+                {" "}
+                <Image
+                  src={"/assets/google-icon.png"}
+                  alt="Sign In Sign Up Image"
+                  width={30}
+                  height={30}
+                  className="object-cover"
+                />
+              </span>
               Sign In With Google
             </button>
             <p className="text-sm md:text-base text-center text-foreground font-[family-name:var(--font-secondary)]">

@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const userSession = Cookies.get("user");
 const user = userSession && JSON.parse(userSession);
 
@@ -57,8 +58,14 @@ function ProfileForm() {
       <h1 className="text-2xl font-bold">Edit Profile:</h1>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         <div className="flex justify-center mb-6">
-          <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center">
-            <UserIcon className="w-16 h-16 text-slate-400" />
+          <div className="">
+            {/* <UserIcon className="w-16 h-16 text-slate-400" /> */}
+            <Avatar className="w-32 h-32 y">
+              <AvatarImage src={user?.photo} alt={"profile Photo"} />
+              <AvatarFallback>
+                <UserIcon className="w-16 h-16   text-slate-400" />
+              </AvatarFallback>
+            </Avatar>
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -146,7 +146,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
     // Prevent changing if the second calendar's month is greater than or equal to the first
     newDate.setMonth(newDate.getMonth() + increment);
     if (
-      (increment < 0 && newDate < new Date()) ||
+      (increment < 0 && new Date(currentDate) < new Date()) ||
       (increment < 0 &&
         isSecond &&
         (firstCalenderMonth as Date).getTime() === newDate.getTime())
@@ -221,10 +221,18 @@ const CustomCalendar: React.FC<CalendarProps> = ({
             <div
               key={index}
               onClick={() =>
-                !isPrev && !isNext && !isDisabled && handleDateClick(fullDate)
+                !isPrev &&
+                !isNext &&
+                !isDisabled &&
+                !isBooked &&
+                handleDateClick(fullDate)
               }
               onMouseEnter={() =>
-                !isPrev && !isNext && !isDisabled && handleDateHover(fullDate)
+                !isPrev &&
+                !isNext &&
+                !isDisabled &&
+                !isBooked &&
+                handleDateHover(fullDate)
               }
               onMouseLeave={() => onHover(null)}
               className={`

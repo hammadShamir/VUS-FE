@@ -22,7 +22,7 @@ const BookingForm: React.FC<{
     bedrooms: bookingDetails.bedrooms,
   };
 
-  const [bookingPayload, setBookingPayload] = useState<{
+  const [bookingPayload] = useState<{
     checkIn: string;
     checkOut: string;
     adults?: string;
