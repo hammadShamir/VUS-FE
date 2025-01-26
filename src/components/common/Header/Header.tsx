@@ -47,13 +47,13 @@ const Header = () => {
           {/* <LocaleDropdown /> */}
         </div>
 
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full">
           {isScrolled ? (
-            <Link href="/" className="text-md text-background sm:text-xl">
+            <Link href="/" className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center">
               UMAH SHANTI
             </Link>
           ) : (
-            <Link href="/">
+            <Link href="/" className="w-full h-full flex justify-center items-center">
               <Image
                 src={"/assets/img/logo.png"}
                 alt="Logo"

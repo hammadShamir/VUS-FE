@@ -14,11 +14,10 @@ const CallForAction: React.FC<sidFotProps> = ({ className }) => {
       <div data-aos="fade-up" className="text-center text-2xl lg:text-4xl font-bold text-primary ">
         Show Us Your @Umahshantivilla
       </div>
-      <p  data-aos="fade-up" data-aos-delay="500" className="text-center text-primary sm:text-sm">
-        Our guests always travel the world in style. Share your own experiences
-        using the username @Kempinskibali.
+      <p data-aos="fade-up" data-aos-delay="500" className="text-center text-primary sm:text-sm max-w-screen-sm">
+        Our guests always travel in style. Share your memorable experiences with us using the username @UmahShanti, and let the world see your journey with us.
       </p>
-      <div  data-aos="fade-up" data-aos-delay="800" className="flex gap-x-4">
+      <div data-aos="fade-up" data-aos-delay="800" className="flex gap-x-4">
         <div>
           <Link href={'/contact'} className="bg-transparent font-bold text-sm text-primary border border-primary px-4 py-2 rounded-md hover:bg-primary hover:text-background">
             CONTACT US

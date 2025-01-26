@@ -4,7 +4,7 @@ export default function ContactLinks() {
     return (
         <section className="w-full md:w-2/5 px-4 py-12 md:py-16 lg:py-20">
             <div className="container mx-auto max-w-2xl">
-                <h2  data-aos="fade-left" className="mb-8 text-3xl font-bold text-background md:text-4xl font-[family-name:var(--font-primary)]">
+                <h2 data-aos="fade-left" className="mb-8 text-3xl font-bold text-background md:text-4xl font-[family-name:var(--font-primary)]">
                     Contact Us
                 </h2>
 
@@ -15,7 +15,7 @@ export default function ContactLinks() {
                         </div>
                         <div className="pt-1">
                             <p className="text-lg text-background font-[family-name:var(--font-secondary)]">
-                                (0361) 898 9127
+                                +62 361 898 9127
                             </p>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ const page = () => {
             <Header />
             <Banner bgImg="/assets/img/banners/banner-facilities.png"
                 title="Facilities"
-                para="Find Your Oasis of Calm in Our Luxurious Accommodations" />
+                para="Experience the finest blend of nature and luxury with amenities designed to make your stay unforgettable." />
             <Rooms />
             <FacilitiesSection />
             <CallForAction />

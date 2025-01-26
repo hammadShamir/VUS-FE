@@ -10,9 +10,9 @@ const page = () => {
         <>
             <Header />
             <Banner
-                bgImg="/assets/img/banners/banner-contact.png"
+                bgImg="/assets/img/Rooms/img-10.png"
                 title="Booking"
-                para="Find Your Oasis of Calm in Our Luxurious Accommodations"
+                para="Choose your dates and let us turn your vacation dreams into reality with effortless booking."
             />
             <BookingSection />
             <CallForAction />

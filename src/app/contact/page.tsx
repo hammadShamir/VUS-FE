@@ -14,7 +14,7 @@ const page = () => {
       <Banner
         bgImg="/assets/img/banners/banner-contact.png"
         title="Contact Us"
-        para="Find Your Oasis of Calm in Our Luxurious Accommodations"
+        para="Reach out to us for inquiries, bookings, or personalized assistance to make your stay extraordinary."
       />
       <ContactSection />
       <MapAndLinks />

@@ -49,6 +49,7 @@ const DatePicker: React.FC<IDatePicker> = (props) => {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          className="bg-secondary text-primary"
           mode="single"
           selected={date}
           onSelect={handleDateChange}

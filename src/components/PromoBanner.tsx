@@ -12,11 +12,11 @@ const PromoBanner = () => {
                 {/* Left Column */}
                 <div data-aos="fade-up" className="z-10 w-full lg:w-[50%]">
                     <div className="space-y-2 md:space-y-4">
-                        <h3 className="text-background font-[family-name:var(--font-secondary)]">DAILY SANIFICATION</h3>
+                        <h3 className="text-background font-[family-name:var(--font-secondary)]">DAILY SANITIZATION</h3>
                         <h2 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-background md:text-4xl">
-                            Room Service
+                        Exclusive Room Service Offer
                         </h2>
-                        <p className='text-background font-[family-name:var(--font-secondary)] text-base'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor tellus vel mauris scelerisque accumsan. Maecenas quis nunc sed sapien dignissim pulvinar. Se d at gravida ligula, eget hendrerit nisi. Pellentesque at congue mauris. posuere finibus risus. </p>
+                        <p className='text-background font-[family-name:var(--font-secondary)] text-base'>Immerse yourself in luxury and comfort with our top-notch room service, now at an unbeatable discount! Get up to 50% OFF. Make your stay refreshing and worry-free. </p>
                         <div>
                             <Link href={'/booking'} className="z-10">
                                 <Button variant='outline'>

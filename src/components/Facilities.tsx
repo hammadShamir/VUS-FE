@@ -51,7 +51,7 @@ const Facilities = () => {
                     <div className="relative w-full lg:w-[40%]">
                         <div data-aos="zoom-in-left" data-aos-delay="1000" className="aspect-[4/2] md:aspect-[4/5] md:rounded-3xl overflow-hidden">
                             <Image
-                                src="/assets/img/lawn/img-3.png"
+                                src="/assets/img/Lawn/img-3.png"
                                 alt="Luxury Room Interior"
                                 width={600}
                                 height={800}
