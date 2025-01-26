@@ -79,11 +79,11 @@ export function BookingsList() {
           />
         </div>
       ) : !myBooking.length ? (
-        <div className="w-full text-center py-8">
+        <div className="w-full text-center py-8 text-background dark:text-background ">
           <span>No bookings available.</span>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6  text-background dark-text-background">
           {myBooking.map((booking) => (
             <Card key={booking._id} className="overflow-hidden">
               <div className="relative h-44 w-full">
@@ -96,7 +96,9 @@ export function BookingsList() {
               </div>
               <CardContent className="p-4 bg-primary h-full">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="font-medium">#{booking._id.slice(0, 4)}</div>
+                  <div className="font-medium  text-background dark:text-background">
+                    #{booking._id.slice(0, 4)}
+                  </div>
                   <Badge
                     variant="secondary"
                     className={cn(statusStyles[booking.status])}
@@ -106,20 +108,28 @@ export function BookingsList() {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Amount</span>
-                    <span className="font-medium">{booking.amount}</span>
+                    <span className="text-muted-foreground text-background dark:text-background ">
+                      Amount
+                    </span>
+                    <span className="font-medium  text-background dark:text-background">
+                      {booking.amount}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Booking Date</span>
-                    <span className="font-medium">
+                    <span className="text-muted-foreground text-background dark:text-background ">
+                      Booking Date
+                    </span>
+                    <span className="font-medium text-background dark:text-background ">
                       {formatDate(booking.checkIn)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground text-background dark:text-background ">
                       No Of Bedrooms
                     </span>
-                    <span className="font-medium">{booking.rooms}</span>
+                    <span className="font-medium text-background dark:text-background  ">
+                      {booking.rooms}
+                    </span>
                   </div>
                 </div>
                 {booking.status !== BookingStatus.cancelled && (

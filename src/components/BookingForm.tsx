@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import DatePicker from "@/elements/Datepicker";
 import { Button } from "./ui/button";
 import { axiosService } from "@/services/axios";
@@ -13,7 +13,7 @@ const BookingForm: React.FC<{
   onChangeDates: ({}) => void;
   bookedSlots: Date[];
 }> = (props) => {
-  const { bookingDetails, setBookingDetails } = useBookingContext();
+  const { bookingDetails } = useBookingContext();
   const payload = {
     checkIn: bookingDetails.checkIn,
     checkOut: bookingDetails.checkOut,
@@ -87,6 +87,7 @@ const BookingForm: React.FC<{
   }, [bookingDetails.checkIn, bookingDetails.checkOut]);
 
   const onChangeSlots = async (date: Date | null, state: string) => {
+    console.log(date, "test");
     // Validate that check-in is before check-out
     if (
       formik.values.checkIn &&
@@ -100,7 +101,7 @@ const BookingForm: React.FC<{
 
     // Update the Formik field value
     if (date) {
-      formik.setFieldValue(state, date.toISOString());
+      formik.setFieldValue(state, date);
     }
 
     // Update the booking details dynamically
@@ -110,10 +111,10 @@ const BookingForm: React.FC<{
     };
     props.onChangeDates({
       ...selectedDate,
-      [state]: date ? date.toISOString() : null,
+      [state]: date ? date : null,
     });
     console.log({
-      [state]: date ? date.toISOString() : null,
+      [state]: date ? date : null,
     });
     // setBookingDetails({
     //   [state]: date ? date.toISOString() : null,
@@ -136,15 +137,18 @@ const BookingForm: React.FC<{
       <div className="h-full flex flex-col justify-center gap-y-6">
         {/* Check-In Date Picker */}
         <div className="flex flex-col space-y-2">
-          <label htmlFor="checkIn" className="dark:text-background">Check-In</label>
+          <label
+            htmlFor="checkIn"
+            className="text-background dark:text-background"
+          >
+            Check-In
+          </label>
           <DatePicker
             placeholder="Check In"
             selectedDate={
               formik.values.checkIn ? new Date(formik.values.checkIn) : null
             }
-            onDateChange={(date) =>
-              formik.setFieldValue("checkIn", date ? date.toISOString() : "")
-            }
+            onDateChange={(date) => onChangeSlots(date, "checkIn")}
             disabledDates={props.bookedSlots}
           />
           {formik.touched.checkIn && formik.errors.checkIn && (
@@ -154,15 +158,18 @@ const BookingForm: React.FC<{
 
         {/* Check-Out Date Picker */}
         <div className="flex flex-col space-y-2">
-          <label htmlFor="checkOut" className="dark:text-background">Check-Out</label>
+          <label
+            htmlFor="checkOut"
+            className="text-background dark:text-background"
+          >
+            Check-Out
+          </label>
           <DatePicker
             placeholder="Check Out"
             selectedDate={
               formik.values.checkOut ? new Date(formik.values.checkOut) : null
             }
-            onDateChange={(date) =>
-              formik.setFieldValue("checkOut", date ? date.toISOString() : "")
-            }
+            onDateChange={(date) => onChangeSlots(date, "checkOut")}
             disabledDates={props.bookedSlots}
           />
           {formik.touched.checkOut && formik.errors.checkOut && (
@@ -172,7 +179,9 @@ const BookingForm: React.FC<{
 
         {/* Rooms Select */}
         <div className="relative w-full space-y-2">
-          <label htmlFor="" className="dark:text-background">Bedrooms</label>
+          <label htmlFor="" className="text-background dark:text-background">
+            Bedrooms
+          </label>
           <select
             value={formik.values.rooms}
             onChange={(e) => formik.setFieldValue("rooms", e.target.value)}
@@ -181,9 +190,15 @@ const BookingForm: React.FC<{
             <option value="" disabled>
               Bedrooms
             </option>
-            <option value="1" className="bg-secondary text-primary">1</option>
-            <option value="2" className="bg-secondary text-primary">2</option>
-            <option value="3" className="bg-secondary text-primary">3</option>
+            <option value="1" className="bg-secondary text-primary">
+              1
+            </option>
+            <option value="2" className="bg-secondary text-primary">
+              2
+            </option>
+            <option value="3" className="bg-secondary text-primary">
+              3
+            </option>
           </select>
           {formik.touched.rooms && formik.errors.rooms && (
             <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
@@ -193,7 +208,12 @@ const BookingForm: React.FC<{
         {/* Adults and Children Select */}
         <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
           <div className="relative w-full space-y-2">
-            <label htmlFor="children" className="dark:text-background">Adults</label>
+            <label
+              htmlFor="children"
+              className="text-background dark:text-background"
+            >
+              Adults
+            </label>
             <select
               value={formik.values.adults}
               onChange={(e) => formik.setFieldValue("adults", e.target.value)}
@@ -202,16 +222,27 @@ const BookingForm: React.FC<{
               <option value="" disabled>
                 Adults
               </option>
-              <option value="1" className="bg-secondary text-primary">1</option>
-              <option value="2" className="bg-secondary text-primary">2</option>
-              <option value="3" className="bg-secondary text-primary">3</option>
+              <option value="1" className="bg-secondary text-primary">
+                1
+              </option>
+              <option value="2" className="bg-secondary text-primary">
+                2
+              </option>
+              <option value="3" className="bg-secondary text-primary">
+                3
+              </option>
             </select>
             {formik.touched.adults && formik.errors.adults && (
               <div className="text-red-500 text-sm">{formik.errors.adults}</div>
             )}
           </div>
           <div className="relative w-full space-y-2">
-            <label htmlFor="children" className="dark:text-background">Children</label>
+            <label
+              htmlFor="children"
+              className="text-background dark:text-background"
+            >
+              Children
+            </label>
             <select
               value={formik.values.children}
               onChange={(e) => formik.setFieldValue("children", e.target.value)}
@@ -220,9 +251,15 @@ const BookingForm: React.FC<{
               <option value="" disabled>
                 Children
               </option>
-              <option value="1" className="bg-secondary text-primary">1</option>
-              <option value="2" className="bg-secondary text-primary">2</option>
-              <option value="3" className="bg-secondary text-primary">3</option>
+              <option value="1" className="bg-secondary text-primary">
+                1
+              </option>
+              <option value="2" className="bg-secondary text-primary">
+                2
+              </option>
+              <option value="3" className="bg-secondary text-primary">
+                3
+              </option>
             </select>
             {formik.touched.children && formik.errors.children && (
               <div className="text-red-500 text-sm">
