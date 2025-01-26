@@ -9,6 +9,8 @@ import { axiosService } from "@/services/axios";
 import Cookies from "js-cookie";
 import { useBookingContext } from "@/context/Booking";
 import toast from "react-hot-toast";
+import { IRoomsManagementTable } from "@/interfaces";
+import { getToken } from "@/services/helper";
 const BookingForm: React.FC<{
   onChangeDates: ({}) => void;
   bookedSlots: Date[];
@@ -32,7 +34,26 @@ const BookingForm: React.FC<{
 
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const [roomDetails, setRoomDetails] = useState<IRoomsManagementTable[]>();
+  useEffect(() => {
+    if (bookingDetails.checkIn) {
+      formik.setFieldValue("checkIn", bookingDetails.checkIn);
+    }
+    if (bookingDetails.checkOut) {
+      formik.setFieldValue("checkOut", bookingDetails.checkOut);
+    }
+  }, [bookingDetails.checkIn, bookingDetails.checkOut]);
+  useEffect(() => {
+    getRoomDetails();
+  }, []);
+  const getRoomDetails = async () => {
+    const response = await axiosService.get(`/rooms/get-rooms`, {
+      headers: {
+        Authorization: getToken() || "",
+      },
+    });
+    setRoomDetails(response.data);
+  };
   const formik = useFormik({
     initialValues: {
       checkIn: bookingPayload.checkIn || "",
@@ -66,25 +87,17 @@ const BookingForm: React.FC<{
     },
   });
 
+  // // Handle dynamic price based on rooms selection
+  // React.useEffect(() => {
+  //   if (formik.values.rooms === "1") {
+  //     formik.setFieldValue("amount", "5");
+  //   } else if (formik.values.rooms === "2") {
+  //     formik.setFieldValue("amount", "10");
+  //   } else if (formik.values.rooms === "3") {
+  //     formik.setFieldValue("amount", "15");
+  //   }
+  // }, [formik && formik.values.rooms]);
   // Handle dynamic price based on rooms selection
-  React.useEffect(() => {
-    if (formik.values.rooms === "1") {
-      formik.setFieldValue("amount", "5");
-    } else if (formik.values.rooms === "2") {
-      formik.setFieldValue("amount", "10");
-    } else if (formik.values.rooms === "3") {
-      formik.setFieldValue("amount", "15");
-    }
-  }, [formik && formik.values.rooms]);
-  // Handle dynamic price based on rooms selection
-  useEffect(() => {
-    if (bookingDetails.checkIn) {
-      formik.setFieldValue("checkIn", bookingDetails.checkIn);
-    }
-    if (bookingDetails.checkOut) {
-      formik.setFieldValue("checkOut", bookingDetails.checkOut);
-    }
-  }, [bookingDetails.checkIn, bookingDetails.checkOut]);
 
   const onChangeSlots = async (date: Date | null, state: string) => {
     console.log(date, "test");
@@ -120,6 +133,14 @@ const BookingForm: React.FC<{
     //   [state]: date ? date.toISOString() : null,
     // });
   };
+  const updateBedroomAndPrice = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRoomDetail =
+      roomDetails &&
+      roomDetails.find((room) => room.roomsCount == e.target.value);
+    console.log(roomDetails);
+    formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
+    formik.setFieldValue("amount", selectedRoomDetail?.price);
+  };
 
   return (
     <form
@@ -131,7 +152,7 @@ const BookingForm: React.FC<{
           Reserve:
         </h3>
         <h6 className="text-xl font-[family-name:var(--font-secondary)]">
-          From $299/night
+          From ${formik.values.amount}/night
         </h6>
       </div>
       <div className="h-full flex flex-col justify-center gap-y-6">
@@ -184,21 +205,21 @@ const BookingForm: React.FC<{
           </label>
           <select
             value={formik.values.rooms}
-            onChange={(e) => formik.setFieldValue("rooms", e.target.value)}
-            className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+            onChange={(e) => updateBedroomAndPrice(e)}
+            className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4 focus:outline-none bg-transparent"
           >
             <option value="" disabled>
               Bedrooms
             </option>
-            <option value="1" className="bg-secondary text-primary">
-              1
-            </option>
-            <option value="2" className="bg-secondary text-primary">
-              2
-            </option>
-            <option value="3" className="bg-secondary text-primary">
-              3
-            </option>
+            {roomDetails?.map((roomDetail) => (
+              <option
+                key={roomDetail.roomsCount}
+                value={roomDetail.roomsCount}
+                className="bg-secondary text-primary"
+              >
+                {roomDetail.label}
+              </option>
+            ))}
           </select>
           {formik.touched.rooms && formik.errors.rooms && (
             <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
