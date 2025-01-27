@@ -144,9 +144,9 @@ const CustomCalendar: React.FC<CalendarProps> = ({
   const changeMonth = (increment: number) => {
     const newDate = new Date(currentDate);
     // Prevent changing if the second calendar's month is greater than or equal to the first
-    console.log(newDate, new Date());
+    newDate.setMonth(newDate.getMonth() + increment);
     if (
-      (increment < 0 && newDate < new Date()) ||
+      (increment < 0 && new Date(currentDate) < new Date()) ||
       (increment < 0 &&
         isSecond &&
         (firstCalenderMonth as Date).getTime() === newDate.getTime())
@@ -154,7 +154,6 @@ const CustomCalendar: React.FC<CalendarProps> = ({
       return;
     }
 
-    newDate.setMonth(newDate.getMonth() + increment);
     setCurrentDate(newDate);
     onMonthChange(newDate, isSecond);
   };
@@ -168,8 +167,11 @@ const CustomCalendar: React.FC<CalendarProps> = ({
         >
           <ChevronLeft className="w-5 h-5 text-primary" />
         </button>
-        <h2 className="text-center text-primary text-lg font-bold">
-          {currentDate.toLocaleString("default", { month: "short" })} {year}
+        <h2 className="text-center text-xl text-primary text-lg font-bold">
+          {currentDate
+            .toLocaleString("default", { month: "short" })
+            .toUpperCase()}{" "}
+          {year}
         </h2>
         <button
           onClick={() => changeMonth(1)}
@@ -219,10 +221,18 @@ const CustomCalendar: React.FC<CalendarProps> = ({
             <div
               key={index}
               onClick={() =>
-                !isPrev && !isNext && !isDisabled && handleDateClick(fullDate)
+                !isPrev &&
+                !isNext &&
+                !isDisabled &&
+                !isBooked &&
+                handleDateClick(fullDate)
               }
               onMouseEnter={() =>
-                !isPrev && !isNext && !isDisabled && handleDateHover(fullDate)
+                !isPrev &&
+                !isNext &&
+                !isDisabled &&
+                !isBooked &&
+                handleDateHover(fullDate)
               }
               onMouseLeave={() => onHover(null)}
               className={`
@@ -232,7 +242,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
             isBooked
               ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
               : isDisabled
-              ? `"bg-[#eeeeee] text-[#dedede] cursor-not-allowed text-white dark:bg-[#eeeeee]"`
+              ? `"bg-[#eeeeee] text-neutral-500 opacity-50 cursor-not-allowed dark:text-neutral-500 opacity-50"`
               : `
                 cursor-pointer
                 hover:bg-primary/10
@@ -253,14 +263,14 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           }
         `}
             >
-              {isDisabled || isBooked ? (
+              {isBooked ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">
                       {date.day}
                     </TooltipTrigger>
                     <TooltipContent className="bg-secondary">
-                      {isDisabled ? "Past" : "Booked"}
+                      Booked
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

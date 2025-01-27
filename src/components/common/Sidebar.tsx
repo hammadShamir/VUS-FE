@@ -3,7 +3,6 @@ import Image from "next/image";
 import {
   FaMapMarkerAlt,
   FaPhoneAlt,
-  FaFax,
   FaEnvelope,
   FaFacebook,
   FaTwitter,
@@ -30,20 +29,19 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
   };
   return (
     <section
-      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${
-        props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+        }`}
     >
       <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
-        <div className={`w-full py-4`}>
+        <div className={`w-full py-2`}>
           <div className="relative flex justify-between items-center">
-            <div className="flex space-x-10">
+            <div className="max-w-screen-sm w-full flex space-x-10">
               <Hamburger isOpen={props.isOpen} setIsOpen={props.setIsOpen} />
             </div>
-            <div className="hidden lg:block">
-              <p className="text-xl font-secondary">UMAH SHANTI</p>
+            <div className="w-full hidden lg:block">
+              <p className="text-xl font-secondary text-center">UMAH SHANTI</p>
             </div>
-            <div className="flex justify-center items-center gap-10">
+            <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
               <button
                 onClick={() => navigate.push("/booking")}
                 className={`border border-background text-background text-background
@@ -130,7 +128,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
           <div className="relative w-full">
             <div className="aspect-[4/2] md:aspect-[4/5] overflow-hidden">
               <Image
-                src="/assets/img/lawn/img-2.png"
+                src="/assets/img/Lawn/img-2.png"
                 alt="Villa"
                 width={600}
                 height={800}
@@ -144,20 +142,18 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
               <div className="flex items-center space-x-2">
                 <FaMapMarkerAlt className="text-primary" />
                 <p className="text-sm">
-                  1250 West 6th Ave, New York <br />, NY 10036, United States
+                  Jl. RSI Markandya 2, Gang Mawar, <br />
+                  Banjar Sebali, Desa Keliki,<br />
+                  Kecamatan Tegallalang - Bali, Indonesia
                 </p>
               </div>
               <div className="flex items-center space-x-2">
                 <FaPhoneAlt className="text-primary" />
-                <p className="text-sm">Phone: +1 212 555 6688</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <FaFax className="text-primary" />
-                <p className="text-sm">Fax: +1 212 555 6699</p>
+                <p className="text-sm">Phone: +62 361 898 9127</p>
               </div>
               <div className="flex items-center space-x-2">
                 <FaEnvelope className="text-primary" />
-                <p className="text-sm">Email: info@cozystay.com</p>
+                <p className="text-sm">Email: umahshantivilla@gmail.com</p>
               </div>
             </div>
 

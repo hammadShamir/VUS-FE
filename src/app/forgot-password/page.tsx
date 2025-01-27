@@ -60,7 +60,7 @@ const Page = () => {
           alt="Sign In Sign Up Image"
           width={1000}
           height={1000}
-          className="w-full h-full"
+          className="w-full h-full object-cover"
         />
       </div>
       <div className="flex-1 h-[200px] bg-background flex justify-center items-center">

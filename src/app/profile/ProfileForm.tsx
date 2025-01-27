@@ -1,10 +1,22 @@
 "use client";
-
+import Cookies from "js-cookie";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+const userSession = Cookies.get("user");
+const user = userSession && JSON.parse(userSession);
+
+interface FormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone: string;
+  address: string;
+}
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -26,13 +38,13 @@ const validationSchema = Yup.object({
 });
 
 function ProfileForm() {
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      firstName: "Annette",
-      lastName: "Black",
-      password: "••••••••••",
-      email: "annetteblack@gmail.com",
-      phone: "485-645-2639",
+      firstName: user?.fullName.split()[0] || "",
+      lastName: user?.fullName.split()[1] || "",
+      password: "***********",
+      email: user?.email || null,
+      phone: user?.phone || null,
       address: "116 Jaskólski Shorezure Suite 883",
     },
     validationSchema,
@@ -46,8 +58,14 @@ function ProfileForm() {
       <h1 className="text-2xl font-bold">Edit Profile:</h1>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         <div className="flex justify-center mb-6">
-          <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center">
-            <UserIcon className="w-16 h-16 text-slate-400" />
+          <div className="">
+            {/* <UserIcon className="w-16 h-16 text-slate-400" /> */}
+            <Avatar className="w-32 h-32 y">
+              <AvatarImage src={user?.photo} alt={"profile Photo"} />
+              <AvatarFallback>
+                <UserIcon className="w-16 h-16   text-slate-400" />
+              </AvatarFallback>
+            </Avatar>
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -62,6 +80,7 @@ function ProfileForm() {
               <Input
                 id="firstName"
                 {...formik.getFieldProps("firstName")}
+                placeholder="Enter First Name"
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
               />
               {formik.touched.firstName && formik.errors.firstName && (
@@ -78,6 +97,7 @@ function ProfileForm() {
               <Input
                 id="email"
                 type="email"
+                placeholder="Enter Email"
                 {...formik.getFieldProps("email")}
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
               />
@@ -115,6 +135,7 @@ function ProfileForm() {
               <Input
                 id="phone"
                 {...formik.getFieldProps("phone")}
+                placeholder="Enter Phone number"
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
               />
               {formik.touched.phone && formik.errors.phone && (
@@ -133,6 +154,7 @@ function ProfileForm() {
               <Input
                 id="address"
                 {...formik.getFieldProps("address")}
+                placeholder="Enter Address"
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
               />
               {formik.touched.address && formik.errors.address && (
@@ -143,11 +165,14 @@ function ProfileForm() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end gap-4 mt-6">
+        <div className="flex justify-end gap-4 mt-6 text-background dark:text-background">
           <Button variant="default" type="submit" className="w-32 bg-primary">
             Save Changes
           </Button>
-          <Button variant="outline" className="w-32">
+          <Button
+            variant="outline"
+            className="w-32 border-primary text-primary dark:border-primary dark:text-primary"
+          >
             Cancel
           </Button>
         </div>

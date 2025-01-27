@@ -6,17 +6,12 @@ import * as Yup from "yup";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
+import DatePicker from "@/elements/Datepicker";
+import { axiosService } from "@/services/axios";
 // import { Label } from "@/components/ui/label"
 
 const validationSchema = Yup.object({
@@ -29,13 +24,15 @@ const validationSchema = Yup.object({
   bookingType: Yup.string().required("Please select a booking type"),
   checkIn: Yup.date().optional(),
   checkOut: Yup.date().optional(),
-  adults: Yup.number().min(1, "At least 1 adult required").required(),
-  children: Yup.number().min(0).required(),
+  adults: Yup.number().min(1, "At least 1 adult required").optional(),
+  children: Yup.number().min(0).optional(),
+  rooms: Yup.number().optional(),
   subject: Yup.string().required("Subject is required"),
   message: Yup.string().required("Message is required"),
 });
 
 export default function ContactForm() {
+  const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -45,8 +42,9 @@ export default function ContactForm() {
       bookingType: "",
       checkIn: undefined,
       checkOut: undefined,
-      adults: 2,
-      children: 0,
+      adults: "",
+      children: "",
+      rooms: "",
       subject: "",
       message: "",
     },
@@ -78,6 +76,38 @@ export default function ContactForm() {
       );
     },
   });
+  const fetchBookedSlots = async () => {
+    const currentDate = new Date();
+    const startDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
+    );
+    const endDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 2,
+      0
+    );
+    const response = await axiosService.get("/slots/booked-slots", {
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      },
+    });
+    if (response.data.length) {
+      setBookedSlots(formatBookedSlots(response.data));
+    }
+  };
+
+  const formatBookedSlots = (
+    bookedSlots: { date: string; booked: boolean }[]
+  ) => {
+    return bookedSlots.map((slots) => new Date(slots.date));
+  };
+
+  React.useEffect(() => {
+    fetchBookedSlots();
+  }, []);
 
   return (
     <div
@@ -153,27 +183,207 @@ export default function ContactForm() {
             <p className="text-sm text-red-500">{formik.errors.email}</p>
           )}
         </div>
+        <div>
+          <select
+            value={formik.values.bookingType}
+            onChange={(e) =>
+              formik.setFieldValue("bookingType", e.target.value)
+            }
+            className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+          >
+            <option value="" disabled>
+              Select Type
+            </option>
+            <option value="booking" className="bg-secondary text-primary">
+              Booking
+            </option>
+            <option
+              value="customer Support"
+              className="bg-secondary text-primary"
+            >
+              Customer Support
+            </option>
+            <option
+              value="other Inquires"
+              className="bg-secondary text-primary"
+            >
+              Other Inquires
+            </option>
+          </select>
+          {formik.touched.children && formik.errors.children && (
+            <div className="text-red-500 text-sm">{formik.errors.children}</div>
+          )}
+        </div>
 
-        <Select
-          data-aos="fade-up"
-          data-aos-delay="500"
-          onValueChange={(value) => formik.setFieldValue("bookingType", value)}
-          value={formik.values.bookingType}
-        >
-          <SelectTrigger className="border border-background bg-transparent text-white focus:ring-0">
-            <SelectValue
-              placeholder="Booking"
+        {formik.values.bookingType === "booking" && (
+          <>
+            <div
               data-aos="fade-up"
-              data-aos-delay="500"
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="standard">Booking</SelectItem>
-            <SelectItem value="deluxe">Deluxe Room</SelectItem>
-            <SelectItem value="suite">Suite</SelectItem>
-          </SelectContent>
-        </Select>
+              data-aos-delay="400"
+              className="flex flex-col space-y-2"
+            >
+              <label
+                htmlFor="checkIn"
+                className="text-background dark:text-background"
+              >
+                Check-In
+              </label>
+              <DatePicker
+                placeholder="Check In"
+                selectedDate={
+                  formik.values.checkIn ? new Date(formik.values.checkIn) : null
+                }
+                onDateChange={(date) => formik.setFieldValue("checkIn", date)}
+                disabledDates={bookedSlots}
+              />
+              {formik.touched.checkIn && formik.errors.checkIn && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.checkIn}
+                </div>
+              )}
+            </div>
 
+            {/* Check-Out Date Picker */}
+            <div
+              className="flex flex-col space-y-2"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <label
+                htmlFor="checkOut"
+                className="text-background dark:text-background"
+              >
+                Check-Out
+              </label>
+              <DatePicker
+                placeholder="Check Out"
+                selectedDate={
+                  formik.values.checkOut
+                    ? new Date(formik.values.checkOut)
+                    : null
+                }
+                onDateChange={(date) => formik.setFieldValue("checkOut", date)}
+                disabledDates={bookedSlots}
+              />
+              {formik.touched.checkOut && formik.errors.checkOut && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.checkOut}
+                </div>
+              )}
+            </div>
+
+            {/* Rooms Select */}
+            <div
+              data-aos="fade-up"
+              data-aos-delay="400"
+              className="relative w-full space-y-2"
+            >
+              <label
+                htmlFor=""
+                className="text-background dark:text-background"
+              >
+                Bedrooms
+              </label>
+              <select
+                value={formik.values.rooms}
+                onChange={(e) => formik.setFieldValue("rooms", e.target.value)}
+                className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+              >
+                <option value="" disabled>
+                  Bedrooms
+                </option>
+                <option value="1" className="bg-secondary text-primary">
+                  1
+                </option>
+                <option value="2" className="bg-secondary text-primary">
+                  2
+                </option>
+                <option value="3" className="bg-secondary text-primary">
+                  3
+                </option>
+              </select>
+              {formik.touched.rooms && formik.errors.rooms && (
+                <div className="text-red-500 text-sm">
+                  {formik.errors.rooms}
+                </div>
+              )}
+            </div>
+
+            {/* Adults and Children Select */}
+            <div
+              data-aos="fade-up"
+              data-aos-delay="400"
+              className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4"
+            >
+              <div className="relative w-full space-y-2">
+                <label
+                  htmlFor="children"
+                  className="text-background dark:text-background"
+                >
+                  Adults
+                </label>
+                <select
+                  value={formik.values.adults}
+                  onChange={(e) =>
+                    formik.setFieldValue("adults", e.target.value)
+                  }
+                  className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+                >
+                  <option value="" disabled>
+                    Adults
+                  </option>
+                  <option value="1" className="bg-secondary text-primary">
+                    1
+                  </option>
+                  <option value="2" className="bg-secondary text-primary">
+                    2
+                  </option>
+                  <option value="3" className="bg-secondary text-primary">
+                    3
+                  </option>
+                </select>
+                {formik.touched.adults && formik.errors.adults && (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.adults}
+                  </div>
+                )}
+              </div>
+              <div className="relative w-full space-y-2">
+                <label
+                  htmlFor="children"
+                  className="text-background dark:text-background"
+                >
+                  Children
+                </label>
+                <select
+                  value={formik.values.children}
+                  onChange={(e) =>
+                    formik.setFieldValue("children", e.target.value)
+                  }
+                  className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+                >
+                  <option value="" disabled>
+                    Children
+                  </option>
+                  <option value="1" className="bg-secondary text-primary">
+                    1
+                  </option>
+                  <option value="2" className="bg-secondary text-primary">
+                    2
+                  </option>
+                  <option value="3" className="bg-secondary text-primary">
+                    3
+                  </option>
+                </select>
+                {formik.touched.children && formik.errors.children && (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.children}
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
         <div className="space-y-2" data-aos="fade-up" data-aos-delay="1000">
           <Input
             id="subject"
@@ -190,7 +400,6 @@ export default function ContactForm() {
             <p className="text-sm text-red-500">{formik.errors.subject}</p>
           )}
         </div>
-
         <div className="space-y-2" data-aos="fade-up" data-aos-delay="1100">
           <Textarea
             id="message"
@@ -207,10 +416,9 @@ export default function ContactForm() {
             <p className="text-sm text-red-500">{formik.errors.message}</p>
           )}
         </div>
-
         <Button
           data-aos="fade-up"
-          data-aos-delay="1200"
+          data-aos-delay="400"
           variant={"outline"}
           type="submit"
           className="w-full text-background border-background"

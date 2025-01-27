@@ -86,6 +86,14 @@ export interface IAdminManagementTable {
   phone: string;
   isActive?: boolean;
 }
+export interface IRoomsManagementTable {
+  _id?: string;
+  label: string;
+  roomsCount: number | string;
+  adults: number;
+  children: number;
+  price: number;
+}
 export interface IAdminReviewsTable {
   _id: string;
   author: string;
@@ -120,6 +128,14 @@ export interface IAdminManagementMainTable {
   error: boolean;
   onUpdate: () => void;
 }
+
+export interface IAdminRoomsManagementTable {
+  rooms: IRoomsManagementTable[];
+  loading: boolean;
+  error: boolean;
+  onUpdate: () => void;
+}
+
 export interface IReviewTable {
   reviews: IAdminReviewsTable[];
   onUpdate: () => void;

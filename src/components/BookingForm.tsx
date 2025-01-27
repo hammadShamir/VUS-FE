@@ -2,25 +2,20 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import DatePicker from "@/elements/Datepicker";
 import { Button } from "./ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { axiosService } from "@/services/axios";
 import Cookies from "js-cookie";
 import { useBookingContext } from "@/context/Booking";
 import toast from "react-hot-toast";
+import { IRoomsManagementTable } from "@/interfaces";
+import { getToken } from "@/services/helper";
 const BookingForm: React.FC<{
   onChangeDates: ({}) => void;
   bookedSlots: Date[];
 }> = (props) => {
-  const { bookingDetails, setBookingDetails } = useBookingContext();
+  const { bookingDetails } = useBookingContext();
   const payload = {
     checkIn: bookingDetails.checkIn,
     checkOut: bookingDetails.checkOut,
@@ -29,7 +24,7 @@ const BookingForm: React.FC<{
     bedrooms: bookingDetails.bedrooms,
   };
 
-  const [bookingPayload, setBookingPayload] = useState<{
+  const [bookingPayload] = useState<{
     checkIn: string;
     checkOut: string;
     adults?: string;
@@ -39,7 +34,26 @@ const BookingForm: React.FC<{
 
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const [roomDetails, setRoomDetails] = useState<IRoomsManagementTable[]>();
+  useEffect(() => {
+    if (bookingDetails.checkIn) {
+      formik.setFieldValue("checkIn", bookingDetails.checkIn);
+    }
+    if (bookingDetails.checkOut) {
+      formik.setFieldValue("checkOut", bookingDetails.checkOut);
+    }
+  }, [bookingDetails.checkIn, bookingDetails.checkOut]);
+  useEffect(() => {
+    getRoomDetails();
+  }, []);
+  const getRoomDetails = async () => {
+    const response = await axiosService.get(`/rooms/get-rooms`, {
+      headers: {
+        Authorization: getToken() || "",
+      },
+    });
+    setRoomDetails(response.data);
+  };
   const formik = useFormik({
     initialValues: {
       checkIn: bookingPayload.checkIn || "",
@@ -73,27 +87,20 @@ const BookingForm: React.FC<{
     },
   });
 
+  // // Handle dynamic price based on rooms selection
+  // React.useEffect(() => {
+  //   if (formik.values.rooms === "1") {
+  //     formik.setFieldValue("amount", "5");
+  //   } else if (formik.values.rooms === "2") {
+  //     formik.setFieldValue("amount", "10");
+  //   } else if (formik.values.rooms === "3") {
+  //     formik.setFieldValue("amount", "15");
+  //   }
+  // }, [formik && formik.values.rooms]);
   // Handle dynamic price based on rooms selection
-  React.useEffect(() => {
-    if (formik.values.rooms === "1") {
-      formik.setFieldValue("amount", "5");
-    } else if (formik.values.rooms === "2") {
-      formik.setFieldValue("amount", "10");
-    } else if (formik.values.rooms === "3") {
-      formik.setFieldValue("amount", "15");
-    }
-  }, [formik && formik.values.rooms]);
-  // Handle dynamic price based on rooms selection
-  useEffect(() => {
-    if (bookingDetails.checkIn) {
-      formik.setFieldValue("checkIn", bookingDetails.checkIn);
-    }
-    if (bookingDetails.checkOut) {
-      formik.setFieldValue("checkOut", bookingDetails.checkOut);
-    }
-  }, [bookingDetails.checkIn, bookingDetails.checkOut]);
 
   const onChangeSlots = async (date: Date | null, state: string) => {
+    console.log(date, "test");
     // Validate that check-in is before check-out
     if (
       formik.values.checkIn &&
@@ -107,7 +114,7 @@ const BookingForm: React.FC<{
 
     // Update the Formik field value
     if (date) {
-      formik.setFieldValue(state, date.toISOString());
+      formik.setFieldValue(state, date);
     }
 
     // Update the booking details dynamically
@@ -117,105 +124,164 @@ const BookingForm: React.FC<{
     };
     props.onChangeDates({
       ...selectedDate,
-      [state]: date ? date.toISOString() : null,
+      [state]: date ? date : null,
     });
     console.log({
-      [state]: date ? date.toISOString() : null,
+      [state]: date ? date : null,
     });
     // setBookingDetails({
     //   [state]: date ? date.toISOString() : null,
     // });
   };
+  const updateBedroomAndPrice = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRoomDetail =
+      roomDetails &&
+      roomDetails.find((room) => room.roomsCount == e.target.value);
+    console.log(roomDetails);
+    formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
+    formik.setFieldValue("amount", selectedRoomDetail?.price);
+  };
 
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className=" h-full w-full flex flex-col relative bg-primary p-6 rounded-lg gap-y-6"
+      className=" h-full w-full flex flex-col relative bg-primary p-6 rounded-lg gap-y-4"
     >
       <div className="flex justify-between items-center text-background">
         <h3 className="text-3xl font-[family-name:var(--font-primary)]">
           Reserve:
         </h3>
         <h6 className="text-xl font-[family-name:var(--font-secondary)]">
-          From $299/night
+          From ${formik.values.amount}/night
         </h6>
       </div>
-      <div className="h-full flex flex-col justify-center gap-y-8">
+      <div className="h-full flex flex-col justify-center gap-y-6">
         {/* Check-In Date Picker */}
-        <DatePicker
-          placeholder="Check In"
-          selectedDate={
-            formik.values.checkIn ? new Date(formik.values.checkIn) : null
-          }
-          onDateChange={(date) => onChangeSlots(date, "checkIn")}
-          disabledDates={props.bookedSlots}
-        />
-        {formik.touched.checkIn && formik.errors.checkIn && (
-          <div className="text-red-500 text-sm">{formik.errors.checkIn}</div>
-        )}
+        <div className="flex flex-col space-y-2">
+          <label
+            htmlFor="checkIn"
+            className="text-background dark:text-background"
+          >
+            Check-In
+          </label>
+          <DatePicker
+            placeholder="Check In"
+            selectedDate={
+              formik.values.checkIn ? new Date(formik.values.checkIn) : null
+            }
+            onDateChange={(date) => onChangeSlots(date, "checkIn")}
+            disabledDates={props.bookedSlots}
+          />
+          {formik.touched.checkIn && formik.errors.checkIn && (
+            <div className="text-red-500 text-sm">{formik.errors.checkIn}</div>
+          )}
+        </div>
 
-        <DatePicker
-          placeholder="Check Out"
-          selectedDate={
-            formik.values.checkOut ? new Date(formik.values.checkOut) : null
-          }
-          onDateChange={(date) => onChangeSlots(date, "checkOut")}
-          disabledDates={props.bookedSlots}
-        />
-        {formik.touched.checkOut && formik.errors.checkOut && (
-          <div className="text-red-500 text-sm">{formik.errors.checkOut}</div>
-        )}
+        {/* Check-Out Date Picker */}
+        <div className="flex flex-col space-y-2">
+          <label
+            htmlFor="checkOut"
+            className="text-background dark:text-background"
+          >
+            Check-Out
+          </label>
+          <DatePicker
+            placeholder="Check Out"
+            selectedDate={
+              formik.values.checkOut ? new Date(formik.values.checkOut) : null
+            }
+            onDateChange={(date) => onChangeSlots(date, "checkOut")}
+            disabledDates={props.bookedSlots}
+          />
+          {formik.touched.checkOut && formik.errors.checkOut && (
+            <div className="text-red-500 text-sm">{formik.errors.checkOut}</div>
+          )}
+        </div>
+
         {/* Rooms Select */}
-        <Select
-          value={formik.values.rooms}
-          onValueChange={(value) => formik.setFieldValue("rooms", value)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Bedrooms" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1">1 Bedroom</SelectItem>
-            <SelectItem value="2">2 Bedrooms</SelectItem>
-            <SelectItem value="3">3 Bedrooms</SelectItem>
-          </SelectContent>
-        </Select>
-        {formik.touched.rooms && formik.errors.rooms && (
-          <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
-        )}
+        <div className="relative w-full space-y-2">
+          <label htmlFor="" className="text-background dark:text-background">
+            Bedrooms
+          </label>
+          <select
+            value={formik.values.rooms}
+            onChange={(e) => updateBedroomAndPrice(e)}
+            className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4 focus:outline-none bg-transparent"
+          >
+            <option value="" disabled>
+              Bedrooms
+            </option>
+            {roomDetails?.map((roomDetail) => (
+              <option
+                key={roomDetail.roomsCount}
+                value={roomDetail.roomsCount}
+                className="bg-secondary text-primary"
+              >
+                {roomDetail.label}
+              </option>
+            ))}
+          </select>
+          {formik.touched.rooms && formik.errors.rooms && (
+            <div className="text-red-500 text-sm">{formik.errors.rooms}</div>
+          )}
+        </div>
+
         {/* Adults and Children Select */}
         <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
-          <div className="relative w-full">
-            <Select
-              value={formik.values.adults}
-              onValueChange={(value) => formik.setFieldValue("adults", value)}
+          <div className="relative w-full space-y-2">
+            <label
+              htmlFor="children"
+              className="text-background dark:text-background"
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Adults" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-              </SelectContent>
-            </Select>
+              Adults
+            </label>
+            <select
+              value={formik.values.adults}
+              onChange={(e) => formik.setFieldValue("adults", e.target.value)}
+              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+            >
+              <option value="" disabled>
+                Adults
+              </option>
+              <option value="1" className="bg-secondary text-primary">
+                1
+              </option>
+              <option value="2" className="bg-secondary text-primary">
+                2
+              </option>
+              <option value="3" className="bg-secondary text-primary">
+                3
+              </option>
+            </select>
             {formik.touched.adults && formik.errors.adults && (
               <div className="text-red-500 text-sm">{formik.errors.adults}</div>
             )}
           </div>
-          <div className="relative w-full">
-            <Select
-              value={formik.values.children}
-              onValueChange={(value) => formik.setFieldValue("children", value)}
+          <div className="relative w-full space-y-2">
+            <label
+              htmlFor="children"
+              className="text-background dark:text-background"
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Children" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-              </SelectContent>
-            </Select>
+              Children
+            </label>
+            <select
+              value={formik.values.children}
+              onChange={(e) => formik.setFieldValue("children", e.target.value)}
+              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+            >
+              <option value="" disabled>
+                Children
+              </option>
+              <option value="1" className="bg-secondary text-primary">
+                1
+              </option>
+              <option value="2" className="bg-secondary text-primary">
+                2
+              </option>
+              <option value="3" className="bg-secondary text-primary">
+                3
+              </option>
+            </select>
             {formik.touched.children && formik.errors.children && (
               <div className="text-red-500 text-sm">
                 {formik.errors.children}
