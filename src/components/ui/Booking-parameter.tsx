@@ -14,17 +14,33 @@ import {
 } from "@/components/ui/popover";
 import { axiosService } from "@/services/axios";
 import { useBookingContext } from "@/context/Booking";
+import { getToken } from "@/services/helper";
+import { IRoomsManagementTable } from "@/interfaces";
 
 export default function BookingParameter() {
   const navigate = useRouter();
   const { setBookingDetails } = useBookingContext();
   const [checkIn, setCheckIn] = React.useState<Date>(new Date());
   const [checkOut, setCheckOut] = React.useState<Date>(new Date());
-  const [adults, setAdults] = React.useState(2);
-  const [children, setChildren] = React.useState(2);
-  const [bedrooms, setBedrooms] = React.useState(1);
+  const [adults, setAdults] = React.useState(0);
+  const [children, setChildren] = React.useState(0);
+  const [bedrooms, setBedrooms] = React.useState(0);
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
-
+  const [roomDetails, setRoomDetails] =
+    React.useState<IRoomsManagementTable[]>();
+  const [selectedRoomDetail, setSelectedRoomDetail] =
+    React.useState<IRoomsManagementTable>();
+  React.useEffect(() => {
+    getRoomDetails();
+  }, []);
+  const getRoomDetails = async () => {
+    const response = await axiosService.get(`/rooms/get-rooms`, {
+      headers: {
+        Authorization: getToken() || "",
+      },
+    });
+    setRoomDetails(response.data);
+  };
   const RedirectBooking = () => {
     setBookingDetails({
       checkIn: checkIn.toISOString(),
@@ -76,12 +92,26 @@ export default function BookingParameter() {
       ) || false
     );
   };
+  const updateBedroom = (roomsCount: number) => {
+    if (!roomDetails || roomDetails.length === 0) return;
+
+    // Ensure the bedroom count stays within bounds
+    const newCount = Math.max(1, Math.min(roomsCount, roomDetails.length));
+    const selectedRoomDetail = roomDetails.find(
+      (room) => room.roomsCount === newCount
+    );
+
+    if (selectedRoomDetail) {
+      setBedrooms(+selectedRoomDetail.roomsCount);
+      setSelectedRoomDetail(selectedRoomDetail);
+    }
+  };
 
   return (
     <div>
-      <div className="relative font-[family-name:var(--font-secondary)] grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8 p-6 rounded-lg text-background">
+      <div className="relative font-[family-name:var(--font-secondary)] grid grid-cols-2  lg:grid-cols-5 gap-6 sm:gap-8 p-6 rounded-lg text-background">
         {/* Check In */}
-        <div className="flex">
+        <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHECK IN</span>
             <Popover>
@@ -114,7 +144,7 @@ export default function BookingParameter() {
         </div>
 
         {/* Check Out */}
-        <div className="flex">
+        <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHECK OUT</span>
             <Popover>
@@ -146,64 +176,7 @@ export default function BookingParameter() {
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
 
-        {/* Adults */}
-        <div className="flex">
-          <div className="flex flex-col items-center">
-            <span className="text-sm font-medium mb-2">ADULT</span>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setAdults(Math.max(1, adults - 1))}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-2xl min-w-[40px] text-center">
-                {adults.toString().padStart(2, "0")}
-              </span>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setAdults(Math.min(10, adults + 1))}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="hidden lg:block h-16 border-white border-l-2  " />
-        </div>
-        {/* Children */}
-        <div className="flex">
-          <div className="flex flex-col items-center">
-            <span className="text-sm font-medium mb-2">CHILDREN</span>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setChildren(Math.max(0, children - 1))}
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-2xl min-w-[40px] text-center">
-                {children.toString().padStart(2, "0")}
-              </span>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setChildren(Math.min(10, children + 1))}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          <div className="hidden lg:block h-16 border-white border-l-2  " />
-        </div>
-        <div className="flex col-span-2 lg:col-span-1 justify-center">
+        <div className="flex justify-center ">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">BEDROOMS</span>
             <div className="flex items-center gap-4">
@@ -211,7 +184,7 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setBedrooms(Math.max(1, adults - 1))}
+                onClick={() => updateBedroom(bedrooms - 1)}
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -222,7 +195,86 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() => setBedrooms(Math.min(3, bedrooms + 1))}
+                onClick={() => updateBedroom(bedrooms + 1)}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="hidden lg:block h-16 border-white border-l-2  " />
+        </div>
+
+        {/* Children */}
+        <div className="flex justify-center ">
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-medium mb-2">CHILDREN</span>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setChildren((prev) =>
+                    Math.max(
+                      0,
+                      Math.min(selectedRoomDetail?.children || 0, prev - 1)
+                    )
+                  )
+                }
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="text-2xl min-w-[40px] text-center">
+                {children.toString().padStart(2, "0")}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setChildren((prev) =>
+                    Math.min(selectedRoomDetail?.children || 0, prev + 1)
+                  )
+                }
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+          <div className="hidden lg:block h-16 border-white border-l-2  " />
+        </div>
+        <div className="flex col-span-2 lg:col-span-1 justify-center">
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-medium mb-2">ADULT</span>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setAdults((prev) =>
+                    Math.max(
+                      0,
+                      Math.min(selectedRoomDetail?.adults || 0, prev - 1)
+                    )
+                  )
+                }
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="text-2xl min-w-[40px] text-center">
+                {adults.toString().padStart(2, "0")}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setAdults((prev) =>
+                    Math.min(selectedRoomDetail?.adults || 0, prev + 1)
+                  )
+                }
               >
                 <Plus className="h-4 w-4" />
               </Button>
