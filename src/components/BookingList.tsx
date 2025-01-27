@@ -88,7 +88,7 @@ export function BookingsList() {
             <Card key={booking._id} className="overflow-hidden">
               <div className="relative h-44 w-full">
                 <Image
-                  src={"/assets/img/lawn/img-3.png"}
+                  src={"/assets/img/Lawn/img-3.png"}
                   alt={`Booking ${booking._id}`}
                   fill
                   className="object-cover"
