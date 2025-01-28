@@ -275,12 +275,15 @@ const BookingForm: React.FC<{
               Children
             </label>
             <select
-              value={2}
               onChange={(e) => formik.setFieldValue("children", e.target.value)}
               className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+              value={formik.values.children}
             >
               <option value="" disabled>
                 Children
+              </option>
+              <option value="0" className="bg-secondary text-primary">
+                0
               </option>
               {Array.from(
                 { length: selectedRoomDetail?.children || 0 },

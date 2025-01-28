@@ -15,11 +15,11 @@ export const userDashboardMenus: DashboardMenuItem[] = [
     href: "/my-booking",
     icon: BookmarkIcon,
   },
-  {
-    title: "Notification",
-    href: "/notifications",
-    icon: BellIcon,
-  },
+  // {
+  //   title: "Notification",
+  //   href: "/notifications",
+  //   icon: BellIcon,
+  // },
   {
     title: "Profile",
     href: "/profile",

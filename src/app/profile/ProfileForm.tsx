@@ -6,6 +6,7 @@ import { UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import PhoneInput from "react-phone-number-input";
 const userSession = Cookies.get("user");
 const user = userSession && JSON.parse(userSession);
 
@@ -132,11 +133,17 @@ function ProfileForm() {
               <label htmlFor="phone" className="text-sm font-medium block mb-1">
                 Phone
               </label>
-              <Input
-                id="phone"
-                {...formik.getFieldProps("phone")}
-                placeholder="Enter Phone number"
-                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
+
+              <PhoneInput
+                international
+                countryCallingCodeEditable={true}
+                defaultCountry="ID"
+                name="phone"
+                value={formik.values.phone}
+                onChange={(value) => formik.setFieldValue("phone", value)}
+                onBlur={formik.handleBlur}
+                className=" p-2 bg-background mt-1 border border-2 rounded-md w-full px-4 py-2
+    focus-within:border-2 focus-within:border-black  "
               />
               {formik.touched.phone && formik.errors.phone && (
                 <p className="text-sm text-red-500 mt-1">
