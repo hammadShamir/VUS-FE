@@ -88,7 +88,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                 <span>Loading...</span>
               ) : !currentBookings.length ? (
                 <TableRow>
-                  <TableCell className="font-medium" colSpan={12}>
+                  <TableCell className="font-medium group:hover:text-secondary" colSpan={12}>
                     <h3 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl text-center w-full">
                       No Booking Available
                     </h3>
