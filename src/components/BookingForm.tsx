@@ -212,7 +212,7 @@ const BookingForm: React.FC<{
           </label>
           <select
             value={formik.values.rooms}
-            onChange={(e) => updateBedroomAndPrice(e.target.value)}
+            onChange={(e) => updateBedroomAndPrice(Number(e.target.value))}
             className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4 focus:outline-none bg-transparent"
           >
             <option value="" disabled>
