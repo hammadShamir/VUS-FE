@@ -38,13 +38,13 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <div className="w-full p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary">
+    <div className="w-full py-4 md:p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
-          <div className="md:w-3/5 flex items-center justify-between">
+          <div className="w-full lg:w-3/5 flex items-center justify-between">
             <div
               data-aos="fade-right"
-              className="text-background text-center lg:text-left mb-4 sm:mb-0 space-y-2"
+              className="w-full text-background text-center md:text-left sm:mb-0 space-y-2 item-center"
             >
               <p className="text-sm font-[family-name:var(--font-secondary)] sm:text-base">
                 Guest Review
@@ -100,28 +100,28 @@ export default function Testimonials() {
             className="relative lg:absolute  flex justify-center items-center inset-0"
           >
             {reviews?.map((testimonial, index) => (
-              <SwiperSlide key={index}>
-                <div className="bg-white/20 flex justify-center backdrop-blur-xl min-h-[400px] w-full p-2 rounded-2xl sm:p-2 md:p-12 lg:w-5/6">
-                  <div className="grid lg:grid-cols-[20%_80%] gap-0">
-                    <div className="flex flex-col justify-center col-span-1 text-background h-full gap-2 px-2 lg:gap-1">
+              <SwiperSlide key={index} className="top-[20%]">
+                <div className="bg-white/20 flex justify-center backdrop-blur-xl min-h-[250px] lg:min-h-[350px] w-full p-2 rounded-2xl sm:p-2 md:p-12 lg:w-5/6">
+                  <div className="flex flex-col md:flex-row gap-y-4 justify-center md:space-x-4">
+                    <div className="flex flex-row md:flex-col md:justify-center col-span-1 text-background gap-2 md:px-2 lg:gap-1">
                       <Image
                         src={testimonial.authorPic}
                         alt="TripAdvisor"
                         width={80}
                         height={100}
+                        className="w-14 md:w-20"
                       />
-                      <Rating rating={testimonial.rating} />
-                      <div className="text-left">
-                        <p className="font-semibold text-background font-[family-name:var(--font-primary)] text-base sm:text-lg">
-                          {testimonial.author}
-                        </p>
-                        {/* <p className="text-sm text-background font-[family-name:var(--font-secondary)] my-2 sm:text-sm opacity-80">
-                          {new Date(testimonial.date).toLocaleDateString()}
-                        </p> */}
+                      <div>
+                        <div className="text-left">
+                          <p className="font-semibold text-background font-[family-name:var(--font-primary)] text-base sm:text-lg">
+                            {testimonial.author}
+                          </p>
+                        </div>
+                        <Rating rating={testimonial.rating} />
                       </div>
                     </div>
-                    <div className="col-span-1 text-start flex items-center">
-                      <p className="text-xs text-background font-[family-name:var(--font-secondary)] sm:text-base md:text-lg">
+                    <div className="mt-2 text-start flex items-center px-2">
+                      <p className="text-[14px] text-background font-[family-name:var(--font-secondary)] sm:text-base md:text-lg">
                         {testimonial.description}
                       </p>
                     </div>
@@ -135,11 +135,10 @@ export default function Testimonials() {
           {reviews?.map((_, index) => (
             <div
               key={index}
-              className={`h-2 rounded-full transition-all ${
-                currentSlide === index
-                  ? "bg-background w-14"
-                  : "bg-white/50 w-2"
-              }`}
+              className={`h-2 rounded-full transition-all ${currentSlide === index
+                ? "bg-background w-14"
+                : "bg-white/50 w-2"
+                }`}
               aria-label={`Slide ${index + 1}`}
               onClick={() => swiperRef.current?.slideTo(index)}
             />
