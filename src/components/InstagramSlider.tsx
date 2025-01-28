@@ -8,21 +8,31 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 
 // import required modules
-import { Scrollbar } from 'swiper/modules';
+import { Autoplay, Scrollbar } from 'swiper/modules';
 import Image from 'next/image';
 
 export default function InstagramSlider() {
     return (
         <>
             <Swiper
-                slidesPerView={2}
+                slidesPerView={1}
                 spaceBetween={30}
                 centeredSlides={true}
                 scrollbar={{
                     hide: true,
                 }}
-                modules={[Scrollbar]}
+                autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                }}
+                loop
+                modules={[Scrollbar, Autoplay]}
                 className="mySwiper"
+                breakpoints={{
+                    768: {
+                        slidesPerView: 2,
+                    },
+                }}
             >
                 <SwiperSlide>
                     <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
@@ -50,6 +60,28 @@ export default function InstagramSlider() {
                     <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
                         <Image
                             src="/assets/img/Garden/img-1.png"
+                            alt="Luxury Room Interior"
+                            width={600}
+                            height={800}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
+                        <Image
+                            src="/assets/img/Rooms/img-10.png"
+                            alt="Luxury Room Interior"
+                            width={600}
+                            height={800}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
+                        <Image
+                            src="/assets/img/Rooms/img-8.png"
                             alt="Luxury Room Interior"
                             width={600}
                             height={800}
