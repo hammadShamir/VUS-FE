@@ -109,7 +109,10 @@ export default function BookingParameter() {
 
   return (
     <div>
-      <div className="relative font-[family-name:var(--font-secondary)] grid grid-cols-2  lg:grid-cols-5 gap-6 sm:gap-8 p-6 rounded-lg text-background">
+      <div
+        className="relative font-[family-name:var(--font-secondary)] grid grid-cols-2 
+       lg:grid-cols-5 gap-6 sm:gap-8 p-6 rounded-lg text-background"
+      >
         {/* Check In */}
         <div className="flex justify-center">
           <div className="flex flex-col items-center">
@@ -206,46 +209,7 @@ export default function BookingParameter() {
 
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
-
-        {/* Children */}
-        <div className="flex justify-center ">
-          <div className="flex flex-col items-center">
-            <span className="text-sm font-medium mb-2">CHILDREN</span>
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setChildren((prev) =>
-                    Math.max(
-                      0,
-                      Math.min(selectedRoomDetail?.children || 0, prev - 1)
-                    )
-                  )
-                }
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="text-2xl min-w-[40px] text-center">
-                {children.toString().padStart(2, "0")}
-              </span>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setChildren((prev) =>
-                    Math.min(selectedRoomDetail?.children || 0, prev + 1)
-                  )
-                }
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          <div className="hidden lg:block h-16 border-white border-l-2  " />
-        </div>
+        {/* Adults */}
         <div className="flex col-span-2 lg:col-span-1 justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">ADULT</span>
@@ -283,6 +247,45 @@ export default function BookingParameter() {
             </div>
           </div>
 
+          <div className="hidden lg:block h-16 border-white border-l-2  " />
+        </div>
+        {/* Children */}
+        <div className="flex justify-center ">
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-medium mb-2">CHILDREN</span>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setChildren((prev) =>
+                    Math.max(
+                      0,
+                      Math.min(selectedRoomDetail?.children || 0, prev - 1)
+                    )
+                  )
+                }
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="text-2xl min-w-[40px] text-center">
+                {children.toString().padStart(2, "0")}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-white/20 hover:text-white"
+                onClick={() =>
+                  setChildren((prev) =>
+                    Math.min(selectedRoomDetail?.children || 0, prev + 1)
+                  )
+                }
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
       </div>

@@ -23,11 +23,16 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filteredBookings = props.bookings.filter((booking) =>
-    Object.values(booking).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  const filteredBookings = props.bookings.filter((booking) => {
+    // Normalize and split the search term
+    const searchTermNormalized = searchTerm.toLowerCase().trim();
+
+    return (
+      booking._id.toLowerCase().includes(searchTermNormalized) ||
+      booking.userId?.email.toLowerCase().includes(searchTermNormalized) ||
+      booking.userId?.fullName.toLowerCase().includes(searchTermNormalized)
+    );
+  });
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -88,7 +93,10 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                 <span>Loading...</span>
               ) : !currentBookings.length ? (
                 <TableRow>
-                  <TableCell className="font-medium group:hover:text-secondary" colSpan={12}>
+                  <TableCell
+                    className="font-medium group:hover:text-secondary"
+                    colSpan={12}
+                  >
                     <h3 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl text-center w-full">
                       No Booking Available
                     </h3>

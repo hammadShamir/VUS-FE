@@ -9,6 +9,7 @@ import { BookingStatus, IBooking } from "@/interfaces";
 import Cookies from "js-cookie";
 import { Spinner } from "./ui/spinner";
 import { ErrorInfoCard } from "./common/ErrorInfoCard";
+import { AxiosError } from "axios";
 
 const statusStyles: Record<string, string> = {
   [BookingStatus.pending]: "text-yellow-500 bg-yellow-100",
@@ -20,7 +21,10 @@ const statusStyles: Record<string, string> = {
 
 export function BookingsList() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isError, setIsError] = useState<{ status: boolean; msg?: string }>({
+    status: false,
+    msg: "",
+  });
   const [myBooking, setMyBooking] = useState<IBooking[]>([]);
   const token = Cookies.get("token");
 
@@ -33,28 +37,18 @@ export function BookingsList() {
     });
   };
 
-  const fetchMyBooking = async () => {
+  const handleCancelBooking = async (id: string) => {
     try {
       setIsLoading(true);
-      const response = await axiosService.get("/get-booking", {
-        headers: {
-          Authorization: token || "",
-        },
+
+      await axiosService.put(`update-booking/${id}`, {
+        status: BookingStatus.cancelled,
       });
-      setMyBooking(response.data || []);
-    } catch (error) {
-      console.log(error);
-      setIsError(true);
+
+      await fetchMyBooking();
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleCancelBooking = async (id: string) => {
-    axiosService.put(`update-booking/${id}`, {
-      status: BookingStatus.cancelled,
-    });
-    fetchMyBooking();
   };
 
   useEffect(() => {
@@ -63,6 +57,29 @@ export function BookingsList() {
   const handleRetry = () => {
     fetchMyBooking();
   };
+  const fetchMyBooking = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosService.get("/get-booking", {
+        headers: {
+          Authorization: token || "",
+        },
+      });
+      setMyBooking(response.data);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response?.data?.meta?.message) {
+        setIsError({ status: true, msg: error.response.data.meta.message });
+      } else {
+        setIsError({
+          status: true,
+          msg: "There was an error fetching data. Please try again.",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6 w-full p-4 md:ms-64 mt-20 mb-14 md:mb-0">
       <h1 className="text-2xl font-bold">My Bookings:</h1>
@@ -70,16 +87,19 @@ export function BookingsList() {
         <div className="w-full text-center py-8 h-[calc(100vh-170px)] flex justify-center items-center">
           <Spinner size="lg" />
         </div>
-      ) : isError ? (
+      ) : isError.status ? (
         <div className="w-full h-[calc(100vh-170px)] flex justify-center items-center">
           <ErrorInfoCard
             title="API Error"
-            message="There was an error fetching data. Please try again."
+            message={
+              isError.msg ||
+              "There was an error fetching data. Please try again."
+            }
             onRetry={handleRetry}
           />
         </div>
       ) : !myBooking.length ? (
-        <div className="w-full text-center py-8 text-background dark:text-background ">
+        <div className="w-full text-xl text-center py-14 text-background dark:text-foreground ">
           <span>No bookings available.</span>
         </div>
       ) : (

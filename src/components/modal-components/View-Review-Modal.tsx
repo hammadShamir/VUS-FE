@@ -52,31 +52,32 @@ export function ReviewDetailsModal({ review }: { review: IAdminReviewsTable }) {
           {review.description || "No description provided."}
         </p>
       </CardContent>
-      {review.isActive ? (
-        <div className="col-span-2 flex justify-end self-end">
-          <Button
-            onClick={() => {
-              handleUpdateReview({ isActive: false });
-            }}
-            className="bg-red-600 text-background"
-            variant={"outline"}
-          >
-            In Active
-          </Button>
-        </div>
-      ) : (
-        <div className="col-span-2 flex justify-end self-end">
-          <Button
-            onClick={() => {
-              handleUpdateReview({ isActive: true });
-            }}
-            className="bg-green-600 text-background mr-2"
-            variant={"outline"}
-          >
-            Active
-          </Button>
-        </div>
-      )}
+      {"isActive" in review &&
+        (review.isActive ? (
+          <div className="col-span-2 flex justify-end self-end">
+            <Button
+              onClick={() => {
+                handleUpdateReview({ isActive: false });
+              }}
+              className="bg-red-600 text-background"
+              variant={"outline"}
+            >
+              In Active
+            </Button>
+          </div>
+        ) : (
+          <div className="col-span-2 flex justify-end self-end">
+            <Button
+              onClick={() => {
+                handleUpdateReview({ isActive: true });
+              }}
+              className="bg-green-600 text-background mr-2"
+              variant={"outline"}
+            >
+              Active
+            </Button>
+          </div>
+        ))}
     </Card>
   );
 }

@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { auth } from "@/services/firebase";
 import { axiosService } from "@/services/axios";
 import { useModal } from "@/context/Modal";
+import PhoneInput from "react-phone-number-input";
 
 const AdminModalForm = ({
   admin,
@@ -135,9 +136,25 @@ const AdminModalForm = ({
               <div className="text-sm text-red-600">{formik.errors.email}</div>
             )}
           </div>
-
-          <div>
+          <div className="block text-sm font-medium">
             <label className="block text-sm font-medium">Phone</label>
+            <PhoneInput
+              international
+              countryCallingCodeEditable={true}
+              defaultCountry="ID"
+              name="phone"
+              value={formik.values.phone}
+              onChange={(value) => formik.setFieldValue("phone", value)}
+              onBlur={formik.handleBlur}
+              className=" p-2 bg-background mt-1 border border-gray-200 rounded-md w-full font-[family-name:var(--font-secondary px-4 py-2
+    focus-within:border-2 focus-within:border-black  "
+            />
+            {formik.touched.phone && formik.errors.phone ? (
+              <div className="text-red-300">{formik.errors.phone}</div>
+            ) : null}
+          </div>
+          {/* <div>
+        
             <Input
               name="phone"
               value={formik.values.phone}
@@ -149,7 +166,7 @@ const AdminModalForm = ({
             {formik.touched.phone && formik.errors.phone && (
               <div className="text-sm text-red-600">{formik.errors.phone}</div>
             )}
-          </div>
+          </div> */}
 
           <div>
             <label className="block text-sm font-medium">Password</label>
