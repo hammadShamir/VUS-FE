@@ -11,7 +11,7 @@ import {
 import { UserPlus } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {  UserRoles } from "@/interfaces";
+import { UserRoles } from "@/interfaces";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { getFirebaseErrorMessage } from "@/services/helper";
@@ -29,6 +29,7 @@ const AdminModalForm = ({
     phone: string;
     password: string;
     isActive: boolean;
+    role: string;
   };
 }) => {
   const { hideModal } = useModal();
@@ -42,6 +43,7 @@ const AdminModalForm = ({
       phone: admin?.phone || "",
       password: admin?.password || "",
       isActive: (admin && admin.isActive) || false,
+      role: admin?.role || UserRoles.SUB_ADMIN,
     },
     validationSchema: Yup.object({
       fullName: Yup.string().required("Full Name is required"),
@@ -59,7 +61,8 @@ const AdminModalForm = ({
           fullName: values.fullName,
           email: values.email,
           phone: values.phone,
-          role: UserRoles.SUB_ADMIN,
+          role: values.role,
+          isActive: values.isActive,
         };
         if (token) {
           await axiosService.post("/auth/sign-up", payload, {
@@ -183,11 +186,32 @@ const AdminModalForm = ({
                 </SelectContent>
               </Select>
               {formik.touched.isActive && formik.errors.isActive && (
-                <div className="text-sm text-red-600">{formik.errors.isActive}</div>
+                <div className="text-sm text-red-600">
+                  {formik.errors.isActive}
+                </div>
               )}
             </div>
           </div>
-
+          <div>
+            <label className="block text-sm font-medium">Role</label>
+            <div className="text-black rounded-md border">
+              <Select
+                value={formik.values.role}
+                onValueChange={(value) => formik.setFieldValue("role", value)}
+              >
+                <SelectTrigger className="mt-1 rounded-md px-2 border-2 text-black  md:w-full">
+                  <SelectValue placeholder="Select Role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={UserRoles.SUB_ADMIN}>Sub Admin</SelectItem>
+                  <SelectItem value={UserRoles.ADMIN}>Admin</SelectItem>
+                </SelectContent>
+              </Select>
+              {formik.touched.role && formik.errors.role && (
+                <div className="text-sm text-red-600">{formik.errors.role}</div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Actions */}

@@ -35,6 +35,8 @@ const BookingForm: React.FC<{
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [roomDetails, setRoomDetails] = useState<IRoomsManagementTable[]>();
+  const [selectedRoomDetail, setSelectedRoomDetail] =
+    useState<IRoomsManagementTable>();
   useEffect(() => {
     if (bookingDetails.checkIn) {
       formik.setFieldValue("checkIn", bookingDetails.checkIn);
@@ -54,6 +56,11 @@ const BookingForm: React.FC<{
     });
     setRoomDetails(response.data);
   };
+  useEffect(() => {
+    if (roomDetails && bookingDetails.bedrooms) {
+      updateBedroomAndPrice(+bookingDetails.bedrooms);
+    }
+  }, [roomDetails, bookingDetails.bedrooms]);
   const formik = useFormik({
     initialValues: {
       checkIn: bookingPayload.checkIn || "",
@@ -133,13 +140,13 @@ const BookingForm: React.FC<{
     //   [state]: date ? date.toISOString() : null,
     // });
   };
-  const updateBedroomAndPrice = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const updateBedroomAndPrice = (count: number) => {
     const selectedRoomDetail =
-      roomDetails &&
-      roomDetails.find((room) => room.roomsCount == e.target.value);
+      roomDetails && roomDetails.find((room) => room.roomsCount == count);
     console.log(roomDetails);
     formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
     formik.setFieldValue("amount", selectedRoomDetail?.price);
+    setSelectedRoomDetail(selectedRoomDetail);
   };
 
   return (
@@ -205,7 +212,7 @@ const BookingForm: React.FC<{
           </label>
           <select
             value={formik.values.rooms}
-            onChange={(e) => updateBedroomAndPrice(e)}
+            onChange={(e) => updateBedroomAndPrice(e.target.value)}
             className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4 focus:outline-none bg-transparent"
           >
             <option value="" disabled>
@@ -243,15 +250,18 @@ const BookingForm: React.FC<{
               <option value="" disabled>
                 Adults
               </option>
-              <option value="1" className="bg-secondary text-primary">
-                1
-              </option>
-              <option value="2" className="bg-secondary text-primary">
-                2
-              </option>
-              <option value="3" className="bg-secondary text-primary">
-                3
-              </option>
+              {Array.from(
+                { length: selectedRoomDetail?.adults || 0 },
+                (_, i) => i + 1
+              ).map((num) => (
+                <option
+                  className="bg-secondary text-primary"
+                  key={num}
+                  value={num}
+                >
+                  {num}
+                </option>
+              ))}
             </select>
             {formik.touched.adults && formik.errors.adults && (
               <div className="text-red-500 text-sm">{formik.errors.adults}</div>
@@ -265,22 +275,25 @@ const BookingForm: React.FC<{
               Children
             </label>
             <select
-              value={formik.values.children}
+              value={2}
               onChange={(e) => formik.setFieldValue("children", e.target.value)}
               className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
             >
               <option value="" disabled>
                 Children
               </option>
-              <option value="1" className="bg-secondary text-primary">
-                1
-              </option>
-              <option value="2" className="bg-secondary text-primary">
-                2
-              </option>
-              <option value="3" className="bg-secondary text-primary">
-                3
-              </option>
+              {Array.from(
+                { length: selectedRoomDetail?.children || 0 },
+                (_, i) => i + 1
+              ).map((num) => (
+                <option
+                  className="bg-secondary text-primary"
+                  key={num}
+                  value={num}
+                >
+                  {num}
+                </option>
+              ))}
             </select>
             {formik.touched.children && formik.errors.children && (
               <div className="text-red-500 text-sm">
