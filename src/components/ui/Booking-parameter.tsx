@@ -129,6 +129,7 @@ export default function BookingParameter() {
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
+                  className="bg-secondary text-primary"
                   mode="single"
                   selected={checkIn}
                   onSelect={(day) => day && setCheckIn(day)}
@@ -162,6 +163,7 @@ export default function BookingParameter() {
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
+                  className=" bg-secondary text-primary"
                   mode="single"
                   selected={checkOut}
                   onSelect={(day) => day && setCheckOut(day)}

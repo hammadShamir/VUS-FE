@@ -34,7 +34,7 @@ export const adminDashboardMenus: DashboardMenuItem[] = [
     icon: BookOpen,
   },
   {
-    title: "Rooms Management",
+    title: "Rooms",
     href: "/admin/rooms",
     icon: BedDouble,
   },

@@ -78,17 +78,6 @@ export default function InstagramSlider() {
                         />
                     </div>
                 </SwiperSlide>
-                <SwiperSlide>
-                    <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
-                        <Image
-                            src="/assets/img/Rooms/img-8.png"
-                            alt="Luxury Room Interior"
-                            width={600}
-                            height={800}
-                            className="object-cover w-full h-full"
-                        />
-                    </div>
-                </SwiperSlide>
             </Swiper>
         </>
     );
