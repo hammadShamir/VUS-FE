@@ -52,6 +52,11 @@ const AddRoomModal = ({ room }: { room?: IRoomsManagementTable }) => {
     },
   });
 
+  const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Replace any non-digit characters
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    formik.setFieldValue(e.target.name, value);
+  };
   return (
     <div className="space-y-6 my-6">
       {/* Room Information */}
@@ -111,11 +116,9 @@ const AddRoomModal = ({ room }: { room?: IRoomsManagementTable }) => {
           <div>
             <label className="block text-sm font-medium">Adults</label>
             <Input
-              min={0}
-              type="number"
               name="adults"
               value={formik.values.adults}
-              onChange={formik.handleChange}
+              onChange={handleNumericInput}
               onBlur={formik.handleBlur}
               placeholder="Adults"
               className="mt-1 rounded-md px-2 md:w-full"
@@ -128,11 +131,9 @@ const AddRoomModal = ({ room }: { room?: IRoomsManagementTable }) => {
           <div>
             <label className="block text-sm font-medium">Children</label>
             <Input
-              min={0}
-              type="number"
               name="children"
               value={formik.values.children}
-              onChange={formik.handleChange}
+              onChange={handleNumericInput}
               onBlur={formik.handleBlur}
               placeholder="Children"
               className="mt-1 rounded-md px-2 md:w-full"

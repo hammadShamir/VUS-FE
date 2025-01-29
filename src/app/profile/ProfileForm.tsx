@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PhoneInput from "react-phone-number-input";
+import { axiosService } from "@/services/axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 const userSession = Cookies.get("user");
 const user = userSession && JSON.parse(userSession);
 
 interface FormValues {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   email: string;
   password: string;
   phone: string;
@@ -20,12 +23,10 @@ interface FormValues {
 }
 
 const validationSchema = Yup.object({
-  firstName: Yup.string()
+  fullName: Yup.string()
     .required("First name is required")
     .min(2, "First name must be at least 2 characters"),
-  lastName: Yup.string()
-    .required("Last name is required")
-    .min(2, "Last name must be at least 2 characters"),
+
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
@@ -39,18 +40,34 @@ const validationSchema = Yup.object({
 });
 
 function ProfileForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>();
   const formik = useFormik<FormValues>({
     initialValues: {
-      firstName: user?.fullName.split()[0] || "",
-      lastName: user?.fullName.split()[1] || "",
+      fullName: user?.fullName,
       password: "***********",
       email: user?.email || null,
       phone: user?.phone || null,
       address: "116 Jaskólski Shorezure Suite 883",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const payload = {
+        fullName: values.fullName,
+        email: values.email,
+        phone: values.phone,
+      };
+      try {
+        setLoading(true);
+        await axiosService.put("/auth/update-user", payload);
+        const allCookies = Cookies.get();
+        for (const cookieName in allCookies) {
+          Cookies.remove(cookieName, { path: "/" });
+        }
+        router.push("/");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -73,20 +90,20 @@ function ProfileForm() {
           <div className="space-y-4">
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="fullName"
                 className="text-sm font-medium block mb-1"
               >
                 Full Name
               </label>
               <Input
-                id="firstName"
-                {...formik.getFieldProps("firstName")}
+                id="fullName"
+                {...formik.getFieldProps("fullName")}
                 placeholder="Enter First Name"
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
               />
-              {formik.touched.firstName && formik.errors.firstName && (
+              {formik.touched.fullName && formik.errors.fullName && (
                 <p className="text-sm text-red-500 mt-1">
-                  {formik.errors.firstName}
+                  {formik.errors.fullName}
                 </p>
               )}
             </div>
@@ -173,7 +190,12 @@ function ProfileForm() {
           </div>
         </div>
         <div className="flex justify-end gap-4 mt-6 text-background dark:text-background">
-          <Button variant="default" type="submit" className="w-32 bg-primary">
+          <Button
+            variant="default"
+            disabled={loading}
+            type="submit"
+            className={`w-32  ${loading ? "bg-primary/40" : "bg-primary"}`}
+          >
             Save Changes
           </Button>
           <Button

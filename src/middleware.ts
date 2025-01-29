@@ -55,7 +55,7 @@ export function middleware(request: NextRequest) {
   if (userPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
     if (role !== UserRoles.USER) {
       // Admin trying to access user-specific pages
-      const redirectUrl = new URL("/admin/dashboard", request.nextUrl.origin);
+      const redirectUrl = new URL("/admin/bookings", request.nextUrl.origin);
       redirectUrl.searchParams.set("message", "User Access Required");
       return NextResponse.redirect(redirectUrl);
     }
