@@ -3,7 +3,7 @@ import { UserRoles } from "./interfaces";
 
 export function middleware(request: NextRequest) {
   // Extract token and user cookies
-  const token = request.cookies.get("token");
+  const token = request.cookies.get("token")?.value;
   const user = request.cookies.get("user")?.value;
   let role;
 
@@ -18,21 +18,19 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect if not authenticated
   if (!token) {
-    const redirectPath = request.nextUrl.pathname.trim(); // Get the path
     const redirectUrl = new URL("/login", request.nextUrl.origin);
     redirectUrl.searchParams.set("message", "Login Required");
-    redirectUrl.searchParams.set("redirect", redirectPath.replace(/%2F/g, "/"));
+    redirectUrl.searchParams.set("redirect", request.nextUrl.pathname); // Include redirect parameter
     return NextResponse.redirect(redirectUrl);
   }
-
   // Role-based access control
   const adminPages = [
     "/admin/bookings",
     "/admin/admins",
     "/admin/reviews",
     "/admin/feeds",
+    "/admin/rooms",
   ];
   const userPages = ["/my-booking", "/profile"];
 
@@ -55,8 +53,8 @@ export function middleware(request: NextRequest) {
   if (userPages.some((page) => request.nextUrl.pathname.startsWith(page))) {
     if (role !== UserRoles.USER) {
       // Admin trying to access user-specific pages
-      const redirectUrl = new URL("/admin/bookings", request.nextUrl.origin);
-      redirectUrl.searchParams.set("message", "User Access Required");
+      const redirectUrl = new URL("/", request.nextUrl.origin);
+      // redirectUrl.searchParams.set("message", "User Access Required");
       return NextResponse.redirect(redirectUrl);
     }
   }
