@@ -16,6 +16,7 @@ import { axiosService } from "@/services/axios";
 import { useBookingContext } from "@/context/Booking";
 import { getToken } from "@/services/helper";
 import { IRoomsManagementTable } from "@/interfaces";
+import toast from "react-hot-toast";
 
 export default function BookingParameter() {
   const navigate = useRouter();
@@ -45,9 +46,9 @@ export default function BookingParameter() {
     setBookingDetails({
       checkIn: checkIn.toISOString(),
       checkOut: checkOut.toISOString(),
-      adults: adults.toString(),
-      children: children.toString(),
-      bedrooms: bedrooms.toString(),
+      adults: adults,
+      children: children,
+      bedrooms: bedrooms,
     });
     navigate.push("/booking");
   };
@@ -104,7 +105,40 @@ export default function BookingParameter() {
     if (selectedRoomDetail) {
       setBedrooms(+selectedRoomDetail.roomsCount);
       setSelectedRoomDetail(selectedRoomDetail);
+      setAdults(0);
+      setChildren(0);
     }
+  };
+  const handleAdultChange = (increment: boolean) => {
+    if (!selectedRoomDetail) {
+      toast.error("Please select a bedroom first.");
+      return;
+    }
+    const newAdults = increment ? adults + 1 : adults - 1;
+    if (newAdults < 0) return;
+    if (newAdults > selectedRoomDetail.adults && increment) {
+      toast.error(
+        `Maximum ${selectedRoomDetail.adults} adults allowed in this bedroom(s).`
+      );
+      return;
+    }
+    setAdults(newAdults);
+  };
+
+  const handleChildrenChange = (increment: boolean) => {
+    if (!selectedRoomDetail) {
+      toast.error("Please select a bedroom first.");
+      return;
+    }
+    const newChildren = increment ? children + 1 : children - 1;
+    if (newChildren < 0) return;
+    if (newChildren > selectedRoomDetail.children && increment) {
+      toast.error(
+        `Maximum ${selectedRoomDetail.children} children allowed in this bedroom(s).`
+      );
+      return;
+    }
+    setChildren(newChildren);
   };
 
   return (
@@ -210,7 +244,7 @@ export default function BookingParameter() {
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
         {/* Adults */}
-        <div className="flex col-span-2 lg:col-span-1 justify-center">
+        <div className="flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">ADULT</span>
             <div className="flex items-center gap-4">
@@ -218,14 +252,7 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setAdults((prev) =>
-                    Math.max(
-                      0,
-                      Math.min(selectedRoomDetail?.adults || 0, prev - 1)
-                    )
-                  )
-                }
+                onClick={() => handleAdultChange(false)}
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -236,11 +263,7 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setAdults((prev) =>
-                    Math.min(selectedRoomDetail?.adults || 0, prev + 1)
-                  )
-                }
+                onClick={() => handleAdultChange(true)}
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -249,8 +272,9 @@ export default function BookingParameter() {
 
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
+
         {/* Children */}
-        <div className="flex justify-center ">
+        <div className="flex col-span-2 lg:col-span-1 justify-center ">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHILDREN</span>
             <div className="flex items-center gap-4">
@@ -258,14 +282,7 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setChildren((prev) =>
-                    Math.max(
-                      0,
-                      Math.min(selectedRoomDetail?.children || 0, prev - 1)
-                    )
-                  )
-                }
+                onClick={() => handleChildrenChange(false)}
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -276,11 +293,7 @@ export default function BookingParameter() {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  setChildren((prev) =>
-                    Math.min(selectedRoomDetail?.children || 0, prev + 1)
-                  )
-                }
+                onClick={() => handleChildrenChange(true)}
               >
                 <Plus className="h-4 w-4" />
               </Button>

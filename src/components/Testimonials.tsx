@@ -17,7 +17,7 @@ export default function Testimonials() {
   const [reviews, setReviews] = useState<IAdminReviewsTable[]>();
 
   const getReviews = async () => {
-    const reviews = await axiosService.get("/get-reviews");
+    const reviews = await axiosService.get("/get-reviews?isActive=true");
     setReviews(reviews.data);
   };
 
@@ -135,10 +135,11 @@ export default function Testimonials() {
           {reviews?.map((_, index) => (
             <div
               key={index}
-              className={`h-2 rounded-full transition-all ${currentSlide === index
-                ? "bg-background w-14"
-                : "bg-white/50 w-2"
-                }`}
+              className={`h-2 rounded-full transition-all ${
+                currentSlide === index
+                  ? "bg-background w-14"
+                  : "bg-white/50 w-2"
+              }`}
               aria-label={`Slide ${index + 1}`}
               onClick={() => swiperRef.current?.slideTo(index)}
             />

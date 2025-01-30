@@ -29,8 +29,9 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
   };
   return (
     <section
-      className={`fixed inset-0 bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
-        }`}
+      className={`fixed inset-0 overflow-auto bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${
+        props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+      }`}
     >
       <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
         <div className={`w-full py-2`}>
@@ -103,6 +104,16 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
                   Contact Us
                 </Link>
               </li>
+              {!authenticated && (
+                <li className="block lg:hidden">
+                  <Link
+                    href="/login"
+                    className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
+                  >
+                    Sign In
+                  </Link>
+                </li>
+              )}
             </ul>
 
             <div className="flex flex-col lg:flex-row gap-2 my-10 lg:justify-between">
@@ -143,7 +154,8 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
                 <FaMapMarkerAlt className="text-primary" />
                 <p className="text-sm">
                   Jl. RSI Markandya 2, Gang Mawar, <br />
-                  Banjar Sebali, Desa Keliki,<br />
+                  Banjar Sebali, Desa Keliki,
+                  <br />
                   Kecamatan Tegallalang - Bali, Indonesia
                 </p>
               </div>

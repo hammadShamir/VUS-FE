@@ -5,9 +5,9 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 type BookingDetails = {
   checkIn: string; //
   checkOut: string;
-  adults?: string;
-  children?: string;
-  bedrooms?: string;
+  adults?: number;
+  children?: number;
+  bedrooms?: number;
 };
 
 type BookingContextType = {

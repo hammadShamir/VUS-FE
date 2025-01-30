@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PhoneInput from "react-phone-number-input";
 import { axiosService } from "@/services/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const userSession = Cookies.get("user");
@@ -42,15 +42,32 @@ const validationSchema = Yup.object({
 function ProfileForm() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>();
-  const formik = useFormik<FormValues>({
-    initialValues: {
-      fullName: user?.fullName,
-      password: "***********",
-      email: user?.email || null,
-      phone: user?.phone || null,
-      address: "116 Jaskólski Shorezure Suite 883",
-    },
+  const [initialValues, setInitialValues] = useState<FormValues>({
+    fullName: "",
+    email: "",
+    password: "***********",
+    phone: "",
+    address: "",
+  });
+
+  useEffect(() => {
+    const userSession = Cookies.get("user");
+    if (userSession) {
+      const user = JSON.parse(userSession);
+      setInitialValues({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "116 Jaskólski Shorezure Suite 883", // Default value
+        password: "***********",
+      });
+    }
+  }, []);
+
+  const formik = useFormik({
+    initialValues,
     validationSchema,
+    enableReinitialize: true,
     onSubmit: async (values) => {
       const payload = {
         fullName: values.fullName,
@@ -70,6 +87,10 @@ function ProfileForm() {
       }
     },
   });
+  const handleCancel = (event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent form submission
+    router.push("/");
+  };
 
   return (
     <div className="space-y-6 w-full p-4 md:ms-64 mt-20 mb-14 md:mb-0 rounded-lg">
@@ -199,7 +220,9 @@ function ProfileForm() {
             Save Changes
           </Button>
           <Button
+            onClick={handleCancel}
             variant="outline"
+            type="button"
             className="w-32 border-primary text-primary dark:border-primary dark:text-primary"
           >
             Cancel
