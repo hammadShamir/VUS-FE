@@ -16,21 +16,6 @@ const BookingForm: React.FC<{
   bookedSlots: Date[];
 }> = (props) => {
   const { bookingDetails } = useBookingContext();
-  const payload = {
-    checkIn: bookingDetails.checkIn,
-    checkOut: bookingDetails.checkOut,
-    adults: bookingDetails.adults,
-    children: bookingDetails.children,
-    bedrooms: bookingDetails.bedrooms,
-  };
-
-  const [bookingPayload] = useState<{
-    checkIn: string;
-    checkOut: string;
-    adults?: string;
-    children?: string;
-    bedrooms?: string;
-  }>(payload);
 
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -61,13 +46,14 @@ const BookingForm: React.FC<{
       updateBedroomAndPrice(+bookingDetails.bedrooms);
     }
   }, [roomDetails, bookingDetails.bedrooms]);
+  console.log(bookingDetails.bedrooms);
   const formik = useFormik({
     initialValues: {
-      checkIn: bookingPayload.checkIn || "",
-      checkOut: bookingPayload.checkOut || "",
-      rooms: bookingPayload.bedrooms || "",
-      adults: bookingPayload.adults || "",
-      children: bookingPayload.children || "",
+      checkIn: bookingDetails.checkIn || "",
+      checkOut: bookingDetails.checkOut || "",
+      rooms: bookingDetails.bedrooms || "",
+      adults: bookingDetails.adults || "",
+      children: bookingDetails.children || "",
       amount: "0",
     },
     validationSchema: Yup.object({
@@ -94,32 +80,16 @@ const BookingForm: React.FC<{
     },
   });
 
-  // // Handle dynamic price based on rooms selection
-  // React.useEffect(() => {
-  //   if (formik.values.rooms === "1") {
-  //     formik.setFieldValue("amount", "5");
-  //   } else if (formik.values.rooms === "2") {
-  //     formik.setFieldValue("amount", "10");
-  //   } else if (formik.values.rooms === "3") {
-  //     formik.setFieldValue("amount", "15");
-  //   }
-  // }, [formik && formik.values.rooms]);
-  // Handle dynamic price based on rooms selection
-
   const onChangeSlots = async (date: Date | null, state: string) => {
-    console.log(date, "test");
     // Validate that check-in is before check-out
     if (
-      formik.values.checkIn &&
       date &&
-      state === "checkOut" &&
-      new Date(formik.values.checkIn) > date
+      ((state === "checkOut" && new Date(formik.values.checkIn) > date) ||
+        (state === "checkIn" && new Date(formik.values.checkOut) < date))
     ) {
-      toast.error("Check In must be before Check Out");
+      toast.error("The Check In date must be before the Check Out date");
       return;
     }
-
-    // Update the Formik field value
     if (date) {
       formik.setFieldValue(state, date);
     }
@@ -143,7 +113,6 @@ const BookingForm: React.FC<{
   const updateBedroomAndPrice = (count: number) => {
     const selectedRoomDetail =
       roomDetails && roomDetails.find((room) => room.roomsCount == count);
-    console.log(roomDetails);
     formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
     formik.setFieldValue("amount", selectedRoomDetail?.price);
     setSelectedRoomDetail(selectedRoomDetail);
@@ -218,9 +187,9 @@ const BookingForm: React.FC<{
             <option value="" disabled>
               Bedrooms
             </option>
-            {roomDetails?.map((roomDetail) => (
+            {roomDetails?.map((roomDetail, i: number) => (
               <option
-                key={roomDetail.roomsCount}
+                key={i}
                 value={roomDetail.roomsCount}
                 className="bg-secondary text-primary"
               >
@@ -245,7 +214,7 @@ const BookingForm: React.FC<{
             <select
               value={formik.values.adults}
               onChange={(e) => formik.setFieldValue("adults", e.target.value)}
-              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4  focus:outline-none bg-transparent"
             >
               <option value="" disabled>
                 Adults
@@ -267,7 +236,7 @@ const BookingForm: React.FC<{
               <div className="text-red-500 text-sm">{formik.errors.adults}</div>
             )}
           </div>
-          <div className="relative w-full space-y-2">
+          <div className="relative w-full space-y-2 space-x-2">
             <label
               htmlFor="children"
               className="text-background dark:text-background"
@@ -276,7 +245,7 @@ const BookingForm: React.FC<{
             </label>
             <select
               onChange={(e) => formik.setFieldValue("children", e.target.value)}
-              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+              className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4   focus:outline-none bg-transparent"
               value={formik.values.children}
             >
               <option value="" disabled>

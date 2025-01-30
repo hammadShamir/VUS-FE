@@ -26,9 +26,19 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
     end: null,
   });
   const [hoveredDate, setHoveredDate] = useState<number | null>(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(() => {
+    const date = new Date();
+    date.setDate(1);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  });
   const [firstCalenderMonth, setFirstCalenderMonth] = useState<Date | number>(
-    new Date()
+    () => {
+      const date = new Date();
+      date.setDate(1);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    }
   );
 
   // Adjusted useEffect to handle dependency changes

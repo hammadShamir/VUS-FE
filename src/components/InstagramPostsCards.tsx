@@ -95,6 +95,9 @@ export default function InstagramCard() {
                   <Image
                     src={post.imgUrl}
                     alt="Instagram post"
+                    layout="responsive"
+                    width={100}
+                    height={100}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -114,7 +117,7 @@ export default function InstagramCard() {
                   </Button>
                 ) : (
                   <Button
-                    className="w-full border border-primary text-primary"
+                    className="w-full border border-primary text-primary dark:border-primary dark:text-primary"
                     variant="outline"
                     disabled
                   >

@@ -13,7 +13,7 @@ const Header2 = () => {
   const navigate = useRouter();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const handleLogout = () => {
-    logout()
+    logout();
     setAuthenticated(false);
     navigate.push("/");
   };

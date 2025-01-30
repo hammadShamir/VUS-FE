@@ -12,6 +12,9 @@ import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
 import DatePicker from "@/elements/Datepicker";
 import { axiosService } from "@/services/axios";
+import { IRoomsManagementTable } from "@/interfaces";
+import { useEffect, useState } from "react";
+import { getToken } from "@/services/helper";
 // import { Label } from "@/components/ui/label"
 
 const validationSchema = Yup.object({
@@ -21,7 +24,7 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
-  bookingType: Yup.string().required("Please select a booking type"),
+  bookingType: Yup.string().required("Please select a type"),
   checkIn: Yup.date().optional(),
   checkOut: Yup.date().optional(),
   adults: Yup.number().min(1, "At least 1 adult required").optional(),
@@ -33,6 +36,9 @@ const validationSchema = Yup.object({
 
 export default function ContactForm() {
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
+  const [roomDetails, setRoomDetails] = useState<IRoomsManagementTable[]>();
+  const [selectedRoomDetail, setSelectedRoomDetail] =
+    useState<IRoomsManagementTable>();
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -105,10 +111,28 @@ export default function ContactForm() {
     return bookedSlots.map((slots) => new Date(slots.date));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchBookedSlots();
   }, []);
+  useEffect(() => {
+    getRoomDetails();
+  }, []);
+  const getRoomDetails = async () => {
+    const response = await axiosService.get(`/rooms/get-rooms`, {
+      headers: {
+        Authorization: getToken() || "",
+      },
+    });
+    setRoomDetails(response.data);
+  };
 
+  const updateBedroomAndPrice = (count: number) => {
+    const selectedRoomDetail =
+      roomDetails && roomDetails.find((room) => room.roomsCount == count);
+    formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
+    formik.setFieldValue("amount", selectedRoomDetail?.price);
+    setSelectedRoomDetail(selectedRoomDetail);
+  };
   return (
     <div
       data-aos="fade-left"
@@ -173,7 +197,10 @@ export default function ContactForm() {
           <Input
             id="email"
             placeholder="Email *"
-            {...formik.getFieldProps("email")}
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
               formik.touched.email && formik.errors.email && "border-red-500"
@@ -185,10 +212,10 @@ export default function ContactForm() {
         </div>
         <div>
           <select
+            name="bookingType"
             value={formik.values.bookingType}
-            onChange={(e) =>
-              formik.setFieldValue("bookingType", e.target.value)
-            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
           >
             <option value="" disabled>
@@ -210,8 +237,10 @@ export default function ContactForm() {
               Other Inquires
             </option>
           </select>
-          {formik.touched.children && formik.errors.children && (
-            <div className="text-red-500 text-sm">{formik.errors.children}</div>
+          {formik.touched.children && formik.errors.bookingType && (
+            <div className="text-red-500 text-sm">
+              {formik.errors.bookingType}
+            </div>
           )}
         </div>
 
@@ -272,49 +301,49 @@ export default function ContactForm() {
               )}
             </div>
 
-            {/* Rooms Select */}
-            <div
-              data-aos="fade-up"
-              data-aos-delay="400"
-              className="relative w-full space-y-2"
-            >
-              <label
-                htmlFor=""
-                className="text-background dark:text-background"
-              >
-                Bedrooms
-              </label>
-              <select
-                value={formik.values.rooms}
-                onChange={(e) => formik.setFieldValue("rooms", e.target.value)}
-                className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
-              >
-                <option value="" disabled>
-                  Bedrooms
-                </option>
-                <option value="1" className="bg-secondary text-primary">
-                  1
-                </option>
-                <option value="2" className="bg-secondary text-primary">
-                  2
-                </option>
-                <option value="3" className="bg-secondary text-primary">
-                  3
-                </option>
-              </select>
-              {formik.touched.rooms && formik.errors.rooms && (
-                <div className="text-red-500 text-sm">
-                  {formik.errors.rooms}
-                </div>
-              )}
-            </div>
-
             {/* Adults and Children Select */}
             <div
               data-aos="fade-up"
               data-aos-delay="400"
-              className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4"
+              className="flex items-center justify-between gap-4 md:gap-y-0 "
             >
+              <div className="relative w-full space-y-2">
+                <label
+                  htmlFor=""
+                  className="text-background dark:text-background"
+                >
+                  Bedrooms
+                </label>
+                <select
+                  value={formik.values.rooms}
+                  onChange={(e) =>
+                    updateBedroomAndPrice(Number(e.target.value))
+                  }
+                  className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4 focus:outline-none bg-transparent"
+                >
+                  <option value="" disabled>
+                    Bedrooms
+                  </option>
+                  {roomDetails?.map((roomDetail, i: number) => (
+                    <option
+                      key={i}
+                      value={roomDetail.roomsCount}
+                      className="bg-secondary text-primary"
+                    >
+                      {roomDetail.label}
+                    </option>
+                  ))}
+                </select>
+                {formik.touched.rooms && formik.errors.rooms && (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.rooms}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Adults and Children Select */}
+            <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
               <div className="relative w-full space-y-2">
                 <label
                   htmlFor="children"
@@ -327,20 +356,23 @@ export default function ContactForm() {
                   onChange={(e) =>
                     formik.setFieldValue("adults", e.target.value)
                   }
-                  className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+                  className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4  focus:outline-none bg-transparent"
                 >
                   <option value="" disabled>
                     Adults
                   </option>
-                  <option value="1" className="bg-secondary text-primary">
-                    1
-                  </option>
-                  <option value="2" className="bg-secondary text-primary">
-                    2
-                  </option>
-                  <option value="3" className="bg-secondary text-primary">
-                    3
-                  </option>
+                  {Array.from(
+                    { length: selectedRoomDetail?.adults || 0 },
+                    (_, i) => i + 1
+                  ).map((num) => (
+                    <option
+                      className="bg-secondary text-primary"
+                      key={num}
+                      value={num}
+                    >
+                      {num}
+                    </option>
+                  ))}
                 </select>
                 {formik.touched.adults && formik.errors.adults && (
                   <div className="text-red-500 text-sm">
@@ -348,7 +380,7 @@ export default function ContactForm() {
                   </div>
                 )}
               </div>
-              <div className="relative w-full space-y-2">
+              <div className="relative w-full space-y-2 space-x-2">
                 <label
                   htmlFor="children"
                   className="text-background dark:text-background"
@@ -356,24 +388,30 @@ export default function ContactForm() {
                   Children
                 </label>
                 <select
-                  value={formik.values.children}
                   onChange={(e) =>
                     formik.setFieldValue("children", e.target.value)
                   }
-                  className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
+                  className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4   focus:outline-none bg-transparent"
+                  value={formik.values.children}
                 >
                   <option value="" disabled>
                     Children
                   </option>
-                  <option value="1" className="bg-secondary text-primary">
-                    1
+                  <option value="0" className="bg-secondary text-primary">
+                    0
                   </option>
-                  <option value="2" className="bg-secondary text-primary">
-                    2
-                  </option>
-                  <option value="3" className="bg-secondary text-primary">
-                    3
-                  </option>
+                  {Array.from(
+                    { length: selectedRoomDetail?.children || 0 },
+                    (_, i) => i + 1
+                  ).map((num) => (
+                    <option
+                      className="bg-secondary text-primary"
+                      key={num}
+                      value={num}
+                    >
+                      {num}
+                    </option>
+                  ))}
                 </select>
                 {formik.touched.children && formik.errors.children && (
                   <div className="text-red-500 text-sm">
@@ -386,9 +424,11 @@ export default function ContactForm() {
         )}
         <div className="space-y-2" data-aos="fade-up" data-aos-delay="1000">
           <Input
+            name="subject"
             id="subject"
             placeholder="Subject *"
-            {...formik.getFieldProps("subject")}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-0 focus-visible:ring-0 focus-visible:border-[red]",
               formik.touched.subject &&
@@ -403,8 +443,10 @@ export default function ContactForm() {
         <div className="space-y-2" data-aos="fade-up" data-aos-delay="1100">
           <Textarea
             id="message"
+            name="message"
             placeholder="Message"
-            {...formik.getFieldProps("message")}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
               formik.touched.message &&
