@@ -67,9 +67,6 @@ const Page = () => {
       });
       Cookies.set("token", res.data.token, { expires: 1 / 24 });
       Cookies.set("user", JSON.stringify(res.data.user), { expires: 1 / 24 });
-      const searchParams = new URLSearchParams(window.location.search);
-      const redirectTo = searchParams.get("redirect");
-      console.log(redirectTo, "test");
 
       navigateWithRedirectURL(res.data.user.role);
     } catch (error) {

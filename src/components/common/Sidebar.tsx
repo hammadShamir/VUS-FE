@@ -18,6 +18,7 @@ import { UserMenu } from "@/elements/UserMenu";
 import { isAuthenticated as checkAuth, logout } from "@/services/helper";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 const ModalSidebar: React.FC<ISidebar> = (props) => {
   const [authenticated, setAuthenticated] = useState(!!checkAuth());
@@ -27,11 +28,19 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
     setAuthenticated(false);
     navigate.push("/");
   };
+  const handleredirect = () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      navigate.push("/login?message=Login Required&redirect=mybooking");
+      return;
+    }else{
+      navigate.push("/mybooking")
+    }
+  }
   return (
     <section
-      className={`fixed inset-0 overflow-auto bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${
-        props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 overflow-auto bg-primary text-background z-50 transition-opacity duration-300 ease-in-out ${props.isOpen ? "opacity-1" : "opacity-0 pointer-events-none"
+        }`}
     >
       <Container style="z-50 transition-transform duration-500 ease-in-out overflow-y-auto ">
         <div className={`w-full py-2`}>
@@ -40,7 +49,12 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
               <Hamburger isOpen={props.isOpen} setIsOpen={props.setIsOpen} />
             </div>
             <div className="w-full hidden lg:block">
-              <p className="text-xl font-secondary text-center">UMAH SHANTI</p>
+              <Link
+                href="/"
+                className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center"
+              >
+                UMAH SHANTI
+              </Link>
             </div>
             <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
               <button
@@ -89,12 +103,12 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/my-booking"
-                  className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
+                <span
+                  onClick={handleredirect}
+                  className="block text-2xl hover:text-secondary transition-transform duration-300 transform hover:translate-x-2 cursor-pointer"
                 >
                   My Booking
-                </Link>
+                </span>
               </li>
               <li>
                 <Link

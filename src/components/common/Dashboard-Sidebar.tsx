@@ -12,7 +12,7 @@ import {
 } from "../../../public/assets/data/MenuLinks";
 import { useEffect, useState } from "react";
 import { DashboardMenuItem, UserRoles } from "@/interfaces";
-import { getUser } from "@/services/helper";
+import { getUser, logout } from "@/services/helper";
 
 export function DashboardSidebar() {
   const [MenuLinks, SetMenuLinks] = useState<DashboardMenuItem[]>([]);
@@ -27,11 +27,7 @@ export function DashboardSidebar() {
   };
 
   const handleLogout = () => {
-    const allCookies = Cookies.get();
-    for (const cookieName in allCookies) {
-      Cookies.remove(cookieName, { path: "/" });
-    }
-    router.push("/");
+    logout();
   };
 
   useEffect(() => {
@@ -67,8 +63,8 @@ export function DashboardSidebar() {
                   isActive && "bg-background text-primary",
                   !isActive && "text-background",
                   item.href == "/admin/admins" &&
-                    role !== UserRoles.ADMIN &&
-                    "hidden"
+                  role !== UserRoles.ADMIN &&
+                  "hidden"
                 )}
               >
                 <span>

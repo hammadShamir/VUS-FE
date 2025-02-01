@@ -24,7 +24,12 @@ const Header2 = () => {
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="w-full flex justify-center items-center">
-          <p className="text-xl text-background ">UMAH SHANTI</p>
+        <Link
+              href="/"
+              className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center"
+            >
+              UMAH SHANTI
+            </Link>
         </div>
         <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
           <button

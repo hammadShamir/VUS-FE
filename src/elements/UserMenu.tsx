@@ -31,8 +31,13 @@ export const UserMenu: React.FC<UserMenuProps> = (props) => {
     const role = getUser().role;
     if (role === UserRoles.USER) {
       setMenus(userDashboardMenus)
-    } else if (role === UserRoles.ADMIN || UserRoles.SUB_ADMIN) {
-      setMenus(adminDashboardMenus)
+    } else if (role === UserRoles.ADMIN) {
+      setMenus(adminDashboardMenus);
+    } else {
+      const updatedAdminMenus = adminDashboardMenus.filter(
+        (menu) => menu.href !== "/admin/admins"
+      );
+      setMenus(updatedAdminMenus);
     }
   }, [])
   return (

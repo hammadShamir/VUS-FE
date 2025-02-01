@@ -9,7 +9,9 @@ export const logout = () => {
   for (const cookieName in allCookies) {
     Cookies.remove(cookieName, { path: "/" });
   }
+  window.location.href = "/";
 };
+
 
 export const getFirebaseErrorMessage = (errorCode: FirebaseError): string => {
   console.log(errorCode.code);

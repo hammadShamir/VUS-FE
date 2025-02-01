@@ -1,7 +1,6 @@
 import { DashboardMenuItem } from "@/interfaces";
 import {
   BookmarkIcon,
-  BellIcon,
   UserIcon,
   BookOpen,
   Users,
@@ -12,7 +11,7 @@ import {
 export const userDashboardMenus: DashboardMenuItem[] = [
   {
     title: "My Bookings",
-    href: "/my-booking",
+    href: "/mybooking",
     icon: BookmarkIcon,
   },
   // {
