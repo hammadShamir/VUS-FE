@@ -173,15 +173,13 @@ const Page = () => {
             />
           </div>
           <div className="flex flex-col justify-center items-center gap-y-4">
-            <Link
-              href="/signup"
-              className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]"
-            >
+            <p className="text-sm md:text-base text-foreground font-[family-name:var(--font-secondary)]">
               Did you forget your password?{" "}
               <Link href="/forgot-password" className="text-primary underline">
                 Reset Password
               </Link>
-            </Link>
+            </p>
+
             <button
               type="submit"
               className="bg-primary text-background px-10 py-2 rounded-md font-[family-name:var(--font-secondary)] text-lg text-bold disabled:bg-accentColor disabled:text-primary"

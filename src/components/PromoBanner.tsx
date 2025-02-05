@@ -18,9 +18,9 @@ const PromoBanner = () => {
                         </h2>
                         <p className='text-background font-[family-name:var(--font-secondary)] text-base'>Immerse yourself in luxury and comfort with our top-notch room service, now at an unbeatable discount! Get up to 50% OFF. Make your stay refreshing and worry-free. </p>
                         <div>
-                            <Link href={'/booking'} className="z-10">
+                            <Link href={'/contact'} className="z-10">
                                 <Button variant='outline'>
-                                    Book Now
+                                    Contact Us
                                 </Button>
                             </Link>
                         </div>

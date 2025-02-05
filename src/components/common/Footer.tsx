@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-import { IoLogoTiktok } from "react-icons/io5";
-import { FaTwitter } from "react-icons/fa";
+import { FaPinterestP } from "react-icons/fa";
 import Container from "./Container";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -82,23 +81,18 @@ const Footer = () => {
           </h3>
           <ul className="flex justify-start items-center gap-x-4 font-[family-name:var(--font-secondary)]">
             <li>
-              <Link href={""}>
+              <Link href={"https://www.facebook.com/share/1Argefy2AL/"}>
                 <FaFacebookF />
               </Link>
             </li>
             <li>
-              <Link href={""}>
+              <Link href={"https://www.instagram.com/umahshantivilla"}>
                 <FaInstagram />
               </Link>
             </li>
             <li>
-              <Link href={""}>
-                <IoLogoTiktok />
-              </Link>
-            </li>
-            <li>
-              <Link href={""}>
-                <FaTwitter />
+              <Link href={"https://www.pinterest.com/umahshantivilla/"}>
+                <FaPinterestP />
               </Link>
             </li>
           </ul>
