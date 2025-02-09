@@ -35,7 +35,8 @@ const DatePicker: React.FC<IDatePicker> = (props) => {
         <Button
           variant={"outline"}
           className={cn(
-            "justify-start text-left font-normal border text-background border-background",
+            `justify-start text-left font-normal border text-background border-background ${props.className}`,
+
             !date
           )}
         >

@@ -9,10 +9,14 @@ import { axiosService } from "@/services/axios";
 import Cookies from "js-cookie";
 import { useBookingContext } from "@/context/Booking";
 import toast from "react-hot-toast";
-import { IRoomsManagementTable } from "@/interfaces";
+import { IRoomPriceSchedule, IRoomsManagementTable } from "@/interfaces";
 import { getToken } from "@/services/helper";
 const BookingForm: React.FC<{
   onChangeDates: ({}) => void;
+  onChangePriceSchedule: (
+    price: number,
+    data: IRoomPriceSchedule[] | []
+  ) => void;
   bookedSlots: Date[];
 }> = (props) => {
   const { bookingDetails } = useBookingContext();
@@ -20,6 +24,7 @@ const BookingForm: React.FC<{
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [roomDetails, setRoomDetails] = useState<IRoomsManagementTable[]>();
+  const [perDayAmount, setPerDayAmount] = useState<number>();
   const [selectedRoomDetail, setSelectedRoomDetail] =
     useState<IRoomsManagementTable>();
   useEffect(() => {
@@ -28,6 +33,12 @@ const BookingForm: React.FC<{
     }
     if (bookingDetails.checkOut) {
       formik.setFieldValue("checkOut", bookingDetails.checkOut);
+    }
+    if (bookingDetails.totalAmount) {
+      formik.setFieldValue("amount", bookingDetails.totalAmount);
+    }
+    if (bookingDetails.dayAmount) {
+      setPerDayAmount(bookingDetails.dayAmount);
     }
   }, [bookingDetails.checkIn, bookingDetails.checkOut]);
   useEffect(() => {
@@ -40,6 +51,12 @@ const BookingForm: React.FC<{
       },
     });
     setRoomDetails(response.data);
+    setSelectedRoomDetail(response.data[0]);
+    formik.setFieldValue("rooms", response.data[0].roomsCount);
+    props.onChangePriceSchedule(
+      response.data[0].defaultPrice,
+      response.data[0].priceSchedules || []
+    );
   };
   useEffect(() => {
     if (roomDetails && bookingDetails.bedrooms) {
@@ -80,6 +97,28 @@ const BookingForm: React.FC<{
     },
   });
 
+  const handlePeopleChange = (
+    name: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { value } = e.target;
+    console.log(name, value);
+    const newValue = Number(value);
+    const totalPeople =
+      name === "adults"
+        ? newValue + +formik.values.children
+        : +formik.values.adults + newValue;
+
+    if (totalPeople > (selectedRoomDetail?.people || 0)) {
+      toast.error(
+        `Maximum ${selectedRoomDetail?.people} people allowed in this bedroom(s).`
+      );
+      return;
+    }
+
+    formik.setFieldValue(name, value);
+  };
+
   const onChangeSlots = async (date: Date | null, state: string) => {
     // Validate that check-in is before check-out
     if (
@@ -103,35 +142,34 @@ const BookingForm: React.FC<{
       ...selectedDate,
       [state]: date ? date : null,
     });
-    console.log({
-      [state]: date ? date : null,
-    });
-    // setBookingDetails({
-    //   [state]: date ? date.toISOString() : null,
-    // });
   };
   const updateBedroomAndPrice = (count: number) => {
     const selectedRoomDetail =
       roomDetails && roomDetails.find((room) => room.roomsCount == count);
-    formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
-    formik.setFieldValue("amount", selectedRoomDetail?.price);
-    setSelectedRoomDetail(selectedRoomDetail);
+    if (selectedRoomDetail) {
+      formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
+      setSelectedRoomDetail(selectedRoomDetail);
+      props.onChangePriceSchedule(
+        selectedRoomDetail?.defaultPrice,
+        selectedRoomDetail?.priceSchedules || []
+      );
+    }
   };
 
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className=" h-full w-full flex flex-col relative bg-primary p-6 rounded-lg gap-y-4"
+      className=" h-full w-full flex flex-col relative bg-primary p-6 rounded-lg gap-y-3"
     >
-      <div className="flex justify-between items-center text-background">
-        <h3 className="text-3xl font-[family-name:var(--font-primary)]">
+      <div className="flex  items-center text-background justify-between">
+        <h3 className="text-4xl font-[family-name:var(--font-primary)]">
           Reserve:
         </h3>
-        <h6 className="text-xl font-[family-name:var(--font-secondary)]">
-          From ${formik.values.amount}/night
+        <h6 className="text-2xl font-[family-name:var(--font-secondary)]">
+          From ${perDayAmount || 0}/night
         </h6>
       </div>
-      <div className="h-full flex flex-col justify-center gap-y-6">
+      <div className=" flex flex-col h-full justify-center gap-y-8">
         {/* Check-In Date Picker */}
         <div className="flex flex-col space-y-2">
           <label
@@ -203,87 +241,90 @@ const BookingForm: React.FC<{
         </div>
 
         {/* Adults and Children Select */}
-        <div className="flex items-center justify-between gap-y-4 md:gap-y-0 md:gap-x-4">
-          <div className="relative w-full space-y-2">
-            <label
-              htmlFor="children"
-              className="text-background dark:text-background"
-            >
+
+        <div className="relative w-full space-y-2">
+          <label
+            htmlFor="children"
+            className="text-background dark:text-background"
+          >
+            Adults
+          </label>
+          <select
+            value={formik.values.adults}
+            onChange={(e) => handlePeopleChange("adults", e)}
+            className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4  focus:outline-none bg-transparent"
+          >
+            <option value="" disabled>
               Adults
-            </label>
-            <select
-              value={formik.values.adults}
-              onChange={(e) => formik.setFieldValue("adults", e.target.value)}
-              className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4  focus:outline-none bg-transparent"
-            >
-              <option value="" disabled>
-                Adults
+            </option>
+            {Array.from(
+              { length: selectedRoomDetail?.people || 0 },
+              (_, i) => i + 1
+            ).map((num) => (
+              <option
+                className="bg-secondary text-primary"
+                key={num}
+                value={num}
+              >
+                {num}
               </option>
-              {Array.from(
-                { length: selectedRoomDetail?.adults || 0 },
-                (_, i) => i + 1
-              ).map((num) => (
-                <option
-                  className="bg-secondary text-primary"
-                  key={num}
-                  value={num}
-                >
-                  {num}
-                </option>
-              ))}
-            </select>
-            {formik.touched.adults && formik.errors.adults && (
-              <div className="text-red-500 text-sm">{formik.errors.adults}</div>
-            )}
-          </div>
-          <div className="relative w-full space-y-2 space-x-2">
-            <label
-              htmlFor="children"
-              className="text-background dark:text-background"
-            >
-              Children
-            </label>
-            <select
-              onChange={(e) => formik.setFieldValue("children", e.target.value)}
-              className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4   focus:outline-none bg-transparent"
-              value={formik.values.children}
-            >
-              <option value="" disabled>
-                Children
-              </option>
-              <option value="0" className="bg-secondary text-primary">
-                0
-              </option>
-              {Array.from(
-                { length: selectedRoomDetail?.children || 0 },
-                (_, i) => i + 1
-              ).map((num) => (
-                <option
-                  className="bg-secondary text-primary"
-                  key={num}
-                  value={num}
-                >
-                  {num}
-                </option>
-              ))}
-            </select>
-            {formik.touched.children && formik.errors.children && (
-              <div className="text-red-500 text-sm">
-                {formik.errors.children}
-              </div>
-            )}
-          </div>
+            ))}
+          </select>
+          {formik.touched.adults && formik.errors.adults && (
+            <div className="text-red-500 text-sm">{formik.errors.adults}</div>
+          )}
         </div>
-        <div className="flex justify-between items-center text-background">
+        <div className="relative w-full space-y-2 ">
+          <label
+            htmlFor="children"
+            className="text-background dark:text-background"
+          >
+            Children
+          </label>
+          <select
+            onChange={(e) => handlePeopleChange("children", e)}
+            className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4   focus:outline-none bg-transparent"
+            value={formik.values.children}
+          >
+            <option value="" disabled>
+              Children
+            </option>
+            <option value="0" className="bg-secondary text-primary">
+              0
+            </option>
+            {Array.from(
+              { length: selectedRoomDetail?.people || 0 },
+              (_, i) => i + 1
+            ).map((num) => (
+              <option
+                className="bg-secondary text-primary"
+                key={num}
+                value={num}
+              >
+                {num}
+              </option>
+            ))}
+          </select>
+          {formik.touched.children && formik.errors.children && (
+            <div className="text-red-500 text-sm">{formik.errors.children}</div>
+          )}
+        </div>
+
+        <div className="flex justify-between items-center mt-4 text-background">
           <h3 className="text-3xl font-[family-name:var(--font-primary)]">
             Total Cost
           </h3>
-          <h6 className="text-xl font-[family-name:var(--font-secondary)]">
-            {formik.values.amount}$
+          <h6 className="text-2xl font-[family-name:var(--font-secondary)]">
+            ${formik.values.amount}
           </h6>
         </div>
         {/* Submit Button */}
-        <Button type="submit" variant="outline" disabled={loading}>
+        <Button
+          className="py-6 text-xl font-bold"
+          type="submit"
+          variant="outline"
+          disabled={loading}
+        >
           {loading ? "Booking..." : "Book Now"}
         </Button>
       </div>

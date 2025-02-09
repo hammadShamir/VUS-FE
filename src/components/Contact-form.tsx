@@ -104,6 +104,27 @@ export default function ContactForm() {
       setBookedSlots(formatBookedSlots(response.data));
     }
   };
+  const handlePeopleChange = (
+    name: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { value } = e.target;
+    console.log(name, value);
+    const newValue = Number(value);
+    const totalPeople =
+      name === "adults"
+        ? newValue + +formik.values.children
+        : +formik.values.adults + newValue;
+
+    if (totalPeople > (selectedRoomDetail?.people || 0)) {
+      toast.error(
+        `Maximum ${selectedRoomDetail?.people} people allowed in this bedroom(s).`
+      );
+      return;
+    }
+
+    formik.setFieldValue(name, value);
+  };
 
   const formatBookedSlots = (
     bookedSlots: { date: string; booked: boolean }[]
@@ -130,7 +151,6 @@ export default function ContactForm() {
     const selectedRoomDetail =
       roomDetails && roomDetails.find((room) => room.roomsCount == count);
     formik.setFieldValue("rooms", selectedRoomDetail?.roomsCount);
-    formik.setFieldValue("amount", selectedRoomDetail?.price);
     setSelectedRoomDetail(selectedRoomDetail);
   };
   return (
@@ -353,16 +373,14 @@ export default function ContactForm() {
                 </label>
                 <select
                   value={formik.values.adults}
-                  onChange={(e) =>
-                    formik.setFieldValue("adults", e.target.value)
-                  }
+                  onChange={(e) => handlePeopleChange("adults", e)}
                   className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4  focus:outline-none bg-transparent"
                 >
                   <option value="" disabled>
                     Adults
                   </option>
                   {Array.from(
-                    { length: selectedRoomDetail?.adults || 0 },
+                    { length: selectedRoomDetail?.people || 0 },
                     (_, i) => i + 1
                   ).map((num) => (
                     <option
@@ -388,9 +406,7 @@ export default function ContactForm() {
                   Children
                 </label>
                 <select
-                  onChange={(e) =>
-                    formik.setFieldValue("children", e.target.value)
-                  }
+                  onChange={(e) => handlePeopleChange("children", e)}
                   className="h-[40px] border border-background text-background text-base rounded-md block w-full px-4   focus:outline-none bg-transparent"
                   value={formik.values.children}
                 >
@@ -401,7 +417,7 @@ export default function ContactForm() {
                     0
                   </option>
                   {Array.from(
-                    { length: selectedRoomDetail?.children || 0 },
+                    { length: selectedRoomDetail?.people || 0 },
                     (_, i) => i + 1
                   ).map((num) => (
                     <option

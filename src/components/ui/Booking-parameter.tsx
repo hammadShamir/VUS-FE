@@ -40,7 +40,13 @@ export default function BookingParameter() {
         Authorization: getToken() || "",
       },
     });
-    setRoomDetails(response.data);
+    if (response.data.length > 0) {
+      setRoomDetails(response.data);
+      setSelectedRoomDetail(response.data[0]); // Select the first room
+      setBedrooms(response.data[0].roomsCount);
+      setAdults(0);
+      setChildren(0);
+    }
   };
   const RedirectBooking = () => {
     setBookingDetails({
@@ -116,9 +122,9 @@ export default function BookingParameter() {
     }
     const newAdults = increment ? adults + 1 : adults - 1;
     if (newAdults < 0) return;
-    if (newAdults > selectedRoomDetail.adults && increment) {
+    if (newAdults + children > selectedRoomDetail.people && increment) {
       toast.error(
-        `Maximum ${selectedRoomDetail.adults} adults allowed in this bedroom(s).`
+        `Maximum ${selectedRoomDetail.people} people allowed in this bedroom(s).`
       );
       return;
     }
@@ -132,9 +138,9 @@ export default function BookingParameter() {
     }
     const newChildren = increment ? children + 1 : children - 1;
     if (newChildren < 0) return;
-    if (newChildren > selectedRoomDetail.children && increment) {
+    if (newChildren + adults > selectedRoomDetail.people && increment) {
       toast.error(
-        `Maximum ${selectedRoomDetail.children} children allowed in this bedroom(s).`
+        `Maximum ${selectedRoomDetail.people} People allowed in this bedroom(s).`
       );
       return;
     }
