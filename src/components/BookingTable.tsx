@@ -16,6 +16,7 @@ import { IAdminBookingTable, IBookingTable } from "@/interfaces";
 import { useModal } from "@/context/Modal";
 import { BookingDetailsModal } from "./modal-components/View-Booking-Modal";
 import BookingStatusBadge from "./Booking-Status";
+import { formatDate } from "@/services/helper";
 
 const BookingsTable: React.FC<IBookingTable> = (props) => {
   const { showModal } = useModal();
@@ -33,14 +34,6 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
       booking.userId?.fullName.toLowerCase().includes(searchTermNormalized)
     );
   });
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;

@@ -5,16 +5,14 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./tooltip";
+} from "@/components/ui/tooltip";
 import { IRoomPriceSchedule } from "@/interfaces";
 
 type CalendarProps = {
   initialDate: Date;
-  bookedSlots?: Date[] | number[];
   selectedRange: { start: number | null; end: number | null };
   onRangeSelect: (start: number | null, end: number | null) => void;
   onMonthChange: (newDate: Date, isSecond?: boolean) => void;
-  onChangeAmount: (totalAmount: number, dayAmount: number) => void;
   hoveredDate: number | null;
   onHover: (date: number | null) => void;
   isSecond?: boolean;
@@ -25,14 +23,12 @@ type CalendarProps = {
 
 const CustomCalendar: React.FC<CalendarProps> = ({
   initialDate,
-  bookedSlots = [],
   selectedRange,
   onRangeSelect,
   onMonthChange,
   hoveredDate,
   priceSchedule = [],
   defaultPrice,
-  onChangeAmount,
   onHover,
   isSecond = false,
   firstCalenderMonth,
@@ -42,7 +38,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
 
   const priceMap = useMemo(() => {
     const map = new Map<number, number>();
-
+    console.log(priceSchedule);
     priceSchedule.forEach((schedule) => {
       const startDate = new Date(schedule.startDate).setHours(0, 0, 0, 0); // Normalize
       const endDate = new Date(schedule.endDate).setHours(0, 0, 0, 0); // Normalize
@@ -57,16 +53,12 @@ const CustomCalendar: React.FC<CalendarProps> = ({
 
   const getPriceForDate = (date: number) => {
     const normalizedDate = new Date(date).setHours(0, 0, 0, 0); // Normalize to midnight
-    return priceMap.get(normalizedDate) ?? defaultPrice ?? 0; // Default price if no match
+    return priceMap.get(normalizedDate) || false;
   };
 
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const daysInPrevMonth = new Date(year, month, 0).getDate();
-
-  const normalizedBookedSlots = bookedSlots.map((slot) =>
-    new Date(slot).setHours(0, 0, 0, 0)
-  );
 
   const daysArray: { day: number; month: number; year: number }[] = [];
 
@@ -93,14 +85,6 @@ const CustomCalendar: React.FC<CalendarProps> = ({
     });
   }
 
-  const findNextBookedDate = (startDate: number) => {
-    return (
-      normalizedBookedSlots
-        .filter((date) => date > startDate)
-        .sort((a, b) => a - b)[0] || null
-    );
-  };
-
   const handleDateClick = useCallback(
     (fullDate: number) => {
       console.log(selectedRange, "range");
@@ -108,11 +92,9 @@ const CustomCalendar: React.FC<CalendarProps> = ({
       if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
         // Set new start date and reset selection
         onRangeSelect(fullDate, null);
-        const totalPrice = getPriceForDate(fullDate);
-        onChangeAmount(totalPrice, totalPrice);
       } else if (fullDate > selectedRange.start) {
         // If selecting end date, find the next booked date
-        const nextBookedDate = findNextBookedDate(selectedRange.start);
+        const nextBookedDate = false;
         const endDate =
           nextBookedDate && nextBookedDate < fullDate
             ? new Date(nextBookedDate).setHours(0, 0, 0, 0) - 86400000
@@ -121,40 +103,19 @@ const CustomCalendar: React.FC<CalendarProps> = ({
         onRangeSelect(selectedRange.start, endDate);
 
         // Calculate the total price for the range
-        let totalPrice = 0;
-        let totalDays = 0;
-        for (
-          let date = selectedRange.start;
-          date <= endDate;
-          date += 86400000
-        ) {
-          totalDays += 1;
-          totalPrice += getPriceForDate(date);
-        }
-        onChangeAmount(totalPrice, totalPrice / totalDays);
-        console.log(`Total price for selected range: ${totalPrice}`);
       } else {
         // Reset selection if clicked before start date
         onRangeSelect(fullDate, null);
-        const totalPrice = getPriceForDate(fullDate);
-        onChangeAmount(totalPrice, totalPrice);
       }
     },
-    [
-      selectedRange,
-      onRangeSelect,
-      findNextBookedDate,
-      getPriceForDate,
-      onChangeAmount,
-      defaultPrice,
-    ]
+    [selectedRange, onRangeSelect, getPriceForDate, defaultPrice]
   );
 
   const handleDateHover = useCallback(
     (fullDate: number) => {
       if (selectedRange.start && !selectedRange.end) {
         // Only show hover up to the first booked date
-        const nextBookedDate = findNextBookedDate(selectedRange.start);
+        const nextBookedDate = false;
         if (nextBookedDate && fullDate > nextBookedDate) {
           onHover(
             new Date(nextBookedDate).setHours(0, 0, 0, 0) - 24 * 60 * 60 * 1000
@@ -201,7 +162,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
   };
 
   return (
-    <div className="p-4 border border-primary h-[400px]  box-border rounded-lg w-full">
+    <div className="p-4 border border-primary h-full  box-border rounded-lg w-full">
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={() => changeMonth(-1)}
@@ -241,13 +202,9 @@ const CustomCalendar: React.FC<CalendarProps> = ({
             0,
             0
           );
-          const isBooked =
-            normalizedBookedSlots.includes(fullDate) && !isPrev && !isNext;
+          const isScheduled = getPriceForDate(fullDate);
           const inRange = isInRange(fullDate);
-
           const isDisabled = fullDate < new Date().setHours(0, 0, 0, 0);
-          const price = getPriceForDate(fullDate);
-
           // Render empty space for previous and next month's dates
           if (isPrev || isNext) {
             return (
@@ -267,22 +224,22 @@ const CustomCalendar: React.FC<CalendarProps> = ({
                 !isPrev &&
                 !isNext &&
                 !isDisabled &&
-                !isBooked &&
+                !isScheduled &&
                 handleDateClick(fullDate)
               }
               onMouseEnter={() =>
                 !isPrev &&
                 !isNext &&
                 !isDisabled &&
-                !isBooked &&
+                !isScheduled &&
                 handleDateHover(fullDate)
               }
               onMouseLeave={() => onHover(null)}
               className={`
-           h-12 flex items-center justify-center text-md font-bold
+           h-8 flex items-center justify-center text-md font-bold
           transition-all duration-200 ease-in-out
           ${
-            isBooked
+            isScheduled
               ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
               : isDisabled
               ? `"bg-[#eeeeee] text-neutral-500 opacity-50 cursor-not-allowed dark:text-neutral-500 opacity-50"`
@@ -306,34 +263,16 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           }
         `}
             >
-              {isBooked ? (
+              {isScheduled &&
+              fullDate !== selectedRange.start &&
+              fullDate !== selectedRange.end ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">
                       {date.day}
                     </TooltipTrigger>
                     <TooltipContent className="bg-secondary">
-                      Booked
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ) : price ? (
-                <TooltipProvider delayDuration={100}>
-                  <Tooltip>
-                    <TooltipTrigger className="w-full h-full ">
-                      {date.day}
-                      {!inRange && !isPrev && !isNext && !isDisabled && (
-                        <p className="text-primary text-xs space-y-2">
-                          ${price}
-                          <span className=" hidden md:inline-block">
-                            /night
-                          </span>
-                        </p>
-                      )}
-                    </TooltipTrigger>
-
-                    <TooltipContent className="bg-secondary">
-                      ${price}/night
+                      ${isScheduled}/night
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

@@ -34,6 +34,7 @@ export interface IDatePicker {
   selectedDate: Date | string | null;
   onDateChange: (date: Date | null) => void;
   disabledDates?: Date[];
+  className?: string;
 }
 export interface IBooking {
   _id: string;
@@ -90,9 +91,9 @@ export interface IRoomsManagementTable {
   _id?: string;
   label: string;
   roomsCount: number | string;
-  adults: number;
-  children: number;
-  price: number;
+  people: number;
+  defaultPrice: number;
+  priceSchedules: IRoomPriceSchedule[];
 }
 export interface IAdminReviewsTable {
   _id: string;
@@ -159,4 +160,10 @@ export interface DashboardMenuItem {
   icon: React.ComponentType<LucideProps>;
 }
 
+export interface IRoomPriceSchedule {
+  _id?: string;
+  startDate: Date | string;
+  endDate: Date | string;
+  price: number;
+}
 export type NotificationStatus = "success" | "danger" | "booking" | "default";

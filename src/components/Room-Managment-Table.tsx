@@ -14,10 +14,13 @@ import {
   IAdminRoomsManagementTable,
   IRoomsManagementTable,
 } from "@/interfaces";
-import { Pencil } from "lucide-react";
+import { CalendarClock, Pencil, Trash2 } from "lucide-react";
 import AddRoomModal from "./modal-components/Add-Update-Room-Modal";
+import { axiosService } from "@/services/axios";
+import { useRouter } from "next/navigation";
 const RoomsManagementTable: React.FC<IAdminRoomsManagementTable> = (props) => {
   const { showModal } = useModal();
+  const navigate = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter Rooms based on search term
@@ -33,6 +36,13 @@ const RoomsManagementTable: React.FC<IAdminRoomsManagementTable> = (props) => {
         props.onUpdate();
       }
     });
+  };
+  const deleteRoom = async (roomId: string) => {
+    await axiosService.delete(`/rooms/delete-room/${roomId}`);
+    props.onUpdate();
+  };
+  const addRoomPriceSchedule = (roomId: string) => {
+    navigate.push(`/admin/room-schedule-price/${roomId}`);
   };
 
   return (
@@ -50,9 +60,8 @@ const RoomsManagementTable: React.FC<IAdminRoomsManagementTable> = (props) => {
               <TableRow>
                 <TableHead>Label</TableHead>
                 <TableHead>Room Include</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Adults</TableHead>
-                <TableHead>Children</TableHead>
+                <TableHead>Default Price</TableHead>
+                <TableHead>People</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -74,14 +83,21 @@ const RoomsManagementTable: React.FC<IAdminRoomsManagementTable> = (props) => {
                   <TableRow key={index}>
                     <TableCell className="font-medium">{room.label}</TableCell>
                     <TableCell>{room.roomsCount}</TableCell>
-                    <TableCell>{room.price}</TableCell>
-                    <TableCell>{room.adults}</TableCell>
-                    <TableCell>{room.children}</TableCell>
-                    <TableCell>
+                    <TableCell>{room.defaultPrice}</TableCell>
+                    <TableCell>{room.people}</TableCell>
+                    <TableCell className="flex  items-center space-x-2">
                       {" "}
                       <Pencil
-                        className="h-5 w-5"
+                        className="h-4 w-4"
                         onClick={() => EditRoomsModal(room)}
+                      />{" "}
+                      <Trash2
+                        className="h-4 w-4"
+                        onClick={() => deleteRoom(room._id as string)}
+                      />
+                      <CalendarClock
+                        className="h-4 w-4"
+                        onClick={() => addRoomPriceSchedule(room._id as string)}
                       />
                     </TableCell>
                   </TableRow>
@@ -91,26 +107,6 @@ const RoomsManagementTable: React.FC<IAdminRoomsManagementTable> = (props) => {
           </Table>
         </div>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="default"
-          size="sm"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="default"
-          size="sm"
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
-      </div> */}
     </div>
   );
 };

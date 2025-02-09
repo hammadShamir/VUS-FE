@@ -1,28 +1,29 @@
 import type React from "react";
 import { useState, useCallback, useEffect } from "react";
 
-import CustomCalendar from "./customcalendar";
-import { useBookingContext } from "@/context/Booking";
+import CustomCalendar from "./custom-calendar";
 import { IRoomPriceSchedule } from "@/interfaces";
 
 type DualCalendarProps = {
-  bookedSlots?: Date[] | number[];
   onRangeSelect?: (start: Date, end: Date) => void;
   checkIn?: Date | string;
   checkOut?: Date | string;
   priceSchedule?: IRoomPriceSchedule[];
   defaultPrice?: number;
+  onChangeDates: ({}: {
+    startDate: Date | string;
+    endDate: Date | string;
+  }) => void;
 };
 
-const DualCalendar: React.FC<DualCalendarProps> = ({
-  bookedSlots = [],
+const CalendarCard: React.FC<DualCalendarProps> = ({
   priceSchedule = [],
   onRangeSelect,
   checkIn,
   checkOut,
   defaultPrice,
+  onChangeDates,
 }) => {
-  const { bookingDetails, setBookingDetails } = useBookingContext();
   const [selectedRange, setSelectedRange] = useState<{
     start: number | null;
     end: number | null;
@@ -65,9 +66,9 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
     ) => {
       setSelectedRange({ start, end });
       if (isUpdateContext) {
-        setBookingDetails({
-          checkIn: start ? new Date(start).toISOString() : "",
-          checkOut: end
+        onChangeDates({
+          startDate: start ? new Date(start).toISOString() : "",
+          endDate: end
             ? new Date(end).toISOString()
             : start
             ? new Date(start).toISOString()
@@ -82,25 +83,11 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
   );
 
   useEffect(() => {
-    const checkInDate = bookingDetails.checkIn
-      ? new Date(bookingDetails.checkIn).setHours(0, 0, 0, 0)
-      : null;
-    const checkOutDate = bookingDetails.checkOut
-      ? new Date(bookingDetails.checkOut).setHours(0, 0, 0, 0)
-      : checkInDate;
-
-    if (checkInDate && checkOutDate) {
-      handleRangeSelect(checkInDate, checkOutDate, false);
-    }
-  }, []);
-
-  useEffect(() => {
     const checkInDate = checkIn ? new Date(checkIn).setHours(0, 0, 0, 0) : null;
     const checkOutDate = checkOut
       ? new Date(checkOut).setHours(0, 0, 0, 0)
       : checkInDate;
 
-    console.log("test123");
     if (checkInDate && checkOutDate) {
       handleRangeSelect(checkInDate, checkOutDate, false);
     }
@@ -134,20 +121,12 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
 
     setNextMonth(nextMonthDate);
   }, []);
-  const onChangeAmount = (totalAmount: number, dayAmount: number) => {
-    console.log(totalAmount, dayAmount);
-    setBookingDetails({
-      totalAmount,
-      dayAmount,
-    });
-  };
 
   return (
     <div className="space-y-3">
       {/* First Calendar */}
       <CustomCalendar
         initialDate={currentDate}
-        bookedSlots={bookedSlots}
         selectedRange={selectedRange}
         onRangeSelect={handleRangeSelect}
         onMonthChange={handleMonthChange}
@@ -155,13 +134,11 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
         onHover={handleHover}
         priceSchedule={priceSchedule}
         defaultPrice={defaultPrice}
-        onChangeAmount={onChangeAmount}
       />
 
       {/* Second Calendar */}
       <CustomCalendar
         initialDate={nextMonth}
-        bookedSlots={bookedSlots}
         selectedRange={selectedRange}
         onRangeSelect={handleRangeSelect}
         onMonthChange={handleMonthChange}
@@ -171,10 +148,9 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
         firstCalenderMonth={firstCalenderMonth}
         priceSchedule={priceSchedule}
         defaultPrice={defaultPrice}
-        onChangeAmount={onChangeAmount}
       />
     </div>
   );
 };
 
-export default DualCalendar;
+export default CalendarCard;

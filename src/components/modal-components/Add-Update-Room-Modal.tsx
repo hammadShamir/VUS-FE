@@ -18,16 +18,14 @@ const AddRoomModal = ({ room }: { room?: IRoomsManagementTable }) => {
     initialValues: {
       label: room?.label || "",
       roomsCount: room?.roomsCount || "",
-      price: room?.price || "",
-      adults: room?.adults || "",
-      children: room?.children || "",
+      defaultPrice: room?.defaultPrice || "",
+      people: room?.people || "",
     },
     validationSchema: Yup.object({
       label: Yup.string().required("Label is required"),
       roomsCount: Yup.number().required("Room count is required"),
-      price: Yup.number().required("Price is required"),
-      adults: Yup.number().required("Adults count is required"),
-      children: Yup.number().required("Children count is required"),
+      defaultPrice: Yup.number().required("defaultPrice is required"),
+      people: Yup.number().required("People count is required"),
     }),
     onSubmit: async (values) => {
       try {
@@ -97,51 +95,36 @@ const AddRoomModal = ({ room }: { room?: IRoomsManagementTable }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Price</label>
+            <label className="block text-sm font-medium">Default Price</label>
             <Input
               type="number"
-              name="price"
+              name="defaultPrice"
               min={0}
-              value={formik.values.price}
+              value={formik.values.defaultPrice}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="Price"
+              placeholder="defaultPrice"
               className="mt-1 rounded-md px-2 md:w-full"
             />
-            {formik.touched.price && formik.errors.price && (
-              <div className="text-sm text-red-600">{formik.errors.price}</div>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Adults</label>
-            <Input
-              name="adults"
-              value={formik.values.adults}
-              onChange={handleNumericInput}
-              onBlur={formik.handleBlur}
-              placeholder="Adults"
-              className="mt-1 rounded-md px-2 md:w-full"
-            />
-            {formik.touched.adults && formik.errors.adults && (
-              <div className="text-sm text-red-600">{formik.errors.adults}</div>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Children</label>
-            <Input
-              name="children"
-              value={formik.values.children}
-              onChange={handleNumericInput}
-              onBlur={formik.handleBlur}
-              placeholder="Children"
-              className="mt-1 rounded-md px-2 md:w-full"
-            />
-            {formik.touched.children && formik.errors.children && (
+            {formik.touched.defaultPrice && formik.errors.defaultPrice && (
               <div className="text-sm text-red-600">
-                {formik.errors.children}
+                {formik.errors.defaultPrice}
               </div>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">People</label>
+            <Input
+              name="people"
+              value={formik.values.people}
+              onChange={handleNumericInput}
+              onBlur={formik.handleBlur}
+              placeholder="People"
+              className="mt-1 rounded-md px-2 md:w-full"
+            />
+            {formik.touched.people && formik.errors.people && (
+              <div className="text-sm text-red-600">{formik.errors.people}</div>
             )}
           </div>
         </div>

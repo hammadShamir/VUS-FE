@@ -38,16 +38,24 @@ export const getFirebaseErrorMessage = (errorCode: FirebaseError): string => {
 export const getUser = () => {
   const user = Cookies.get("user");
   if (user) {
-      try {
-          return JSON.parse(user);
-      } catch (error) {
-          console.error("Error parsing user cookie:", error);
-          return {};
-      }
+    try {
+      return JSON.parse(user);
+    } catch (error) {
+      console.error("Error parsing user cookie:", error);
+      return {};
+    }
   }
-  return {}; 
+  return {};
 };
 
 export const getToken = () => {
-    return Cookies.get('token')
-}
+  return Cookies.get("token");
+};
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};

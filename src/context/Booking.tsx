@@ -8,6 +8,8 @@ type BookingDetails = {
   adults?: number;
   children?: number;
   bedrooms?: number;
+  totalAmount?: number;
+  dayAmount?: number;
 };
 
 type BookingContextType = {

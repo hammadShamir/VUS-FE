@@ -4,11 +4,14 @@ import BookingForm from "./BookingForm";
 import { axiosService } from "@/services/axios";
 import Container from "./common/Container";
 import DualCalendar from "./ui/dual-custom-calender";
+import { IRoomPriceSchedule } from "@/interfaces";
 
 const BookingSection = () => {
   const [bookedSlots, setBookedSlots] = React.useState<Date[]>([]);
   const [checkIn, setCheckIn] = useState<Date | string>();
   const [checkOut, setCheckOut] = useState<Date | string>();
+  const [roomsSchedule, setRoomSchedule] = useState<IRoomPriceSchedule[]>([]);
+  const [defaultPrice, setDefaultPrice] = useState<number>(0);
 
   const fetchBookedSlots = async () => {
     const currentDate = new Date();
@@ -55,6 +58,13 @@ const BookingSection = () => {
       console.log(checkOut, "check Out");
     }
   };
+  const onChangePriceSchedule = (
+    price: number,
+    schedule: IRoomPriceSchedule[]
+  ) => {
+    setRoomSchedule(schedule);
+    setDefaultPrice(price);
+  };
   return (
     <Container style="py-10">
       <div className="grid gap-4 md:grid-cols-5">
@@ -63,6 +73,8 @@ const BookingSection = () => {
             checkIn={checkIn}
             checkOut={checkOut}
             bookedSlots={bookedSlots}
+            priceSchedule={roomsSchedule}
+            defaultPrice={defaultPrice}
           />
         </div>
 
@@ -70,6 +82,7 @@ const BookingSection = () => {
           <Suspense fallback={<div>Loading...</div>}>
             <BookingForm
               onChangeDates={onChangeDates}
+              onChangePriceSchedule={onChangePriceSchedule}
               bookedSlots={bookedSlots}
             />
           </Suspense>
