@@ -24,12 +24,12 @@ const Header2 = () => {
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="w-full flex justify-center items-center">
-        <Link
-              href="/"
-              className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center"
-            >
-              UMAH SHANTI
-            </Link>
+          <Link
+            href="/"
+            className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center"
+          >
+            UMAH SHANTI
+          </Link>
         </div>
         <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
           <button
@@ -40,13 +40,15 @@ const Header2 = () => {
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
           </button>
-          {authenticated ? (
-            <UserMenu onLogout={handleLogout} />
-          ) : (
-            <Link href="/login" className="text-background hidden lg:inline">
-              SIGN IN
-            </Link>
-          )}
+          <div className="hidden md:block">
+            {authenticated ? (
+              <UserMenu onLogout={handleLogout} />
+            ) : (
+              <Link href="/login" className="text-background hidden lg:inline">
+                SIGN IN
+              </Link>
+            )}
+          </div>
         </div>
       </Container>
       <ModalSidebar isOpen={isOpen} setIsOpen={setIsOpen} />

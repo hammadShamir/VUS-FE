@@ -145,10 +145,10 @@ export default function BookingParameter() {
     <div>
       <div
         className="relative font-[family-name:var(--font-secondary)] grid grid-cols-2 
-       lg:grid-cols-5 gap-6 sm:gap-8 p-6 rounded-lg text-background"
+       lg:grid-cols-5 gap-6 sm:gap-8 p-0 md:p-6 rounded-lg text-background"
       >
         {/* Check In */}
-        <div className="flex justify-center">
+        <div className="hidden md:flex flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHECK IN</span>
             <Popover>
@@ -182,7 +182,7 @@ export default function BookingParameter() {
         </div>
 
         {/* Check Out */}
-        <div className="flex justify-center">
+        <div className="hidden md:flex flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHECK OUT</span>
             <Popover>
@@ -215,7 +215,7 @@ export default function BookingParameter() {
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
 
-        <div className="flex justify-center ">
+        <div className="hidden md:flex flex justify-center ">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">BEDROOMS</span>
             <div className="flex items-center gap-4">
@@ -244,7 +244,7 @@ export default function BookingParameter() {
           <div className="hidden lg:block h-16 border-white border-l-2  " />
         </div>
         {/* Adults */}
-        <div className="flex justify-center">
+        <div className="hidden md:flex flex justify-center">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">ADULT</span>
             <div className="flex items-center gap-4">
@@ -274,7 +274,7 @@ export default function BookingParameter() {
         </div>
 
         {/* Children */}
-        <div className="flex col-span-2 lg:col-span-1 justify-center ">
+        <div className="hidden md:flex col-span-2 lg:col-span-1 justify-center ">
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium mb-2">CHILDREN</span>
             <div className="flex items-center gap-4">

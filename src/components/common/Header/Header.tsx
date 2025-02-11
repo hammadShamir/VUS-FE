@@ -37,9 +37,8 @@ const Header = () => {
   };
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
-        isScrolled ? "py-2 bg-[#002655CC]" : "py-2 md:py-4 bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isScrolled ? "py-2 bg-[#002655CC]" : "py-2 md:py-4 bg-transparent"
+        }`}
     >
       <Container style="relative flex justify-between">
         <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
@@ -74,20 +73,21 @@ const Header = () => {
         <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
           <button
             onClick={() => navigate.push("/booking")}
-            className={`border border-background text-background ${
-              isScrolled ? "bg-transparent" : "text-background"
-            } px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
+            className={`border border-background text-background ${isScrolled ? "bg-transparent" : "text-background"
+              } px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
           >
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
           </button>
-          {authenticated ? (
-            <UserMenu onLogout={handleLogout} />
-          ) : (
-            <Link href="/login" className="text-background hidden lg:inline">
-              SIGN IN
-            </Link>
-          )}
+          <div className="hidden md:block">
+            {authenticated ? (
+              <UserMenu onLogout={handleLogout} />
+            ) : (
+              <Link href="/login" className="text-background hidden lg:inline">
+                SIGN IN
+              </Link>
+            )}
+          </div>
         </div>
       </Container>
       <ModalSidebar
