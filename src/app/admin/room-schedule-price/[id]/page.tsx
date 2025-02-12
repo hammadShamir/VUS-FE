@@ -59,30 +59,24 @@ const Page = () => {
   };
 
   const onChangeDates = (data: { startDate?: string; endDate?: string }) => {
-    console.log(data, "yes working");
     if (data.startDate) {
       setCheckIn(data.startDate);
       setCheckOut(data.endDate);
-      console.log(checkIn, "check In");
     }
     if (data.endDate) {
       setCheckOut(data.endDate);
-      console.log(checkOut, "check Out");
     }
   };
   const onChangeCalenderDates = (data: {
     startDate?: string | Date;
     endDate?: string | Date;
   }) => {
-    console.log(data, "yes working");
     if (data.startDate) {
       setFormStartDate(data.startDate);
       setFormEndDate(data.endDate);
-      console.log(checkIn, "check In");
     }
     if (data.endDate) {
       setFormEndDate(data.endDate);
-      console.log(checkOut, "check Out");
     }
   };
   const deleteSchedule = async (schedule: IRoomPriceSchedule) => {

@@ -99,18 +99,21 @@ const DualCalendar: React.FC<DualCalendarProps> = ({
     const checkOutDate = checkOut
       ? new Date(checkOut).setHours(0, 0, 0, 0)
       : checkInDate;
-
-    console.log("test123");
     if (checkInDate && checkOutDate) {
       handleRangeSelect(checkInDate, checkOutDate, false);
     }
 
-    if (checkInDate) {
+    if (
+      checkInDate &&
+      checkOutDate !== null &&
+      checkInDate !== null &&
+      new Date(checkOutDate).getMonth() !== new Date(checkInDate).getMonth()
+    ) {
       setCurrentDate(new Date(checkInDate));
     }
     if (
       checkOutDate &&
-      checkInDate &&
+      checkInDate !== null &&
       new Date(checkOutDate).getMonth() !== new Date(checkInDate).getMonth()
     ) {
       setNextMonth(new Date(checkOutDate));
