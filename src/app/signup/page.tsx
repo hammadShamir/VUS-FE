@@ -128,10 +128,10 @@ const Page = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex-1 h-full bg-background flex justify-center items-center">
+      <div className="absolute md:relative top-[50%] md:top-auto translate-y-[-50%] md:translate-y-[auto] flex-1 md:h-full md:bg-background flex justify-center items-center w-full">
         <form
           onSubmit={formik.handleSubmit}
-          className="absolute md:relative top-[50%] md:top-auto translate-y-[-50%] md:translate-y-[auto] bg-background md:max-w-lg w-11/12 md:w-10/12 flex flex-col justify-center items-center py-6 gap-y-3 rounded-lg shadow-md"
+          className="bg-background md:max-w-lg w-11/12 md:w-10/12 flex flex-col justify-center items-center py-6 gap-y-3 rounded-lg shadow-md"
         >
           <h1 className="text-4xl font-bold font-[family-name:var(--font-primary)]">
             Create An Account

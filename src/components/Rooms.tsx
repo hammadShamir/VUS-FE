@@ -5,7 +5,7 @@ import Container from './common/Container';
 const Rooms = () => {
     return (
         <div className='relative '>
-            <Container style='py-8'>
+            <Container style='py-4 md:py-8'>
                 <h2 data-aos="fade-left" className="font-[family-name:var(--font-secondary)] text-sm font-medium uppercase tracking-wider text-foreground">
                     ROOMS
                 </h2>

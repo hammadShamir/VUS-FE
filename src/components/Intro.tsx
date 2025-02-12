@@ -27,8 +27,8 @@ export default function IntroSection() {
         </div>
 
         {/* Right side - Image and description */}
-        <div  className="lg:w-[40%] space-y-6">
-          <div data-aos="fade-left" className="relative overflow-hidden aspect-square rounded-xl">
+        <div  className="lg:w-[40%] md:space-y-6">
+          <div data-aos="fade-left" className="hidden md:block relative overflow-hidden aspect-square rounded-xl">
             <Image
               src="/assets/img/front/img-1.png"
               alt="Luxurious bedroom with white drapes"

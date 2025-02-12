@@ -17,7 +17,7 @@ const Banner: React.FC<IBanner> = (banner) => {
   return (
     <div
       className={`relative ${
-        banner.parameters ? "h-screen" : "h-[calc(100vh-200px)]"
+        banner.parameters ? "h-[calc(100vh-500px)] md:h-screen" : "h-[calc(100vh-600px)] md:h-[calc(100vh-200px)]"
       } bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
       style={{
         backgroundImage: `url(${banner?.bgImg})`,
@@ -29,7 +29,7 @@ const Banner: React.FC<IBanner> = (banner) => {
           {banner.title}
         </h1>
         {banner.breadCrumbs && <div></div>}
-        <p data-aos="fade-up" data-aos-delay ={300}  className="text-background text-base md:text-2xl text-center font-[family-name:var(--font-secondary)]">
+        <p data-aos="fade-up" data-aos-delay ={300}  className="px-4 md:px-0 text-background text-base md:text-2xl text-center font-[family-name:var(--font-secondary)]">
           {banner.para}
         </p>
         {banner.parameters && (

@@ -9,7 +9,7 @@ const page = () => {
     return (
         <>
             <Header />
-            <Banner bgImg="/assets/img/banners/banner-facilities.png"
+            <Banner bgImg="/assets/img/Lawn/img-1.jpg"
                 title="Facilities"
                 para="Experience the finest blend of nature and luxury with amenities designed to make your stay unforgettable." />
             <Rooms />

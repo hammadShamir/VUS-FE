@@ -4,10 +4,8 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaEnvelope,
-  FaFacebook,
-  FaTwitter,
-  FaPinterest,
-  FaYoutube,
+  FaPinterestP,
+  FaFacebookF,
   FaInstagram,
 } from "react-icons/fa";
 import Hamburger from "@/elements/Hamburger";
@@ -33,7 +31,7 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
     if (!token) {
       navigate.push("/login?message=Login Required&redirect=mybooking");
       return;
-    }else{
+    } else {
       navigate.push("/mybooking")
     }
   }
@@ -133,19 +131,28 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
             <div className="flex flex-col lg:flex-row gap-2 my-10 lg:justify-between">
               <ul className="space-y-2 mt-4 lg:mt-0">
                 <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    PRIVACY
-                  </a>
+                  <Link
+                    href="/privacy-policy "
+                    className="block text-sm hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
+                  >
+                    PRIVACY POLICY
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    TERMS OF USE
-                  </a>
+                  <Link
+                    href="/terms-conditions "
+                    className="block text-sm hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
+                  >
+                    TERMS & CONDITIONS
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block text-sm hover:text-secondary">
-                    POLICY
-                  </a>
+                  <Link
+                    href="/refund-policy "
+                    className="block text-sm hover:text-secondary transition-transform duration-300 transform hover:translate-x-2"
+                  >
+                    REFUND POLICY
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -185,23 +192,23 @@ const ModalSidebar: React.FC<ISidebar> = (props) => {
 
             <div className="mt-8 space-y-4">
               <h2 className="text-lg font-semibold">Stay Connected</h2>
-              <div className="flex space-x-4 text-primary">
-                <a href="#" className="hover:text-gray-800">
-                  <FaFacebook />
-                </a>
-                <a href="#" className="hover:text-gray-800">
-                  <FaTwitter />
-                </a>
-                <a href="#" className="hover:text-gray-800">
-                  <FaPinterest />
-                </a>
-                <a href="#" className="hover:text-gray-800">
-                  <FaYoutube />
-                </a>
-                <a href="#" className="hover:text-gray-800">
-                  <FaInstagram />
-                </a>
-              </div>
+              <ul className="flex space-x-4 text-primary">
+                <li>
+                  <Link href={"https://www.facebook.com/share/1Argefy2AL/"}>
+                    <FaFacebookF />
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"https://www.instagram.com/umahshantivilla"}>
+                    <FaInstagram />
+                  </Link>
+                </li>
+                <li>
+                  <Link href={"https://www.pinterest.com/umahshantivilla/"}>
+                    <FaPinterestP />
+                  </Link>
+                </li>
+              </ul>
             </div>
 
             <div className="mt-8 text-sm text-gray-600">
