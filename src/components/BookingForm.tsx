@@ -19,7 +19,8 @@ const BookingForm: React.FC<{
   ) => void;
   bookedSlots: Date[];
 }> = (props) => {
-  const { bookingDetails } = useBookingContext();
+  const { bookingDetails, calculateTotalCostPrice, setPriceSchedule } =
+    useBookingContext();
 
   const navigate = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -34,16 +35,11 @@ const BookingForm: React.FC<{
     if (bookingDetails.checkOut) {
       formik.setFieldValue("checkOut", bookingDetails.checkOut);
     }
-    if (bookingDetails.totalAmount) {
-      formik.setFieldValue("amount", bookingDetails.totalAmount);
-    }
-    if (bookingDetails.dayAmount) {
-      setPerDayAmount(bookingDetails.dayAmount);
-    }
   }, [bookingDetails.checkIn, bookingDetails.checkOut]);
   useEffect(() => {
     getRoomDetails();
   }, []);
+
   const getRoomDetails = async () => {
     const response = await axiosService.get(`/rooms/get-rooms`, {
       headers: {
@@ -51,6 +47,7 @@ const BookingForm: React.FC<{
       },
     });
     setRoomDetails(response.data);
+    setPriceSchedule(response.data);
     setSelectedRoomDetail(response.data[0]);
     formik.setFieldValue("rooms", response.data[0].roomsCount);
     props.onChangePriceSchedule(
@@ -63,7 +60,6 @@ const BookingForm: React.FC<{
       updateBedroomAndPrice(+bookingDetails.bedrooms);
     }
   }, [roomDetails, bookingDetails.bedrooms]);
-  console.log(bookingDetails.bedrooms);
   const formik = useFormik({
     initialValues: {
       checkIn: bookingDetails.checkIn || "",
@@ -96,13 +92,27 @@ const BookingForm: React.FC<{
       }
     },
   });
+  useEffect(() => {
+    updatePriceAmount();
+  }, [formik.values.checkIn, formik.values.checkOut, selectedRoomDetail]);
+  const updatePriceAmount = () => {
+    const selectedDate = {
+      checkIn: formik.values.checkIn,
+      checkOut: formik.values.checkOut,
+    };
+    const response = calculateTotalCostPrice({
+      ...selectedDate,
+      roomId: selectedRoomDetail?._id as string,
+    });
+    formik.setFieldValue("amount", response.totalAmount);
+    setPerDayAmount(response.dayAmount);
+  };
 
   const handlePeopleChange = (
     name: string,
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { value } = e.target;
-    console.log(name, value);
     const newValue = Number(value);
     const totalPeople =
       name === "adults"
@@ -120,29 +130,33 @@ const BookingForm: React.FC<{
   };
 
   const onChangeSlots = async (date: Date | null, state: string) => {
-    // Validate that check-in is before check-out
-    if (
-      date &&
-      ((state === "checkOut" && new Date(formik.values.checkIn) > date) ||
-        (state === "checkIn" && new Date(formik.values.checkOut) < date))
-    ) {
-      toast.error("The Check In date must be before the Check Out date");
-      return;
-    }
-    if (date) {
-      formik.setFieldValue(state, date);
+    if (!date) return;
+
+    let checkIn = new Date(formik.values.checkIn);
+    let checkOut = new Date(formik.values.checkOut);
+
+    if (state === "checkIn") {
+      // If the new check-in date is after check-out, set check-out to the same date
+      if (checkOut && date > checkOut) {
+        checkOut = date;
+      }
+      checkIn = date;
+    } else if (state === "checkOut") {
+      // If the new check-out date is before check-in, set check-in to the same date
+      if (checkIn && date < checkIn) {
+        checkIn = date;
+      }
+      checkOut = date;
     }
 
-    // Update the booking details dynamically
-    const selectedDate = {
-      checkIn: formik.values.checkIn,
-      checkOut: formik.values.checkOut,
-    };
-    props.onChangeDates({
-      ...selectedDate,
-      [state]: date ? date : null,
-    });
+    // Update form values
+    formik.setFieldValue("checkIn", checkIn);
+    formik.setFieldValue("checkOut", checkOut);
+
+    // Notify parent component of the change
+    props.onChangeDates({ checkIn, checkOut });
   };
+
   const updateBedroomAndPrice = (count: number) => {
     const selectedRoomDetail =
       roomDetails && roomDetails.find((room) => room.roomsCount == count);

@@ -47,15 +47,12 @@ const BookingSection = () => {
   }, []);
 
   const onChangeDates = (data: { checkIn?: string; checkOut?: string }) => {
-    console.log(data);
     if (data.checkIn) {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkIn);
-      console.log(checkIn, "check In");
     }
     if (data.checkOut) {
       setCheckOut(data.checkOut);
-      console.log(checkOut, "check Out");
     }
   };
   const onChangePriceSchedule = (
