@@ -1,4 +1,4 @@
-import { FaSwimmer, FaWifi, FaCar, FaConciergeBell, FaWind, FaUtensils, FaBath } from 'react-icons/fa';
+import { FaSwimmer, FaWifi, FaConciergeBell, FaWind } from 'react-icons/fa';
 
 const roomData = [
     {
@@ -9,9 +9,9 @@ const roomData = [
         bgColor: 'background',
         amenities: [
             { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
-            { icon: FaConciergeBell, label: "Room Service", description: "24/7 personalized service" },
+            { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
             { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
-            { icon: FaBath, label: "Private Bathroom", description: "Modern and fully equipped" }
+            { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]
     },
     {
@@ -21,9 +21,9 @@ const roomData = [
         imagePosition: 'right' as const,
         bgColor: 'secondary',
         amenities: [
+            { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
             { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
-            { icon: FaWifi, label: "Free Wifi", description: "Seamless connectivity everywhere" },
-            { icon: FaCar, label: "Free Parking", description: "Convenient on-site parking" },
+            { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
             { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]
     },
@@ -34,10 +34,10 @@ const roomData = [
         imagePosition: 'left' as const,
         bgColor: 'background',
         amenities: [
-            { icon: FaUtensils, label: "Breakfast", description: "Delicious morning meals included" },
-            { icon: FaBath, label: "Bathtub", description: "Luxury soaking tub for relaxation" },
-            { icon: FaWind, label: "Air Conditioning", description: "Ensuring ultimate comfort" },
-            { icon: FaCar, label: "Airport Shuttle", description: "Convenient transport service" }
+            { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
+            { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
+            { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
+            { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]
     }
 ]
