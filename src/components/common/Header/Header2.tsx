@@ -23,7 +23,7 @@ const Header2 = () => {
         <div className="max-w-screen-sm w-full flex jusitfy-center items-center space-x-8">
           <Hamburger isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-        <div className="w-full flex justify-center items-center">
+        <div className="hidden md:block w-full flex justify-center items-center">
           <Link
             href="/"
             className="text-md text-background sm:text-xl w-full h-full flex justify-center items-center"
@@ -34,13 +34,13 @@ const Header2 = () => {
         <div className="max-w-screen-sm w-full flex justify-end items-center space-x-8">
           <button
             onClick={() => navigate.push("/booking")}
-            className={`border border-background text-background text-background
+            className={`hidden md:block border border-background text-background text-background
                         px-5 py-2 rounded-md hover:bg-primary hover:border-primary`}
           >
             <span className="hidden lg:inline">Book Now</span>
             <span className="inline lg:hidden">Book</span>
           </button>
-          <div className="hidden md:block">
+          <div className="block">
             {authenticated ? (
               <UserMenu onLogout={handleLogout} />
             ) : (

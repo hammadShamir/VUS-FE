@@ -1,7 +1,6 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
 import { axiosService } from "@/services/axios";
-import Container from "@/components/common/Container";
 import CalendarCard from "@/components/ui/AdminCalender/calender-card";
 import {
   Table,
@@ -91,8 +90,8 @@ const Page = () => {
     fetchRoomSchedulePrice();
   };
   return (
-    <Container style="space-y-6">
-      <div className="flex items-center justify-between p-4">
+    <section className="space-y-4">
+      <div className="flex flex-row items-center justify-between">
         <button
           onClick={() => navigate.push("/admin/rooms")}
           className="flex items-center gap-1 text-gray-700 hover:text-primary transition"
@@ -101,11 +100,9 @@ const Page = () => {
           <span className="text-primary font-bold text-2xl">Back</span>
         </button>
 
-        <h1 className="text-primary text-2xl font-bold text-center flex-1">
-          Room Price Schedule Management
-        </h1>
-
-        <div className="w-16"></div>
+        <h3 className="text-right text-primary text-xl md:text-2xl font-bold flex-1">
+          Pricing Schedule
+        </h3>
       </div>
       <div className="grid gap-4 md:grid-cols-5">
         <div className="space-y-4 md:col-span-3">
@@ -184,7 +181,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </section>
   );
 };
 

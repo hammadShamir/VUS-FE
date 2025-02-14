@@ -56,7 +56,7 @@ const Page = () => {
   }, [status]);
   return (
     <div className="w-full space-y-6">
-      <div className="flex justify-between items-center ">
+      <div className="flex flex-col md:flex-row gap-y-3 justify-between items-center ">
         <h3 className="font-[family-name:var(--font-primary)] text-2xl font-bold tracking-tight text-primary md:text-4xl">
           Instagram Post
         </h3>
