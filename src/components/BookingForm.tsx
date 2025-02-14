@@ -176,10 +176,10 @@ const BookingForm: React.FC<{
       className=" h-full w-full flex flex-col relative bg-primary p-6 rounded-lg gap-y-3"
     >
       <div className="flex  items-center text-background justify-between">
-        <h3 className="text-4xl font-[family-name:var(--font-primary)]">
+        <h3 className="text-2xl md:text-4xl font-[family-name:var(--font-primary)]">
           Reserve:
         </h3>
-        <h6 className="text-2xl font-[family-name:var(--font-secondary)]">
+        <h6 className="text-xl md:text-2xl font-[family-name:var(--font-secondary)]">
           From ${perDayAmount || 0}/night
         </h6>
       </div>

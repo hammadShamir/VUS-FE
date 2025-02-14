@@ -9,7 +9,7 @@ const roomData = [
         bgColor: 'background',
         amenities: [
             { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
-            { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
+            { icon: FaSwimmer, label: "Swimming Pool", description: "Infinity pool open all year" },
             { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
             { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]
@@ -22,7 +22,7 @@ const roomData = [
         bgColor: 'secondary',
         amenities: [
             { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
-            { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
+            { icon: FaSwimmer, label: "Swimming Pool", description: "Infinity pool open all year" },
             { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
             { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]
@@ -35,7 +35,7 @@ const roomData = [
         bgColor: 'background',
         amenities: [
             { icon: FaWifi, label: "Free Wifi", description: "High-speed internet in all areas" },
-            { icon: FaSwimmer, label: "Outdoor Swimming Pool", description: "Infinity pool open all year" },
+            { icon: FaSwimmer, label: "Swimming Pool", description: "Infinity pool open all year" },
             { icon: FaWind, label: "Air Conditioning", description: "Climate-controlled comfort" },
             { icon: FaConciergeBell, label: "Room Service", description: "24/7 guest assistance" }
         ]

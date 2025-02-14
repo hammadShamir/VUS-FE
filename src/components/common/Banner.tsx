@@ -17,8 +17,8 @@ const Banner: React.FC<IBanner> = (banner) => {
   return (
     <div
       className={`relative ${
-        banner.parameters ? "h-[calc(100vh-500px)] md:h-screen" : "h-[calc(100vh-600px)] md:h-[calc(100vh-200px)]"
-      } bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center`}
+        banner.parameters ? "h-[calc(100vh-300px)] md:h-screen" : "h-[calc(100vh-400px)] md:h-[calc(100vh-200px)]"
+      } bg-no-repeat bg-center bg-cover bg-fixed flex justify-center items-center p-3 md:p-0`}
       style={{
         backgroundImage: `url(${banner?.bgImg})`,
       }}
