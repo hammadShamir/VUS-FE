@@ -438,7 +438,7 @@ export default function ContactForm() {
             </div>
           </>
         )}
-        <div className="space-y-2" data-aos="fade-up" data-aos-delay="1000">
+        <div className="space-y-2" data-aos="fade-up" >
           <Input
             name="subject"
             id="subject"
@@ -456,7 +456,7 @@ export default function ContactForm() {
             <p className="text-sm text-red-500">{formik.errors.subject}</p>
           )}
         </div>
-        <div className="space-y-2" data-aos="fade-up" data-aos-delay="1100">
+        <div className="space-y-2" data-aos="fade-up" >
           <Textarea
             id="message"
             name="message"
@@ -475,8 +475,6 @@ export default function ContactForm() {
           )}
         </div>
         <Button
-          data-aos="fade-up"
-          data-aos-delay="400"
           variant={"outline"}
           type="submit"
           className="w-full text-background border-background"

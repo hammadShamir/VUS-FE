@@ -41,7 +41,7 @@ const Page = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .matches(
-          /^(?=.*[A-Z])(?=.*[0-9])(?=.*[$]).{3,30}$/,
+          /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{3,30}$/,
           "Password must contain at least one uppercase letter, one number, and one special character ($)."
         )
         .max(15, "Must be 15 characters or less")

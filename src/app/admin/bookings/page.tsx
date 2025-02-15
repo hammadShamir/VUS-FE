@@ -58,7 +58,7 @@ const Page = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button>
-              Status
+              {status}
               <ChevronDown className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>

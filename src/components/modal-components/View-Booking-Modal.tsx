@@ -12,6 +12,7 @@ import BookingStatusBadge from "../Booking-Status";
 import { BookingStatus, IAdminBookingTable } from "@/interfaces";
 import { axiosService } from "@/services/axios";
 import { useModal } from "@/context/Modal";
+import { formatDate } from "@/services/helper";
 
 export function BookingDetailsModal({
   booking,
@@ -65,7 +66,7 @@ export function BookingDetailsModal({
             <CalendarCheck className="w-5 h-5 text-green-600" />
             <span className="font-medium text-sm">Check In</span>
           </div>
-          <p className="text-sm mt-1">{booking.checkIn}</p>
+          <p className="text-sm mt-1">{formatDate(booking.checkIn)}</p>
         </div>
 
         {/* Check Out */}
@@ -74,7 +75,7 @@ export function BookingDetailsModal({
             <CalendarX className="w-5 h-5 text-red-600" />
             <span className="font-medium text-sm">Check Out</span>
           </div>
-          <p className="text-sm mt-1">{booking.checkOut}</p>
+          <p className="text-sm mt-1">{formatDate(booking.checkOut)}</p>
         </div>
 
         {/* Paid Amount */}

@@ -16,7 +16,6 @@ import { IAdminBookingTable, IBookingTable } from "@/interfaces";
 import { useModal } from "@/context/Modal";
 import { BookingDetailsModal } from "./modal-components/View-Booking-Modal";
 import BookingStatusBadge from "./Booking-Status";
-import { formatDate } from "@/services/helper";
 
 const BookingsTable: React.FC<IBookingTable> = (props) => {
   const { showModal } = useModal();
@@ -69,12 +68,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
-                <TableHead>Bedrooms</TableHead>
-                <TableHead>Adults</TableHead>
-                <TableHead>Children</TableHead>
                 <TableHead>Paid Amount</TableHead>
-                <TableHead>Check In</TableHead>
-                <TableHead>Check Out</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
@@ -104,12 +98,7 @@ const BookingsTable: React.FC<IBookingTable> = (props) => {
                     <TableCell>{booking.userId?.fullName}</TableCell>
                     <TableCell>{booking.userId?.email}</TableCell>
                     <TableCell>{booking.userId?.phone}</TableCell>
-                    <TableCell>{booking.rooms}</TableCell>
-                    <TableCell>{booking.adults}</TableCell>
-                    <TableCell>{booking.children}</TableCell>
                     <TableCell>${booking.amount}</TableCell>
-                    <TableCell>{formatDate(booking.checkIn)}</TableCell>
-                    <TableCell>{formatDate(booking.checkOut)}</TableCell>
                     <TableCell>
                       <BookingStatusBadge status={booking.status} />
                     </TableCell>
