@@ -1,11 +1,9 @@
 "use client";
-
 import * as React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
@@ -14,8 +12,7 @@ import DatePicker from "@/elements/Datepicker";
 import { axiosService } from "@/services/axios";
 import { IRoomsManagementTable } from "@/interfaces";
 import { useEffect, useState } from "react";
-import { getToken } from "@/services/helper";
-// import { Label } from "@/components/ui/label"
+import { formatDate, getToken } from "@/services/helper";
 
 const validationSchema = Yup.object({
   firstName: Yup.string().required("First name is required"),
@@ -24,7 +21,7 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
-  bookingType: Yup.string().required("Please select a type"),
+  contactType: Yup.string().required("Please select a type"),
   checkIn: Yup.date().optional(),
   checkOut: Yup.date().optional(),
   adults: Yup.number().min(1, "At least 1 adult required").optional(),
@@ -45,9 +42,9 @@ export default function ContactForm() {
       lastName: "",
       phone: "",
       email: "",
-      bookingType: "",
-      checkIn: undefined,
-      checkOut: undefined,
+      contactType: "",
+      checkIn: "",
+      checkOut: "",
       adults: "",
       children: "",
       rooms: "",
@@ -56,12 +53,24 @@ export default function ContactForm() {
     },
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
+      const payload = {
+        from_name: `${values.firstName} ${values.lastName}`,
+        from_email: values.email,
+        phone: values.phone,
+        contactType: values.contactType,
+        checkIn: values.checkIn ? formatDate(values.checkIn) : "",
+        checkOut: values.checkOut ? formatDate(values.checkOut) : "",
+        adults: values.adults,
+        children: values.children,
+        rooms: values.rooms,
+        subject: values.subject,
+        message: values.message,
+      }
       return toast.promise(
-        // This is the promise for sending email using emailjs
         emailjs.send(
           process.env.NEXT_PUBLIC_EMAIL_SERVICE_KEY!,
           process.env.NEXT_PUBLIC_EMAIL_TEMPLATE_KEY!,
-          values,
+          payload,
           process.env.NEXT_PUBLIC_EMAIL_PUBLIC_KEY!
         ),
         {
@@ -69,7 +78,6 @@ export default function ContactForm() {
 
           success: () => {
             resetForm();
-
             return "Contact Form Submitted Successfully!";
           },
           // Error state message
@@ -172,8 +180,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background",
                 formik.touched.firstName &&
-                  formik.errors.firstName &&
-                  "border-red-500"
+                formik.errors.firstName &&
+                "border-red-500"
               )}
             />
             {formik.touched.firstName && formik.errors.firstName && (
@@ -188,8 +196,8 @@ export default function ContactForm() {
               className={cn(
                 "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background ",
                 formik.touched.lastName &&
-                  formik.errors.lastName &&
-                  "border-red-500"
+                formik.errors.lastName &&
+                "border-red-500"
               )}
             />
             {formik.touched.lastName && formik.errors.lastName && (
@@ -232,8 +240,8 @@ export default function ContactForm() {
         </div>
         <div>
           <select
-            name="bookingType"
-            value={formik.values.bookingType}
+            name="contactType"
+            value={formik.values.contactType}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="h-[40px] border border-background text-background text-base rounded-md block w-full  px-4 focus:outline-none bg-transparent"
@@ -257,14 +265,14 @@ export default function ContactForm() {
               Other Inquires
             </option>
           </select>
-          {formik.touched.children && formik.errors.bookingType && (
+          {formik.touched.children && formik.errors.contactType && (
             <div className="text-red-500 text-sm">
-              {formik.errors.bookingType}
+              {formik.errors.contactType}
             </div>
           )}
         </div>
 
-        {formik.values.bookingType === "booking" && (
+        {formik.values.contactType === "booking" && (
           <>
             <div
               data-aos="fade-up"
@@ -445,11 +453,12 @@ export default function ContactForm() {
             placeholder="Subject *"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.subject}
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-0 focus-visible:ring-0 focus-visible:border-[red]",
               formik.touched.subject &&
-                formik.errors.subject &&
-                "border-red-500"
+              formik.errors.subject &&
+              "border-red-500"
             )}
           />
           {formik.touched.subject && formik.errors.subject && (
@@ -463,11 +472,12 @@ export default function ContactForm() {
             placeholder="Message"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.message}
             className={cn(
               "border-b border-t-0 border-l-0 border-r-0 border-background bg-transparent text-white placeholder:text-background focus-visible:border-white focus-visible:ring-0",
               formik.touched.message &&
-                formik.errors.message &&
-                "border-red-500"
+              formik.errors.message &&
+              "border-red-500"
             )}
           />
           {formik.touched.message && formik.errors.message && (
