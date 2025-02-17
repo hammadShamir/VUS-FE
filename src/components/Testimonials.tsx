@@ -38,9 +38,9 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <div className="w-full py-4 md:p-4 sm:p-8 relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary">
-      <Container>
-        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-4 lg:mb-8">
+    <div className="relative bg-cover bg-center bg-no-repeat bg-[url('/assets/testimonials-bg.png')] bg-primary">
+      <Container style="pb-4 pt-10">
+        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start">
           <div className="w-full lg:w-3/5 flex items-center justify-between">
             <div
               data-aos="fade-right"

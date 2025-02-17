@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Frontend Environment Variables
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### API Configuration
+```ini
+NEXT_PUBLIC_API_URL=your_backend_api_url # e.g., domain/api/v1
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### web app's Firebase configuration
+```ini
+NEXT_PUBLIC_FIREBASE=firebase_config_file 
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Email Service
+```ini
+NEXT_PUBLIC_EMAIL_SERVICE_KEY=your_email_service_key # Email js service key
+NEXT_PUBLIC_EMAIL_TEMPLATE_KEY=your_template_key # Email js Template key
+NEXT_PUBLIC_EMAIL_PUBLIC_KEY=your_public_key # Email js Public key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Setup Instructions
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Clone the repository:
+```sh
+git clone your_repository_url.git
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Navigate to the project folder:
+```sh
+cd project_name
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Install dependencies:
+```sh
+npm install
+```
 
-## Deploy on Vercel
+### 4. Set up the `.env` file:
+- Create a `.env` file at the project root.  
+- Copy and paste the provided environment variables.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Run the development server:
+```sh
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 6. Build and deploy for production:
+```sh
+npm run build && npm run start
+```
+
+---
+
+## Additional Notes
+✅ Ensure all API keys are securely stored in a `.env` file and never hardcoded in the codebase.  
+✅ Add `.env` to `.gitignore` to prevent accidental commits.  
+✅ Verify that third-party services (e.g., Firebase, Stripe, Google APIs) are properly configured before going live.  
+✅ Contact support if you encounter issues with any integrations.  
+
+---

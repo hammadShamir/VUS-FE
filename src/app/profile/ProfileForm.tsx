@@ -34,8 +34,7 @@ const validationSchema = Yup.object({
     .required("Password is required")
     .min(8, "Password must be at least 8 characters"),
   phone: Yup.string()
-    .required("Phone number is required")
-    .min(10, "Phone number must be at least 10 digits"),
+    .required("Phone number is required"),
   address: Yup.string().required("Address is required"),
 });
 

@@ -35,8 +35,6 @@ const Page = () => {
         .max(15, "Must be 15 characters or less")
         .required("Required"),
       phone: Yup.string()
-        .min(8, "Minimum 8 characters Required")
-        .max(15, "Maximum 15 characters Required")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()

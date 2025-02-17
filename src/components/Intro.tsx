@@ -6,7 +6,7 @@ export default function IntroSection() {
     <Container style="py-8">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Left side - Main content */}
-        <div className="lg:w-[60%] space-y-6">
+        <div className="lg:w-[60%] flex flex-col justify-between">
           <div  data-aos="fade-down">
             <h2 className="text-sm font-[family-name:var(--font-secondary)] uppercase tracking-wider text-foreground">
               INTRODUCTION
