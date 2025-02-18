@@ -40,7 +40,7 @@ const Footer = () => {
               <Link href={"/facilities"}>Facilities</Link>
             </li>
             <li>
-              <Link href={"/mybooking"}>My Booking</Link>
+              <Link href={"/booking"}>Booking</Link>
             </li>
             <li>
               <Link href={"/contact"}>Contact Us</Link>
