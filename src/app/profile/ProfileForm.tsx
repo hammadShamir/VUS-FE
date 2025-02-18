@@ -57,7 +57,7 @@ function ProfileForm() {
         fullName: user.fullName || "",
         email: user.email || "",
         phone: user.phone || "",
-        address: user.address || "116 Jaskólski Shorezure Suite 883", // Default value
+        address: user.address || "",
         password: "***********",
       });
     }
@@ -88,7 +88,7 @@ function ProfileForm() {
   });
   const handleCancel = (event: React.MouseEvent) => {
     event.preventDefault(); // Prevent form submission
-    router.push("/");
+    router.push("/forgot-password");
   };
 
   return (
@@ -119,7 +119,7 @@ function ProfileForm() {
                 id="fullName"
                 {...formik.getFieldProps("fullName")}
                 placeholder="Enter First Name"
-                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
+                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none h-10"
               />
               {formik.touched.fullName && formik.errors.fullName && (
                 <p className="text-sm text-red-500 mt-1">
@@ -137,30 +137,12 @@ function ProfileForm() {
                 type="email"
                 placeholder="Enter Email"
                 {...formik.getFieldProps("email")}
-                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
+                readOnly={true}
+                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none h-10 cursor-not-allowed"
               />
               {formik.touched.email && formik.errors.email && (
                 <p className="text-sm text-red-500 mt-1">
                   {formik.errors.email}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="text-sm font-medium block mb-1"
-              >
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                {...formik.getFieldProps("password")}
-                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
-              />
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-sm text-red-500 mt-1">
-                  {formik.errors.password}
                 </p>
               )}
             </div>
@@ -179,7 +161,7 @@ function ProfileForm() {
                 value={formik.values.phone}
                 onChange={(value) => formik.setFieldValue("phone", value)}
                 onBlur={formik.handleBlur}
-                className=" p-2 bg-background mt-1 border border-2 rounded-md w-full px-4 py-2
+                className=" bg-background border border-2 rounded-md w-full px-4 h-10
     focus-within:border-2 focus-within:border-black  "
               />
               {formik.touched.phone && formik.errors.phone && (
@@ -193,13 +175,13 @@ function ProfileForm() {
                 htmlFor="address"
                 className="text-sm font-medium block mb-1"
               >
-                Address
+                Nationality
               </label>
               <Input
                 id="address"
                 {...formik.getFieldProps("address")}
-                placeholder="Enter Address"
-                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none "
+                placeholder="Enter"
+                className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none h-10"
               />
               {formik.touched.address && formik.errors.address && (
                 <p className="text-sm text-red-500 mt-1">
@@ -218,14 +200,18 @@ function ProfileForm() {
           >
             Save Changes
           </Button>
-          <Button
-            onClick={handleCancel}
-            variant="outline"
-            type="button"
-            className="w-32 border-primary text-primary dark:border-primary dark:text-primary"
-          >
-            Cancel
-          </Button>
+          {
+            user &&  user.signInType === "email" && (
+              <Button
+                onClick={handleCancel}
+                variant="outline"
+                type="button"
+                className="w-32 border-primary text-primary dark:border-primary dark:text-primary"
+              >
+                Update Password
+              </Button>
+            )
+          }
         </div>
       </form>
     </div>

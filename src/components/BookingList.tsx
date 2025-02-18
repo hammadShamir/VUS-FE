@@ -99,7 +99,7 @@ export function BookingsList() {
           />
         </div>
       ) : !myBooking.length ? (
-        <div className="w-full text-xl text-center py-14 text-background dark:text-foreground ">
+        <div className="w-full text-xl text-center py-14 text-foreground ">
           <span>No bookings available.</span>
         </div>
       ) : (
