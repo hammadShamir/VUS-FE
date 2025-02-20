@@ -14,13 +14,42 @@ import { axiosService } from "@/services/axios";
 import { IAdminPostsTable } from "@/interfaces";
 
 export default function InstagramSlider() {
-  const [post, setPost] = useState<IAdminPostsTable[]>();
+  const images = [
+    {
+      _id: "1",
+      caption: "",
+      imgUrl: '/assets/img/Rooms/img-8.png',
+      postId: "",
+    },
+    {
+      _id: "2",
+      caption: "",
+      imgUrl: '/assets/img/Garden/img-2.jpg',
+      postId: "",
+    },
+    {
+      _id: "3",
+      caption: "",
+      imgUrl: '/assets/img/Pool/img-1.png',
+      postId: "",
+    },
+    {
+      _id: "4",
+      caption: "",
+      imgUrl: '/assets/img/Sanitary/img-1.png',
+      postId: "",
+    }
+  ]
+  const [post, setPost] = useState<IAdminPostsTable[]>(images);
+
   useEffect(() => {
     getPosts();
   }, []);
   const getPosts = async () => {
     const response = await axiosService.get("/get-posts?isActive=true");
-    setPost(response.data);
+    if (response.data.length) {
+      setPost(response.data);
+    }
   };
 
   return (
