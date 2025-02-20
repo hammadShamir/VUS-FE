@@ -19,7 +19,7 @@ interface FormValues {
   email: string;
   password: string;
   phone: string;
-  address: string;
+  nationality: string;
 }
 
 const validationSchema = Yup.object({
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
     .min(8, "Password must be at least 8 characters"),
   phone: Yup.string()
     .required("Phone number is required"),
-  address: Yup.string().required("Address is required"),
+  nationality: Yup.string().required("Nationality is required"),
 });
 
 function ProfileForm() {
@@ -46,7 +46,7 @@ function ProfileForm() {
     email: "",
     password: "***********",
     phone: "",
-    address: "",
+    nationality: "",
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function ProfileForm() {
         fullName: user.fullName || "",
         email: user.email || "",
         phone: user.phone || "",
-        address: user.address || "",
+        nationality: user.nationality || "",
         password: "***********",
       });
     }
@@ -72,6 +72,7 @@ function ProfileForm() {
         fullName: values.fullName,
         email: values.email,
         phone: values.phone,
+        nationality: values.nationality
       };
       try {
         setLoading(true);
@@ -179,13 +180,13 @@ function ProfileForm() {
               </label>
               <Input
                 id="address"
-                {...formik.getFieldProps("address")}
+                {...formik.getFieldProps("nationality")}
                 placeholder="Enter"
                 className="w-full border-2 rounded-md text-foreground px-2 focus:border-primary outline-none h-10"
               />
-              {formik.touched.address && formik.errors.address && (
+              {formik.touched.nationality && formik.errors.nationality && (
                 <p className="text-sm text-red-500 mt-1">
-                  {formik.errors.address}
+                  {formik.errors.nationality}
                 </p>
               )}
             </div>
@@ -201,7 +202,7 @@ function ProfileForm() {
             Save Changes
           </Button>
           {
-            user &&  user.signInType === "email" && (
+            user && user.signInType === "email" && (
               <Button
                 onClick={handleCancel}
                 variant="outline"
