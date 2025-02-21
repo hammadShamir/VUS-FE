@@ -12,7 +12,6 @@ export const logout = () => {
   window.location.href = "/";
 };
 
-
 export const getFirebaseErrorMessage = (errorCode: FirebaseError): string => {
   console.log(errorCode.code);
   switch (errorCode.code) {
@@ -59,3 +58,16 @@ export const formatDate = (dateString: string): string => {
     day: "numeric",
   });
 };
+export function formatUTCDateToNewDate(dateInput: Date | string) {
+  const userDate = new Date(dateInput);
+  const utcDate = new Date(
+    userDate.getTime() + userDate.getTimezoneOffset() * 60000
+  );
+  return new Date(
+    Date.UTC(
+      utcDate.getUTCFullYear(),
+      utcDate.getUTCMonth(),
+      utcDate.getUTCDate() + 1
+    )
+  );
+}

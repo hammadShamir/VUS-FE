@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { useBookingContext } from "@/context/Booking";
 import toast from "react-hot-toast";
 import { IRoomPriceSchedule, IRoomsManagementTable } from "@/interfaces";
-import { getToken } from "@/services/helper";
+import { formatUTCDateToNewDate, getToken } from "@/services/helper";
 const BookingForm: React.FC<{
   onChangeDates: ({}) => void;
   onChangePriceSchedule: (
@@ -85,6 +85,9 @@ const BookingForm: React.FC<{
       }
       setLoading(true);
       try {
+        values.checkIn = formatUTCDateToNewDate(values.checkIn).toISOString();
+        values.checkOut = formatUTCDateToNewDate(values.checkOut).toISOString();
+
         const res = await axiosService.post("/create-booking", values);
         navigate.push(res.data);
       } finally {

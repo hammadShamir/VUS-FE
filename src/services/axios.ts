@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 // Define the base URL for your API
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+  process.env.NEXT_PUBLIC_API_URL || "https://vus-be.vercel.app/api/v1";
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
