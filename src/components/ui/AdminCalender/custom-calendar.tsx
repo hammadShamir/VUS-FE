@@ -263,9 +263,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           }
         `}
             >
-              {isScheduled &&
-              fullDate !== selectedRange.start &&
-              fullDate !== selectedRange.end ? (
+              {isScheduled ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">

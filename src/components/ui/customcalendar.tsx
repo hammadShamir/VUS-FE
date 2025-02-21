@@ -209,7 +209,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
         >
           <ChevronLeft className="w-5 h-5 text-primary" />
         </button>
-        <h2 className="text-center text-xl text-primary text-lg font-bold">
+        <h2 className="text-center text-xl text-primary  font-bold">
           {initialDate
             .toLocaleString("default", { month: "short" })
             .toUpperCase()}{" "}
@@ -317,19 +317,20 @@ const CustomCalendar: React.FC<CalendarProps> = ({
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-              ) : price ? (
+              ) : price && !isPrev && !isNext && !isDisabled && !isBooked ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">
                       {date.day}
-                      {!inRange && !isPrev && !isNext && !isDisabled && (
-                        <p className="text-primary text-xs space-y-2">
-                          ${price}
-                          <span className=" hidden md:inline-block">
-                            /night
-                          </span>
-                        </p>
-                      )}
+
+                      <p
+                        className={`${
+                          !inRange ? "text-primary" : "text-background"
+                        } text-xs space-y-2`}
+                      >
+                        ${price}
+                        <span className=" hidden md:inline-block">/night</span>
+                      </p>
                     </TooltipTrigger>
 
                     <TooltipContent className="bg-secondary">
