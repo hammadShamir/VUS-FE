@@ -282,10 +282,11 @@ const CustomCalendar: React.FC<CalendarProps> = ({
            h-12 flex items-center justify-center text-md font-bold
           transition-all duration-200 ease-in-out
           ${
-            isBooked
-              ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
-              : isDisabled
+            isDisabled
               ? `"bg-[#eeeeee] text-neutral-500 opacity-50 cursor-not-allowed dark:text-neutral-500 opacity-50"`
+            
+              : isBooked
+              ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
               : `
                 cursor-pointer
                
