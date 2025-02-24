@@ -104,6 +104,7 @@ export interface IAdminReviewsTable {
   description: string;
   date: string | Date;
   isSubmitted?: boolean;
+  reviewId?: string;
 }
 
 export interface IAdminPostsTable {

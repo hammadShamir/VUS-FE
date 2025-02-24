@@ -61,10 +61,11 @@ export default function ReviewCards() {
           Authorization: getToken() || "",
         },
       });
-      setGoogleReviews((prevReviews) => [
-        ...(prevReviews as IAdminReviewsTable[]),
-        { ...review, isSubmitted: true },
-      ]);
+      setGoogleReviews((prevReviews) =>
+        prevReviews?.map((r) =>
+          r.reviewId === review.reviewId ? { ...review, isSubmitted: true } : r
+        )
+      );
     } finally {
     }
   };

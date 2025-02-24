@@ -152,7 +152,7 @@ export function BookingsList() {
                     </span>
                   </div>
                 </div>
-                {booking.status !== BookingStatus.cancelled && (
+                {booking.status === BookingStatus.pending && (
                   <Button
                     variant="outline"
                     className="w-full mt-4 hover:bg-background hover:text-primary"

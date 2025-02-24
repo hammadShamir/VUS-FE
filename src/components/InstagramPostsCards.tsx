@@ -44,10 +44,11 @@ export default function InstagramCard() {
           Authorization: getToken() || "",
         },
       });
-      setPosts((prevPosts) => [
-        ...(prevPosts as IAdminPostsTable[]),
-        { ...post, isSubmitted: true },
-      ]);
+      setPosts((prevPosts) =>
+        prevPosts?.map((p) =>
+          p.postId === post.postId ? { ...p, isSubmitted: true } : p
+        )
+      );
     } finally {
       console.log("error");
     }

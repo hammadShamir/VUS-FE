@@ -18,28 +18,28 @@ export default function InstagramSlider() {
     {
       _id: "1",
       caption: "",
-      imgUrl: '/assets/img/Rooms/img-8.png',
+      imgUrl: "/assets/img/Rooms/img-8.png",
       postId: "",
     },
     {
       _id: "2",
       caption: "",
-      imgUrl: '/assets/img/Garden/img-2.jpg',
+      imgUrl: "/assets/img/Garden/img-2.jpg",
       postId: "",
     },
     {
       _id: "3",
       caption: "",
-      imgUrl: '/assets/img/Pool/img-1.png',
+      imgUrl: "/assets/img/Pool/img-1.png",
       postId: "",
     },
     {
       _id: "4",
       caption: "",
-      imgUrl: '/assets/img/Sanitary/img-1.png',
+      imgUrl: "/assets/img/Sanitary/img-1.png",
       postId: "",
-    }
-  ]
+    },
+  ];
   const [post, setPost] = useState<IAdminPostsTable[]>(images);
 
   useEffect(() => {
@@ -74,21 +74,26 @@ export default function InstagramSlider() {
           },
         }}
       >
-        {post?.map((data, i: number) => {
-          return (
-            <SwiperSlide key={i}>
-              <div className="aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden">
-                <Image
-                  src={data.imgUrl}
-                  alt="Luxury Room Interior"
-                  width={600}
-                  height={800}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </SwiperSlide>
-          );
-        })}
+        {post?.map((data, i: number) => (
+          <SwiperSlide key={i}>
+            <div className="relative aspect-[4/2] md:aspect-[4/4] md:rounded-xl overflow-hidden group">
+              <Image
+                src={data.imgUrl || "/placeholder.svg"}
+                alt={data.caption || "Instagram Post"}
+                width={600}
+                height={800}
+                className="object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
+              {data.caption && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 flex items-center justify-center">
+                  <p className="text-white text-center px-4 py-2 text-lg font-semibold">
+                    {data.caption}
+                  </p>
+                </div>
+              )}
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
