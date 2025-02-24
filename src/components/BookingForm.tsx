@@ -140,6 +140,9 @@ const BookingForm: React.FC<{
 
     if (state === "checkIn") {
       // If the new check-in date is after check-out, set check-out to the same date
+      if (!formik.values.checkOut) {
+        checkOut = date;
+      }
       if (checkOut && date > checkOut) {
         checkOut = date;
       }

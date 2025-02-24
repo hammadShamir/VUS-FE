@@ -284,7 +284,6 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           ${
             isDisabled
               ? `"bg-[#eeeeee] text-neutral-500 opacity-50 cursor-not-allowed dark:text-neutral-500 opacity-50"`
-            
               : isBooked
               ? "bg-[#5A5A5A] cursor-not-allowed text-white dark:bg-[#5A5A5A]"
               : `
@@ -307,7 +306,7 @@ const CustomCalendar: React.FC<CalendarProps> = ({
           }
         `}
             >
-              {isBooked ? (
+              {isBooked && !isDisabled ? (
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger className="w-full h-full ">
