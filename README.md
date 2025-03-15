@@ -14,7 +14,7 @@ NEXT_PUBLIC_FIREBASE=firebase_config_file
 ```ini
 NEXT_PUBLIC_EMAIL_SERVICE_KEY=your_email_service_key # Email js service key
 NEXT_PUBLIC_EMAIL_TEMPLATE_KEY=your_template_key # Email js Template key
-NEXT_PUBLIC_EMAIL_PUBLIC_KEY=your_public_key # Email js Public key
+NEXT_PUBLIC_EMAIL_PUBLIC_KEY=your_public_key # Email js Public key```
 
 
 ### Setup Instructions
