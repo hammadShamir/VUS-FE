@@ -17,7 +17,7 @@ NEXT_PUBLIC_EMAIL_TEMPLATE_KEY=your_template_key # Email js Template key
 NEXT_PUBLIC_EMAIL_PUBLIC_KEY=your_public_key # Email js Public key
 
 
-## Setup Instructions
+### Setup Instructions
 
 ### 1. Clone the repository:
 ```sh
