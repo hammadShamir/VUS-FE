@@ -109,7 +109,7 @@ const Footer = () => {
               href="mailto:developerhammad64@gmail.com"
               className="underline hover:text-secondary"
             >
-              Hammad Shamir
+              Aeiyan Khan
             </a>
           </p>
         </div>
